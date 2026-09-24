@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="560" viewBox="0 0 400 560">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#0B1120"/>
+      <stop offset="100%" stop-color="#060a14"/>
+    </linearGradient>
+
+    <!-- Teal Glow -->
+    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1FB5D6"/>
+      <stop offset="100%" stop-color="#0E839E"/>
+    </linearGradient>
+
+    <!-- Glass Specular Highlight -->
+    <linearGradient id="glassSheen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.0"/>
+    </linearGradient>
+
+    <radialGradient id="centerGlow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#0E839E" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#0E839E" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Curvy Outer Card Base (rx=32) -->
+  <rect width="400" height="560" rx="32" fill="url(#bgGrad)"/>
+  
+  <!-- Outer Hairline Glass Border (rx=32) -->
+  <rect x="1" y="1" width="398" height="558" rx="31" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+
+  <!-- Top Glass Sheen Reflex (rx=32) -->
+  <rect x="2" y="2" width="396" height="200" rx="30" fill="url(#glassSheen)"/>
+
+  <!-- Inner Collector Frame (Curvy rx=24) -->
+  <rect x="16" y="16" width="368" height="528" rx="24" fill="rgba(255,255,255,0.02)" stroke="rgba(31,181,214,0.2)" stroke-width="1"/>
+
+  <!-- Top Badges Row (Curvy Pills rx=12) -->
+  <rect x="28" y="28" width="70" height="24" rx="12" fill="rgba(6,10,20,0.7)" stroke="rgba(31,181,214,0.4)" stroke-width="1"/>
+  <circle cx="40" cy="40" r="3.5" fill="#1FB5D6"/>
+  <text x="66" y="44" font-family="'Press Start 2P', monospace, sans-serif" font-size="7" fill="#BAE6FD" text-anchor="middle">PSA 10</text>
+
+  <rect x="290" y="28" width="82" height="24" rx="12" fill="rgba(6,10,20,0.7)" stroke="rgba(246,208,111,0.4)" stroke-width="1"/>
+  <circle cx="302" cy="40" r="3.5" fill="#F6D06F"/>
+  <text x="339" y="44" font-family="'Press Start 2P', monospace, sans-serif" font-size="7" fill="#FDE68A" text-anchor="middle">HOLOGRAM</text>
+
+  <!-- Artwork Window (Curvy rx=20) with Ambient Glow -->
+  <rect x="28" y="64" width="344" height="280" rx="20" fill="#060a14"/>
+  <rect x="28" y="64" width="344" height="280" rx="20" fill="url(#centerGlow)"/>
+  <rect x="28" y="64" width="344" height="280" rx="20" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Stylized Glowing Pokéball Centerpiece -->
+  <circle cx="200" cy="204" r="54" fill="none" stroke="url(#tealGrad)" stroke-width="3" opacity="0.8"/>
+  <line x1="146" y1="204" x2="254" y2="204" stroke="url(#tealGrad)" stroke-width="3" opacity="0.8"/>
+  <circle cx="200" cy="204" r="16" fill="#0B1120" stroke="url(#tealGrad)" stroke-width="3"/>
+  <circle cx="200" cy="204" r="7" fill="#1FB5D6"/>
+
+  <!-- Set Name Pill (Curvy rx=10) -->
+  <rect x="28" y="356" width="130" height="20" rx="10" fill="rgba(31,181,214,0.12)" stroke="rgba(31,181,214,0.25)" stroke-width="1"/>
+  <text x="93" y="370" font-family="'Press Start 2P', monospace, sans-serif" font-size="7" fill="#1FB5D6" text-anchor="middle">POKÉMON TCG</text>
+
+  <!-- Card Title Placeholder (Curvy Bar rx=8) -->
+  <rect x="28" y="390" width="220" height="18" rx="9" fill="rgba(255,255,255,0.08)"/>
+
+  <!-- Subtitle Bar (Curvy Bar rx=6) -->
+  <rect x="28" y="418" width="140" height="12" rx="6" fill="rgba(255,255,255,0.04)"/>
+
+  <!-- Price & Status Row -->
+  <text x="28" y="462" font-family="'Press Start 2P', monospace, sans-serif" font-size="14" fill="#1FB5D6">₱---</text>
+  <rect x="284" y="446" width="88" height="20" rx="10" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="328" y="459" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#94A3B8" text-anchor="middle">VERIFIED</text>
+
+  <!-- Curvy Action Buttons (rx=14) -->
+  <rect x="28" y="482" width="166" height="42" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="111" y="508" font-family="'Press Start 2P', monospace, sans-serif" font-size="8" fill="#E2E8F0" text-anchor="middle">DETAILS</text>
+
+  <rect x="206" y="482" width="166" height="42" rx="14" fill="url(#tealGrad)"/>
+  <text x="289" y="508" font-family="'Press Start 2P', monospace, sans-serif" font-size="8" fill="#ffffff" text-anchor="middle">INQUIRE</text>
+</svg>

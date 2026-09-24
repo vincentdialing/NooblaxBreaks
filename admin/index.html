@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOGIN | Nooblax Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          teal: { DEFAULT: '#0E839E', light: '#1FB5D6', dark: '#0A6B82' },
+          cream: { DEFAULT: '#F6D06F', light: '#FFDF85' },
+          cherry: { DEFAULT: '#E63946', light: '#EE3F3F' },
+          ink: { DEFAULT: '#1A1E24' },
+          shell: { DEFAULT: '#ECEFF1' },
+          base: { DEFAULT: '#FAFAFA', light: '#F4F6F8' }
+        },
+        fontFamily: {
+          pixel: ['"Press Start 2P"', 'cursive'],
+          body: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          sans: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          mono: ['"Space Grotesk"', 'ui-monospace', 'monospace']
+        }
+      }
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="font-body bg-[#0B1120] text-gray-200 min-h-screen flex items-center justify-center">
+
+  <div class="hero-gradient bg-white/[0.05] backdrop-blur-2xl rounded-2xl border border-white/[0.08] shadow-[0_8px_40px_rgba(0,0,0,0.3)] p-8 w-full max-w-md">
+    <div class="font-pixel brand-logo-text text-[#1FB5D6] text-[10px] text-center mb-2" style="color: #1FB5D6 !important; -webkit-text-fill-color: #1FB5D6 !important; text-shadow: 0 0 12px rgba(31,181,214,0.5);">NOOBLAX BREAKS</div>
+    <div class="font-pixel text-[8px] text-gray-600 text-center mb-8">ADMIN PORTAL</div>
+
+    <div id="error-message" class="hidden bg-[#E63946]/10 border border-[#E63946]/30 text-[#E63946] font-body text-sm p-3 mb-4 rounded-xl"></div>
+
+    <form id="login-form">
+      <div class="mb-4">
+        <label for="email" class="block font-pixel text-[7px] text-gray-500 uppercase mb-1">EMAIL</label>
+        <input type="email" id="email" required class="w-full p-3 font-body">
+      </div>
+      <div class="mb-6">
+        <label for="password" class="block font-pixel text-[7px] text-gray-500 uppercase mb-1">PASSWORD</label>
+        <input type="password" id="password" required class="w-full p-3 font-body">
+      </div>
+      <button type="submit" id="submit-btn" class="w-full bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[9px] py-4 rounded-xl hover:shadow-[0_4px_20px_rgba(14,131,158,0.4)] transition-all duration-300">LOGIN</button>
+    </form>
+    
+    <div class="mt-6 text-center">
+      <a href="/" class="font-pixel text-[7px] text-gray-500 hover:text-[#1FB5D6] underline">BACK TO SITE</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const session = await NB.checkAuth();
+      if (session) {
+        window.location.href = '/admin/dashboard.html';
+        return;
+      }
+
+      const form = document.getElementById('login-form');
+      const errorDiv = document.getElementById('error-message');
+      const submitBtn = document.getElementById('submit-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        errorDiv.classList.add('hidden');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'LOGGING IN...';
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        
+        if (error) {
+          errorDiv.textContent = error.message;
+          errorDiv.classList.remove('hidden');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'LOGIN';
+        } else {
+          window.location.href = '/admin/dashboard.html';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

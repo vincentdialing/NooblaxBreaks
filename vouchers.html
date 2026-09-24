@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vouchers & Promos | Nooblax Breaks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          teal: { DEFAULT: '#0E839E', light: '#1FB5D6', dark: '#0A6B82' },
+          cream: { DEFAULT: '#F6D06F', light: '#FFDF85' },
+          cherry: { DEFAULT: '#E63946', light: '#EE3F3F' },
+          ink: { DEFAULT: '#1A1E24' },
+          shell: { DEFAULT: '#ECEFF1' },
+          base: { DEFAULT: '#0B1120', light: '#111827' }
+        },
+        fontFamily: {
+          pixel: ['"Press Start 2P"', 'cursive'],
+          body: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          sans: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          mono: ['"Space Grotesk"', 'ui-monospace', 'monospace']
+        }
+      }
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="font-body bg-[#0B1120] text-gray-200 min-h-screen flex flex-col">
+  <div id="app-header"></div>
+
+  <main class="fade-in pt-16 pb-24 lg:pt-24 lg:pb-32 max-w-6xl mx-auto px-6 sm:px-8 flex-1 w-full">
+    <div class="mb-12 text-center">
+      <span class="inline-flex items-center space-x-1.5 font-pixel text-[8px] text-[#F6D06F] uppercase tracking-wider">
+        <svg class="w-3 h-3 text-[#F6D06F] fill-current" viewBox="0 0 24 24"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
+        <span>EXCLUSIVE COLLECTOR DISCOUNTS</span>
+      </span>
+      <h1 class="font-pixel text-base sm:text-lg text-white mt-2 mb-2">VOUCHERS & PROMOS</h1>
+      <div class="h-0.5 w-16 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] mx-auto rounded"></div>
+      <p class="text-gray-400 mt-4 max-w-md mx-auto text-xs leading-relaxed">
+        Claim these limited-time promo vouchers when sending an inquiry to apply instant discounts to your card order.
+      </p>
+    </div>
+
+    <div id="vouchers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Populated dynamically -->
+    </div>
+    
+    <div id="empty-state" class="hidden text-center py-20 bg-white/[0.02] border border-white/[0.04] rounded-2xl p-8">
+      <div class="font-pixel text-4xl text-gray-500 mb-4">...</div>
+      <h3 class="font-pixel text-xs text-white mb-2">NO ACTIVE VOUCHERS RIGHT NOW</h3>
+      <p class="text-xs text-gray-400">Check back soon for upcoming holiday promotions and live break coupons!</p>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/components.js"></script>
+  <script>
+    (async () => {
+      const settings = await NB.initPublic('vouchers');
+      const grid = document.getElementById('vouchers-grid');
+      const emptyState = document.getElementById('empty-state');
+
+      try {
+        const vouchers = await NB.getVouchers();
+
+        if (!vouchers || vouchers.length === 0) {
+          grid.innerHTML = '';
+          emptyState.classList.remove('hidden');
+        } else {
+          emptyState.classList.add('hidden');
+          grid.innerHTML = vouchers.map(v => NB.voucher(v, settings.fb_messenger_url)).join('');
+        }
+      } catch (err) {
+        console.error(err);
+        grid.innerHTML = '<div class="col-span-full text-red-400 py-10 text-center font-pixel text-xs">Failed to load vouchers.</div>';
+      }
+    })();
+  </script>
+</body>
+</html>

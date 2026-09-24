@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDIT VOUCHER | Nooblax Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          teal: { DEFAULT: '#0E839E', light: '#1FB5D6', dark: '#0A6B82' },
+          cream: { DEFAULT: '#F6D06F', light: '#FFDF85' },
+          cherry: { DEFAULT: '#E63946', light: '#EE3F3F' },
+          ink: { DEFAULT: '#1A1E24' },
+          shell: { DEFAULT: '#ECEFF1' },
+          base: { DEFAULT: '#FAFAFA', light: '#F4F6F8' }
+        },
+        fontFamily: {
+          pixel: ['"Press Start 2P"', 'cursive'],
+          body: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          sans: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          mono: ['"Space Grotesk"', 'ui-monospace', 'monospace']
+        }
+      }
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="font-body bg-[#0B1120] text-gray-200">
+  <!-- Admin mobile topbar -->
+  <div id="admin-topbar"></div>
+  <!-- Admin desktop sidebar -->
+  <div id="admin-sidebar"></div>
+  
+  <!-- Main content area -->
+  <div class="md:ml-64 min-h-screen bg-[#0B1120]">
+    <div class="p-6 md:p-8 fade-in">
+      <div class="mb-6">
+        <a href="/admin/vouchers.html" class="text-[#1FB5D6] hover:text-white transition-colors font-body text-sm font-semibold mb-2 inline-block">&larr; Back to Vouchers</a>
+        <h1 id="page-title" class="text-white font-pixel text-sm">ADD VOUCHER</h1>
+      </div>
+      
+      <div id="loading" class="text-center py-10 font-pixel text-[10px] text-gray-500 hidden">LOADING...</div>
+
+      <div id="form-container" class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6 max-w-2xl">
+        <form id="voucher-form" class="space-y-4">
+          <div>
+            <label class="block font-pixel text-[7px] text-gray-500 uppercase mb-1">Code</label>
+            <input type="text" id="code" name="code" required oninput="this.value = this.value.toUpperCase()" class="w-full p-3 font-body font-bold">
+          </div>
+          
+          <div>
+            <label class="block font-pixel text-[7px] text-gray-500 uppercase mb-1">Description</label>
+            <textarea id="description" name="description" rows="2" class="w-full p-3 font-body"></textarea>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-pixel text-[7px] text-gray-500 uppercase mb-1">Discount Type</label>
+              <select id="discount_type" name="discount_type" class="w-full p-3 font-body text-ink">
+                <option value="percentage">Percentage (%)</option>
+                <option value="fixed">Fixed Amount (₱)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-pixel text-[7px] text-gray-500 uppercase mb-1">Discount Value</label>
+              <input type="number" id="discount_value" name="discount_value" step="0.01" min="0" required class="w-full p-3 font-body">
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-pixel text-[7px] text-gray-500 uppercase mb-1">Valid From</label>
+              <input type="date" id="valid_from" name="valid_from" class="w-full p-3 font-body text-ink">
+            </div>
+            <div>
+              <label class="block font-pixel text-[7px] text-gray-500 uppercase mb-1">Valid Until</label>
+              <input type="date" id="valid_until" name="valid_until" class="w-full p-3 font-body text-ink">
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-2 mt-4">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="is_active" name="is_active" checked class="w-5 h-5 accent-teal cursor-pointer">
+              <span class="font-pixel text-[8px] text-gray-300">ACTIVE</span>
+            </label>
+          </div>
+          
+          <div class="pt-6 border-t border-white/[0.06] mt-6">
+            <button type="submit" id="submit-btn" class="bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[9px] px-8 py-3 rounded-xl hover:shadow-[0_4px_20px_rgba(14,131,158,0.4)] transition-all duration-300">SAVE VOUCHER</button>
+            <a href="/admin/vouchers.html" class="inline-block ml-4 font-body text-sm font-semibold text-gray-500 hover:text-gray-300 transition-colors">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/components.js"></script>
+  <script>
+    (async () => {
+      const ctx = await NB.initAdmin('vouchers');
+      if (!ctx) return;
+      
+      const id = new URLSearchParams(window.location.search).get('id');
+      let voucher = null;
+      
+      const form = document.getElementById('voucher-form');
+      
+      if (id) {
+        document.getElementById('page-title').textContent = 'EDIT VOUCHER';
+        document.title = 'EDIT VOUCHER | Nooblax Admin';
+        document.getElementById('loading').classList.remove('hidden');
+        document.getElementById('form-container').classList.add('hidden');
+        
+        try {
+          const { data, error } = await supabaseClient.from('vouchers').select('*').eq('id', id).single();
+          if (error) throw error;
+          voucher = data;
+          
+          form.code.value = voucher.code || '';
+          form.description.value = voucher.description || '';
+          form.discount_type.value = voucher.discount_type || 'percentage';
+          form.discount_value.value = voucher.discount_value || 0;
+          form.valid_from.value = voucher.valid_from ? voucher.valid_from.split('T')[0] : '';
+          form.valid_until.value = voucher.valid_until ? voucher.valid_until.split('T')[0] : '';
+          form.is_active.checked = voucher.is_active !== false;
+          
+        } catch (err) {
+          console.error(err);
+          NB.toast('Error loading voucher.', 'error');
+        } finally {
+          document.getElementById('loading').classList.add('hidden');
+          document.getElementById('form-container').classList.remove('hidden');
+        }
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'SAVING...';
+        
+        try {
+          const voucherData = {
+            code: form.code.value.toUpperCase(),
+            description: form.description.value,
+            discount_type: form.discount_type.value,
+            discount_value: parseFloat(form.discount_value.value) || 0,
+            valid_from: form.valid_from.value || null,
+            valid_until: form.valid_until.value || null,
+            is_active: form.is_active.checked,
+          };
+          
+          if (id) {
+            const { error } = await supabaseClient.from('vouchers').update(voucherData).eq('id', id);
+            if (error) throw error;
+          } else {
+            const { error } = await supabaseClient.from('vouchers').insert(voucherData);
+            if (error) throw error;
+          }
+          
+          NB.toast('Voucher saved!', 'success');
+          setTimeout(() => {
+            window.location.href = '/admin/vouchers.html';
+          }, 1000);
+          
+        } catch (err) {
+          console.error(err);
+          NB.toast('Error saving voucher.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'SAVE VOUCHER';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

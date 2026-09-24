@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nooblax Breaks | Pokémon TCG Card Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          teal: { DEFAULT: '#0E839E', light: '#1FB5D6', dark: '#0A6B82' },
+          cream: { DEFAULT: '#F6D06F', light: '#FFDF85' },
+          cherry: { DEFAULT: '#E63946', light: '#EE3F3F' },
+          ink: { DEFAULT: '#1A1E24' },
+          shell: { DEFAULT: '#ECEFF1' },
+          base: { DEFAULT: '#0B1120', light: '#111827' }
+        },
+        fontFamily: {
+          pixel: ['"Press Start 2P"', 'cursive'],
+          body: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          sans: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          mono: ['"Space Grotesk"', 'ui-monospace', 'monospace']
+        }
+      }
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .pixel-grid { 
+      background-image: radial-gradient(rgba(31, 181, 214, 0.08) 1px, transparent 1px); 
+      background-size: 28px 28px; 
+    }
+    .hero-glow { 
+      background: radial-gradient(circle at 75% 30%, rgba(14, 131, 158, 0.22) 0%, transparent 60%),
+                  radial-gradient(circle at 20% 70%, rgba(246, 208, 111, 0.08) 0%, transparent 55%),
+                  #0B1120; 
+    }
+    .float-slab { 
+      animation: floatSlab 6s ease-in-out infinite; 
+    }
+    .hero-slabs-stage:hover {
+      animation-play-state: paused;
+    }
+    @keyframes floatSlab { 
+      0%, 100% { transform: translateY(0); } 
+      50% { transform: translateY(-8px); } 
+    }
+    .text-glow-teal { 
+      text-shadow: 0 0 16px rgba(31, 181, 214, 0.6); 
+    }
+    .text-glow-gold { 
+      text-shadow: 0 0 16px rgba(246, 208, 111, 0.5); 
+    }
+    .slab-border {
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15), 
+                  0 20px 50px rgba(0, 0, 0, 0.6), 
+                  0 0 40px rgba(14, 131, 158, 0.3);
+    }
+  </style>
+</head>
+<body class="font-body bg-[#0B1120] text-gray-200">
+  <!-- Shared Header (No admin link) -->
+  <div id="app-header"></div>
+
+  <main class="fade-in">
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="relative w-full min-h-[90vh] flex items-center hero-glow pixel-grid pt-28 pb-24 lg:pt-36 lg:pb-36 xl:pt-40 xl:pb-40 overflow-hidden">
+      <!-- Ambient background orbs -->
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#0E839E]/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute top-1/2 -right-32 w-96 h-96 bg-[#F6D06F]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+        
+        <!-- Left: Headline & Calls to Action (6 cols) -->
+        <div class="lg:col-span-6">
+          
+          <!-- Badge Pill with SVG Pokeball -->
+          <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-[#0E839E]/20 to-[#1FB5D6]/10 border border-[#0E839E]/40 px-3.5 py-1.5 rounded-full mb-5 shadow-[0_0_15px_rgba(14,131,158,0.25)]">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="#1FB5D6" stroke-width="2"/>
+              <line x1="2" y1="12" x2="22" y2="12" stroke="#1FB5D6" stroke-width="2"/>
+              <circle cx="12" cy="12" r="3.5" fill="#0B1120" stroke="#1FB5D6" stroke-width="2"/>
+              <circle cx="12" cy="12" r="1.5" fill="#1FB5D6"/>
+            </svg>
+            <span class="font-pixel text-[8px] text-[#1FB5D6] tracking-wider">OFFICIAL POKÉMON TCG SHOWCASE</span>
+          </div>
+
+          <!-- Main Title -->
+          <h1 id="hero-tagline" class="font-pixel text-xl sm:text-2xl md:text-3xl text-white leading-relaxed mb-5">
+            RARE GRAILS.<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#1FB5D6] via-[#F6D06F] to-[#1FB5D6]">
+              GRADED SLABS.
+            </span><br>
+            NEXT-LEVEL PULLS.
+          </h1>
+
+          <!-- Subtitle -->
+          <p id="hero-subtitle" class="font-body text-base sm:text-lg text-gray-300 max-w-xl leading-relaxed mb-8">
+            The premier collector's showcase for authentic Pokémon TCG singles, Special Art Rares (SAR), and PSA 10 slabs. Message us directly for live reservations and nationwide Philippine shipping.
+          </p>
+
+          <!-- Action Buttons with Themed Vector SVGs -->
+          <div class="flex flex-wrap items-center gap-4 mb-10">
+            <!-- Scroll directly to card showcase -->
+            <a href="#showcase" class="bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[9px] px-8 py-4 rounded-xl shadow-[0_4px_24px_rgba(14,131,158,0.45)] hover:shadow-[0_8px_36px_rgba(14,131,158,0.65)] hover:-translate-y-0.5 transition-all duration-300 flex items-center space-x-2">
+              <span>EXPLORE CHASE CARDS</span>
+              <svg class="w-3.5 h-3.5 stroke-current fill-none" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+            </a>
+
+            <!-- Direct Message Chat CTA -->
+            <a id="hero-messenger" href="https://m.me/nooblaxbreaks" target="_blank" class="bg-[#F6D06F]/10 border border-[#F6D06F]/40 text-[#F6D06F] font-pixel text-[9px] px-7 py-4 rounded-xl hover:bg-[#F6D06F]/20 hover:shadow-[0_4px_20px_rgba(246,208,111,0.25)] transition-all duration-300 flex items-center space-x-2">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+              <span>SEND INQUIRY</span>
+            </a>
+          </div>
+
+          <!-- Trust Badges with SVG Icons -->
+          <div class="grid grid-cols-3 gap-4 pt-6 border-t border-white/[0.06] max-w-lg">
+            <div class="flex items-start space-x-2.5">
+              <div class="w-7 h-7 rounded-lg bg-[#0E839E]/20 border border-[#0E839E]/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-3.5 h-3.5 text-[#1FB5D6] stroke-current fill-none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div>
+                <div class="font-pixel text-[9px] text-[#1FB5D6]">100% AUTHENTIC</div>
+                <div class="font-body text-xs text-gray-500 mt-0.5">Verified singles & slabs</div>
+              </div>
+            </div>
+            
+            <div class="flex items-start space-x-2.5">
+              <div class="w-7 h-7 rounded-lg bg-[#F6D06F]/20 border border-[#F6D06F]/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-3.5 h-3.5 text-[#F6D06F] stroke-current fill-none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              </div>
+              <div>
+                <div class="font-pixel text-[9px] text-[#F6D06F]">FAST DISPATCH</div>
+                <div class="font-body text-xs text-gray-500 mt-0.5">Bubble-wrapped safe</div>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-2.5">
+              <div class="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-3.5 h-3.5 text-emerald-400 stroke-current fill-none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              </div>
+              <div>
+                <div class="font-pixel text-[9px] text-emerald-400">DIRECT INQUIRY</div>
+                <div class="font-body text-xs text-gray-500 mt-0.5">Direct owner chat</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: 3 Big Cards 3D Interactive Showcase (6 cols) -->
+        <div class="lg:col-span-6 flex flex-col items-center justify-center relative w-full pt-4">
+          
+          <!-- Outer Ambient Glow Ring (changes color dynamically) -->
+          <div id="hero-slab-glow" class="absolute w-96 h-[440px] bg-[#0E839E]/25 rounded-3xl blur-3xl -z-10 transition-all duration-700 pointer-events-none"></div>
+
+          <!-- 3D Overlapping Stage Container (Floating together in 3D space!) -->
+          <div id="hero-3d-stage" class="float-slab relative w-full max-w-[500px] sm:max-w-[550px] h-[450px] sm:h-[480px] flex items-center justify-center hero-slabs-stage select-none">
+            
+            <!-- Big Slab 0: Charizard ex -->
+            <div id="hero-big-slab-0" 
+                 data-index="0"
+                 class="hero-big-slab hero-slab-pos-center w-[250px] sm:w-[280px] bg-white/[0.06] backdrop-blur-2xl border-4 border-white/20 rounded-3xl p-3 sm:p-3.5 slab-border group cursor-pointer"
+                 title="Charizard ex SAR - Click to view">
+              <a href="/card.html?id=1" class="block">
+                <!-- PSA Label -->
+                <div class="bg-gradient-to-b from-[#FAF8F5] to-[#EAE6DF] border-2 border-[#E63946] rounded-xl p-2 sm:p-2.5 mb-2.5 sm:mb-3 shadow-inner text-[#1A1E24]">
+                  <div class="flex items-center justify-between border-b border-[#E63946]/30 pb-1 mb-1">
+                    <span class="font-pixel text-[8px] text-[#E63946] tracking-tighter">PSA</span>
+                    <span class="font-pixel text-[8.5px] sm:text-[9px] font-bold text-[#E63946]">GEM MT 10</span>
+                  </div>
+                  <div class="font-sans text-[7.5px] sm:text-[8px] font-extrabold uppercase tracking-tight text-gray-900 leading-tight truncate">
+                    2023 POKÉMON 151 SPECIAL ART RARE
+                  </div>
+                  <div class="flex justify-between items-center text-[6.5px] sm:text-[7px] font-bold text-gray-600 mt-0.5 font-sans">
+                    <span>#199 CHARIZARD ex</span>
+                    <span>CERT #84920194</span>
+                  </div>
+                </div>
+
+                <!-- Card Art -->
+                <div class="aspect-[3/4] rounded-xl overflow-hidden relative shadow-lg card-holo bg-[#0B1120]">
+                  <img src="https://images.pokemontcg.io/sv3pt5/199_hires.png" 
+                       alt="Charizard ex SAR" 
+                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                  <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.12] to-transparent pointer-events-none"></div>
+                  <!-- Hover Pill -->
+                  <div class="absolute inset-x-0 bottom-2.5 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <span class="bg-[#0B1120]/85 backdrop-blur-md border border-white/20 text-[#1FB5D6] font-pixel text-[7px] px-3 py-1 rounded-full shadow-lg">
+                      VIEW GRAIL →
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Bottom Tag -->
+                <div class="mt-2.5 sm:mt-3 flex items-center justify-between px-1">
+                  <span class="inline-flex items-center space-x-1 font-pixel text-[7.5px] sm:text-[8px] text-[#F6D06F] drop-shadow-md">
+                    <svg class="w-3 h-3 text-[#F6D06F] fill-current" viewBox="0 0 24 24"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
+                    <span>CHASE GRAIL</span>
+                  </span>
+                  <span class="font-pixel text-xs text-[#1FB5D6] drop-shadow-[0_0_8px_rgba(31,181,214,0.5)]">₱8,500</span>
+                </div>
+              </a>
+            </div>
+
+            <!-- Big Slab 1: Giratina V -->
+            <div id="hero-big-slab-1" 
+                 data-index="1"
+                 class="hero-big-slab hero-slab-pos-right w-[250px] sm:w-[280px] bg-white/[0.06] backdrop-blur-2xl border-4 border-white/20 rounded-3xl p-3 sm:p-3.5 slab-border group cursor-pointer"
+                 title="Giratina V Alt Art - Click to view">
+              <a href="/card.html?id=4" class="block">
+                <!-- PSA Label -->
+                <div class="bg-gradient-to-b from-[#FAF8F5] to-[#EAE6DF] border-2 border-[#E63946] rounded-xl p-2 sm:p-2.5 mb-2.5 sm:mb-3 shadow-inner text-[#1A1E24]">
+                  <div class="flex items-center justify-between border-b border-[#E63946]/30 pb-1 mb-1">
+                    <span class="font-pixel text-[8px] text-[#E63946] tracking-tighter">PSA</span>
+                    <span class="font-pixel text-[8.5px] sm:text-[9px] font-bold text-[#E63946]">GEM MT 10</span>
+                  </div>
+                  <div class="font-sans text-[7.5px] sm:text-[8px] font-extrabold uppercase tracking-tight text-gray-900 leading-tight truncate">
+                    2022 POKÉMON LOST ORIGIN ALT ART
+                  </div>
+                  <div class="flex justify-between items-center text-[6.5px] sm:text-[7px] font-bold text-gray-600 mt-0.5 font-sans">
+                    <span>#186 GIRATINA V</span>
+                    <span>CERT #78291043</span>
+                  </div>
+                </div>
+
+                <!-- Card Art -->
+                <div class="aspect-[3/4] rounded-xl overflow-hidden relative shadow-lg card-holo bg-[#0B1120]">
+                  <img src="https://images.pokemontcg.io/swsh11/186_hires.png" 
+                       alt="Giratina V Alt Art" 
+                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                  <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.12] to-transparent pointer-events-none"></div>
+                  <!-- Hover Pill -->
+                  <div class="absolute inset-x-0 bottom-2.5 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <span class="bg-[#0B1120]/85 backdrop-blur-md border border-white/20 text-[#1FB5D6] font-pixel text-[7px] px-3 py-1 rounded-full shadow-lg">
+                      VIEW GRAIL →
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Bottom Tag -->
+                <div class="mt-2.5 sm:mt-3 flex items-center justify-between px-1">
+                  <span class="inline-flex items-center space-x-1 font-pixel text-[7.5px] sm:text-[8px] text-[#1FB5D6] drop-shadow-md">
+                    <svg class="w-3 h-3 text-[#1FB5D6] stroke-current fill-none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3v6l-5 13"/><path d="M13 3v6l5 13"/><path d="M2 9h20"/></svg>
+                    <span>HOLY GRAIL</span>
+                  </span>
+                  <span class="font-pixel text-xs text-[#1FB5D6] drop-shadow-[0_0_8px_rgba(31,181,214,0.5)]">₱18,500</span>
+                </div>
+              </a>
+            </div>
+
+            <!-- Big Slab 2: Mew ex -->
+            <div id="hero-big-slab-2" 
+                 data-index="2"
+                 class="hero-big-slab hero-slab-pos-left w-[250px] sm:w-[280px] bg-white/[0.06] backdrop-blur-2xl border-4 border-white/20 rounded-3xl p-3 sm:p-3.5 slab-border group cursor-pointer"
+                 title="Mew ex SAR - Click to view">
+              <a href="/card.html?id=3" class="block">
+                <!-- PSA Label -->
+                <div class="bg-gradient-to-b from-[#FAF8F5] to-[#EAE6DF] border-2 border-[#E63946] rounded-xl p-2 sm:p-2.5 mb-2.5 sm:mb-3 shadow-inner text-[#1A1E24]">
+                  <div class="flex items-center justify-between border-b border-[#E63946]/30 pb-1 mb-1">
+                    <span class="font-pixel text-[8px] text-[#E63946] tracking-tighter">PSA</span>
+                    <span class="font-pixel text-[8.5px] sm:text-[9px] font-bold text-[#E63946]">GEM MT 10</span>
+                  </div>
+                  <div class="font-sans text-[7.5px] sm:text-[8px] font-extrabold uppercase tracking-tight text-gray-900 leading-tight truncate">
+                    2023 POKÉMON 151 SPECIAL ART RARE
+                  </div>
+                  <div class="flex justify-between items-center text-[6.5px] sm:text-[7px] font-bold text-gray-600 mt-0.5 font-sans">
+                    <span>#205 MEW ex</span>
+                    <span>CERT #91024812</span>
+                  </div>
+                </div>
+
+                <!-- Card Art -->
+                <div class="aspect-[3/4] rounded-xl overflow-hidden relative shadow-lg card-holo bg-[#0B1120]">
+                  <img src="https://images.pokemontcg.io/sv3pt5/205_hires.png" 
+                       alt="Mew ex SAR" 
+                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                  <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.12] to-transparent pointer-events-none"></div>
+                  <!-- Hover Pill -->
+                  <div class="absolute inset-x-0 bottom-2.5 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <span class="bg-[#0B1120]/85 backdrop-blur-md border border-white/20 text-[#1FB5D6] font-pixel text-[7px] px-3 py-1 rounded-full shadow-lg">
+                      VIEW GRAIL →
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Bottom Tag -->
+                <div class="mt-2.5 sm:mt-3 flex items-center justify-between px-1">
+                  <span class="inline-flex items-center space-x-1 font-pixel text-[7.5px] sm:text-[8px] text-[#F472B6] drop-shadow-md">
+                    <svg class="w-3 h-3 text-[#F472B6] fill-current" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg>
+                    <span>SECRET RARE</span>
+                  </span>
+                  <span class="font-pixel text-xs text-[#1FB5D6] drop-shadow-[0_0_8px_rgba(31,181,214,0.5)]">₱6,200</span>
+                </div>
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Interactive Selector Pill Dock Below 3 Big Slabs -->
+          <div id="hero-dock-container" class="mt-4 w-full max-w-[340px] sm:max-w-[380px] bg-[#060a14]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] z-40">
+            <div class="grid grid-cols-3 gap-1.5" id="hero-card-dock">
+              
+              <!-- Card 1 Pill: Charizard -->
+              <button type="button" 
+                      data-index="0" 
+                      class="hero-dock-btn relative py-2 px-1.5 rounded-xl border text-center transition-all duration-300 overflow-hidden hero-selector-active"
+                      aria-label="Spotlight 1: Charizard ex">
+                <span class="font-pixel text-[7.5px] block text-white truncate">Charizard</span>
+                <span class="font-pixel text-[6.5px] text-[#1FB5D6] mt-0.5 block">₱8.5k</span>
+                <div class="dock-progress-bar absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hero-timer-bar opacity-100"></div>
+              </button>
+
+              <!-- Card 2 Pill: Giratina -->
+              <button type="button" 
+                      data-index="1" 
+                      class="hero-dock-btn relative py-2 px-1.5 rounded-xl border text-center transition-all duration-300 overflow-hidden hero-selector-inactive"
+                      aria-label="Spotlight 2: Giratina V">
+                <span class="font-pixel text-[7.5px] block text-white truncate">Giratina V</span>
+                <span class="font-pixel text-[6.5px] text-[#1FB5D6] mt-0.5 block">₱18.5k</span>
+                <div class="dock-progress-bar absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] opacity-0"></div>
+              </button>
+
+              <!-- Card 3 Pill: Mew ex -->
+              <button type="button" 
+                      data-index="2" 
+                      class="hero-dock-btn relative py-2 px-1.5 rounded-xl border text-center transition-all duration-300 overflow-hidden hero-selector-inactive"
+                      aria-label="Spotlight 3: Mew ex">
+                <span class="font-pixel text-[7.5px] block text-white truncate">Mew ex</span>
+                <span class="font-pixel text-[6.5px] text-[#1FB5D6] mt-0.5 block">₱6.2k</span>
+                <div class="dock-progress-bar absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] opacity-0"></div>
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==================== IMMEDIATE CARD SHOWCASE ==================== -->
+    <section id="showcase" class="py-16 px-6 max-w-7xl mx-auto scroll-mt-20">
+      
+      <!-- Section Header with Vector Icon -->
+      <div class="mb-10 text-center max-w-2xl mx-auto">
+        <span class="inline-flex items-center space-x-1.5 font-pixel text-[8px] text-[#F6D06F] bg-[#F6D06F]/10 border border-[#F6D06F]/30 px-3.5 py-1.5 rounded-full uppercase tracking-wider">
+          <svg class="w-3 h-3 text-[#F6D06F] fill-current" viewBox="0 0 24 24"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
+          <span>CURRENT INVENTORY</span>
+        </span>
+        <h2 class="font-pixel text-lg sm:text-xl text-white mt-3 mb-2">CARD SHOWCASE</h2>
+        <div class="h-1 w-20 bg-gradient-to-r from-[#0E839E] via-[#1FB5D6] to-[#F6D06F] mx-auto rounded-full mb-3"></div>
+        <p class="font-body text-sm text-gray-400">
+          Browse raw singles, Special Art Rares, and graded slabs. Click "INQUIRE" on any card to message us directly and reserve instantly.
+        </p>
+      </div>
+
+      <!-- Interactive Filter Bar (Glass Box) -->
+      <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-5 mb-10 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        
+        <!-- Top Row: Search & Sort -->
+        <div class="flex flex-col md:flex-row gap-4 justify-between items-center mb-5">
+          <!-- Search input -->
+          <div class="relative w-full md:w-96">
+            <svg class="absolute left-3.5 top-3.5 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" id="showcase-search" placeholder="Search Pokémon (e.g. Charizard, Mew, PSA 10)..." 
+                   class="w-full pl-10 pr-4 py-2.5 bg-white/[0.03] border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#1FB5D6]">
+          </div>
+
+          <!-- Sort & Count -->
+          <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-end">
+            <span id="showcase-count" class="font-pixel text-[8px] text-gray-400">LOADING CARDS...</span>
+            <select id="showcase-sort" class="bg-white/[0.04] border border-white/10 text-xs text-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:border-[#1FB5D6]">
+              <option value="featured">Featured First</option>
+              <option value="price_desc">Price: High to Low</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="name">Name (A-Z)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Bottom Row: Category Filter Pills (SVGs instead of emojis) -->
+        <div class="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none" id="filter-pills">
+          
+          <button data-filter="all" class="filter-btn active font-pixel text-[7px] px-3.5 py-2.5 rounded-xl border border-[#1FB5D6] bg-[#1FB5D6]/20 text-[#1FB5D6] whitespace-nowrap transition-all inline-flex items-center space-x-1.5">
+            <svg class="w-3 h-3 text-[#F6D06F] fill-current" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <span>ALL CARDS</span>
+          </button>
+
+          <button data-filter="featured" class="filter-btn font-pixel text-[7px] px-3.5 py-2.5 rounded-xl border border-white/10 bg-white/[0.02] text-gray-400 hover:text-white hover:border-[#1FB5D6]/40 whitespace-nowrap transition-all inline-flex items-center space-x-1.5">
+            <svg class="w-3 h-3 text-[#1FB5D6] fill-current" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg>
+            <span>FEATURED GRAILS</span>
+          </button>
+
+          <button data-filter="sar" class="filter-btn font-pixel text-[7px] px-3.5 py-2.5 rounded-xl border border-white/10 bg-white/[0.02] text-gray-400 hover:text-white hover:border-[#1FB5D6]/40 whitespace-nowrap transition-all inline-flex items-center space-x-1.5">
+            <svg class="w-3 h-3 text-[#F6D06F] fill-current" viewBox="0 0 24 24"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
+            <span>SPECIAL ART (SAR)</span>
+          </button>
+
+          <button data-filter="psa" class="filter-btn font-pixel text-[7px] px-3.5 py-2.5 rounded-xl border border-white/10 bg-white/[0.02] text-gray-400 hover:text-white hover:border-[#1FB5D6]/40 whitespace-nowrap transition-all inline-flex items-center space-x-1.5">
+            <svg class="w-3 h-3 text-[#1FB5D6] stroke-current fill-none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3v6l-5 13"/><path d="M13 3v6l5 13"/><path d="M2 9h20"/></svg>
+            <span>PSA 10 SLABS</span>
+          </button>
+
+          <button data-filter="available" class="filter-btn font-pixel text-[7px] px-3.5 py-2.5 rounded-xl border border-white/10 bg-white/[0.02] text-gray-400 hover:text-white hover:border-[#1FB5D6]/40 whitespace-nowrap transition-all inline-flex items-center space-x-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]"></span>
+            <span>AVAILABLE NOW</span>
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Card Showcase Grid -->
+      <div id="showcase-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+
+    <div class="relative bg-white/[0.04] backdrop-blur-xl rounded-3xl border border-white/[0.08] overflow-hidden flex flex-col justify-between shadow-[0_8px_32px_rgba(0,0,0,0.3)] animate-pulse p-3 sm:p-3.5">
+      <div>
+        <!-- Curvy Card Artwork Placeholder Container (Curvy on ALL 4 corners!) -->
+        <div class="aspect-[3/4] bg-[#060a14] card-curvy-frame overflow-hidden relative rounded-2xl skeleton border border-white/[0.08] mb-3 flex items-center justify-center">
+          <!-- Curvy Frosted Badges Placeholder -->
+          <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+            <div class="w-16 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+            <div class="w-20 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+          </div>
+          
+          <!-- Glowing Pokéball silhouette watermark -->
+          <div class="opacity-15">
+            <svg class="w-20 h-20 text-[#1FB5D6]" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.5" fill="#0B1120" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+          </div>
+
+          <!-- Curvy Set Tag Placeholder -->
+          <div class="absolute bottom-2.5 left-3">
+            <div class="w-28 h-3.5 rounded-full bg-white/[0.07]"></div>
+          </div>
+        </div>
+
+        <!-- Curvy Meta Info Placeholder -->
+        <div class="px-1 pb-1 space-y-2.5">
+          <div class="h-4 rounded-xl bg-white/[0.08] w-4/5"></div>
+          <div class="flex items-center justify-between pt-1">
+            <div class="h-4 rounded-xl bg-white/[0.07] w-20"></div>
+            <div class="h-4 rounded-full bg-white/[0.05] w-14"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curvy Action Buttons Placeholder -->
+      <div class="pt-2 grid grid-cols-2 gap-2 border-t border-white/[0.04] mt-2">
+        <div class="h-8 rounded-xl bg-white/[0.04] border border-white/[0.06]"></div>
+        <div class="h-8 rounded-xl bg-gradient-to-r from-[#0E839E]/20 to-[#1FB5D6]/20"></div>
+      </div>
+    </div>
+
+    <div class="relative bg-white/[0.04] backdrop-blur-xl rounded-3xl border border-white/[0.08] overflow-hidden flex flex-col justify-between shadow-[0_8px_32px_rgba(0,0,0,0.3)] animate-pulse p-3 sm:p-3.5">
+      <div>
+        <!-- Curvy Card Artwork Placeholder Container (Curvy on ALL 4 corners!) -->
+        <div class="aspect-[3/4] bg-[#060a14] card-curvy-frame overflow-hidden relative rounded-2xl skeleton border border-white/[0.08] mb-3 flex items-center justify-center">
+          <!-- Curvy Frosted Badges Placeholder -->
+          <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+            <div class="w-16 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+            <div class="w-20 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+          </div>
+          
+          <!-- Glowing Pokéball silhouette watermark -->
+          <div class="opacity-15">
+            <svg class="w-20 h-20 text-[#1FB5D6]" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.5" fill="#0B1120" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+          </div>
+
+          <!-- Curvy Set Tag Placeholder -->
+          <div class="absolute bottom-2.5 left-3">
+            <div class="w-28 h-3.5 rounded-full bg-white/[0.07]"></div>
+          </div>
+        </div>
+
+        <!-- Curvy Meta Info Placeholder -->
+        <div class="px-1 pb-1 space-y-2.5">
+          <div class="h-4 rounded-xl bg-white/[0.08] w-4/5"></div>
+          <div class="flex items-center justify-between pt-1">
+            <div class="h-4 rounded-xl bg-white/[0.07] w-20"></div>
+            <div class="h-4 rounded-full bg-white/[0.05] w-14"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curvy Action Buttons Placeholder -->
+      <div class="pt-2 grid grid-cols-2 gap-2 border-t border-white/[0.04] mt-2">
+        <div class="h-8 rounded-xl bg-white/[0.04] border border-white/[0.06]"></div>
+        <div class="h-8 rounded-xl bg-gradient-to-r from-[#0E839E]/20 to-[#1FB5D6]/20"></div>
+      </div>
+    </div>
+
+    <div class="relative bg-white/[0.04] backdrop-blur-xl rounded-3xl border border-white/[0.08] overflow-hidden flex flex-col justify-between shadow-[0_8px_32px_rgba(0,0,0,0.3)] animate-pulse p-3 sm:p-3.5">
+      <div>
+        <!-- Curvy Card Artwork Placeholder Container (Curvy on ALL 4 corners!) -->
+        <div class="aspect-[3/4] bg-[#060a14] card-curvy-frame overflow-hidden relative rounded-2xl skeleton border border-white/[0.08] mb-3 flex items-center justify-center">
+          <!-- Curvy Frosted Badges Placeholder -->
+          <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+            <div class="w-16 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+            <div class="w-20 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+          </div>
+          
+          <!-- Glowing Pokéball silhouette watermark -->
+          <div class="opacity-15">
+            <svg class="w-20 h-20 text-[#1FB5D6]" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.5" fill="#0B1120" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+          </div>
+
+          <!-- Curvy Set Tag Placeholder -->
+          <div class="absolute bottom-2.5 left-3">
+            <div class="w-28 h-3.5 rounded-full bg-white/[0.07]"></div>
+          </div>
+        </div>
+
+        <!-- Curvy Meta Info Placeholder -->
+        <div class="px-1 pb-1 space-y-2.5">
+          <div class="h-4 rounded-xl bg-white/[0.08] w-4/5"></div>
+          <div class="flex items-center justify-between pt-1">
+            <div class="h-4 rounded-xl bg-white/[0.07] w-20"></div>
+            <div class="h-4 rounded-full bg-white/[0.05] w-14"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curvy Action Buttons Placeholder -->
+      <div class="pt-2 grid grid-cols-2 gap-2 border-t border-white/[0.04] mt-2">
+        <div class="h-8 rounded-xl bg-white/[0.04] border border-white/[0.06]"></div>
+        <div class="h-8 rounded-xl bg-gradient-to-r from-[#0E839E]/20 to-[#1FB5D6]/20"></div>
+      </div>
+    </div>
+
+    <div class="relative bg-white/[0.04] backdrop-blur-xl rounded-3xl border border-white/[0.08] overflow-hidden flex flex-col justify-between shadow-[0_8px_32px_rgba(0,0,0,0.3)] animate-pulse p-3 sm:p-3.5">
+      <div>
+        <!-- Curvy Card Artwork Placeholder Container (Curvy on ALL 4 corners!) -->
+        <div class="aspect-[3/4] bg-[#060a14] card-curvy-frame overflow-hidden relative rounded-2xl skeleton border border-white/[0.08] mb-3 flex items-center justify-center">
+          <!-- Curvy Frosted Badges Placeholder -->
+          <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+            <div class="w-16 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+            <div class="w-20 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+          </div>
+          
+          <!-- Glowing Pokéball silhouette watermark -->
+          <div class="opacity-15">
+            <svg class="w-20 h-20 text-[#1FB5D6]" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.5" fill="#0B1120" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+          </div>
+
+          <!-- Curvy Set Tag Placeholder -->
+          <div class="absolute bottom-2.5 left-3">
+            <div class="w-28 h-3.5 rounded-full bg-white/[0.07]"></div>
+          </div>
+        </div>
+
+        <!-- Curvy Meta Info Placeholder -->
+        <div class="px-1 pb-1 space-y-2.5">
+          <div class="h-4 rounded-xl bg-white/[0.08] w-4/5"></div>
+          <div class="flex items-center justify-between pt-1">
+            <div class="h-4 rounded-xl bg-white/[0.07] w-20"></div>
+            <div class="h-4 rounded-full bg-white/[0.05] w-14"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curvy Action Buttons Placeholder -->
+      <div class="pt-2 grid grid-cols-2 gap-2 border-t border-white/[0.04] mt-2">
+        <div class="h-8 rounded-xl bg-white/[0.04] border border-white/[0.06]"></div>
+        <div class="h-8 rounded-xl bg-gradient-to-r from-[#0E839E]/20 to-[#1FB5D6]/20"></div>
+      </div>
+    </div>
+
+    <div class="relative bg-white/[0.04] backdrop-blur-xl rounded-3xl border border-white/[0.08] overflow-hidden flex flex-col justify-between shadow-[0_8px_32px_rgba(0,0,0,0.3)] animate-pulse p-3 sm:p-3.5">
+      <div>
+        <!-- Curvy Card Artwork Placeholder Container (Curvy on ALL 4 corners!) -->
+        <div class="aspect-[3/4] bg-[#060a14] card-curvy-frame overflow-hidden relative rounded-2xl skeleton border border-white/[0.08] mb-3 flex items-center justify-center">
+          <!-- Curvy Frosted Badges Placeholder -->
+          <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+            <div class="w-16 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+            <div class="w-20 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+          </div>
+          
+          <!-- Glowing Pokéball silhouette watermark -->
+          <div class="opacity-15">
+            <svg class="w-20 h-20 text-[#1FB5D6]" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.5" fill="#0B1120" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+          </div>
+
+          <!-- Curvy Set Tag Placeholder -->
+          <div class="absolute bottom-2.5 left-3">
+            <div class="w-28 h-3.5 rounded-full bg-white/[0.07]"></div>
+          </div>
+        </div>
+
+        <!-- Curvy Meta Info Placeholder -->
+        <div class="px-1 pb-1 space-y-2.5">
+          <div class="h-4 rounded-xl bg-white/[0.08] w-4/5"></div>
+          <div class="flex items-center justify-between pt-1">
+            <div class="h-4 rounded-xl bg-white/[0.07] w-20"></div>
+            <div class="h-4 rounded-full bg-white/[0.05] w-14"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curvy Action Buttons Placeholder -->
+      <div class="pt-2 grid grid-cols-2 gap-2 border-t border-white/[0.04] mt-2">
+        <div class="h-8 rounded-xl bg-white/[0.04] border border-white/[0.06]"></div>
+        <div class="h-8 rounded-xl bg-gradient-to-r from-[#0E839E]/20 to-[#1FB5D6]/20"></div>
+      </div>
+    </div>
+
+    <div class="relative bg-white/[0.04] backdrop-blur-xl rounded-3xl border border-white/[0.08] overflow-hidden flex flex-col justify-between shadow-[0_8px_32px_rgba(0,0,0,0.3)] animate-pulse p-3 sm:p-3.5">
+      <div>
+        <!-- Curvy Card Artwork Placeholder Container (Curvy on ALL 4 corners!) -->
+        <div class="aspect-[3/4] bg-[#060a14] card-curvy-frame overflow-hidden relative rounded-2xl skeleton border border-white/[0.08] mb-3 flex items-center justify-center">
+          <!-- Curvy Frosted Badges Placeholder -->
+          <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+            <div class="w-16 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+            <div class="w-20 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+          </div>
+          
+          <!-- Glowing Pokéball silhouette watermark -->
+          <div class="opacity-15">
+            <svg class="w-20 h-20 text-[#1FB5D6]" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.5" fill="#0B1120" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+          </div>
+
+          <!-- Curvy Set Tag Placeholder -->
+          <div class="absolute bottom-2.5 left-3">
+            <div class="w-28 h-3.5 rounded-full bg-white/[0.07]"></div>
+          </div>
+        </div>
+
+        <!-- Curvy Meta Info Placeholder -->
+        <div class="px-1 pb-1 space-y-2.5">
+          <div class="h-4 rounded-xl bg-white/[0.08] w-4/5"></div>
+          <div class="flex items-center justify-between pt-1">
+            <div class="h-4 rounded-xl bg-white/[0.07] w-20"></div>
+            <div class="h-4 rounded-full bg-white/[0.05] w-14"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curvy Action Buttons Placeholder -->
+      <div class="pt-2 grid grid-cols-2 gap-2 border-t border-white/[0.04] mt-2">
+        <div class="h-8 rounded-xl bg-white/[0.04] border border-white/[0.06]"></div>
+        <div class="h-8 rounded-xl bg-gradient-to-r from-[#0E839E]/20 to-[#1FB5D6]/20"></div>
+      </div>
+    </div>
+
+    <div class="relative bg-white/[0.04] backdrop-blur-xl rounded-3xl border border-white/[0.08] overflow-hidden flex flex-col justify-between shadow-[0_8px_32px_rgba(0,0,0,0.3)] animate-pulse p-3 sm:p-3.5">
+      <div>
+        <!-- Curvy Card Artwork Placeholder Container (Curvy on ALL 4 corners!) -->
+        <div class="aspect-[3/4] bg-[#060a14] card-curvy-frame overflow-hidden relative rounded-2xl skeleton border border-white/[0.08] mb-3 flex items-center justify-center">
+          <!-- Curvy Frosted Badges Placeholder -->
+          <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+            <div class="w-16 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+            <div class="w-20 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+          </div>
+          
+          <!-- Glowing Pokéball silhouette watermark -->
+          <div class="opacity-15">
+            <svg class="w-20 h-20 text-[#1FB5D6]" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.5" fill="#0B1120" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+          </div>
+
+          <!-- Curvy Set Tag Placeholder -->
+          <div class="absolute bottom-2.5 left-3">
+            <div class="w-28 h-3.5 rounded-full bg-white/[0.07]"></div>
+          </div>
+        </div>
+
+        <!-- Curvy Meta Info Placeholder -->
+        <div class="px-1 pb-1 space-y-2.5">
+          <div class="h-4 rounded-xl bg-white/[0.08] w-4/5"></div>
+          <div class="flex items-center justify-between pt-1">
+            <div class="h-4 rounded-xl bg-white/[0.07] w-20"></div>
+            <div class="h-4 rounded-full bg-white/[0.05] w-14"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curvy Action Buttons Placeholder -->
+      <div class="pt-2 grid grid-cols-2 gap-2 border-t border-white/[0.04] mt-2">
+        <div class="h-8 rounded-xl bg-white/[0.04] border border-white/[0.06]"></div>
+        <div class="h-8 rounded-xl bg-gradient-to-r from-[#0E839E]/20 to-[#1FB5D6]/20"></div>
+      </div>
+    </div>
+
+    <div class="relative bg-white/[0.04] backdrop-blur-xl rounded-3xl border border-white/[0.08] overflow-hidden flex flex-col justify-between shadow-[0_8px_32px_rgba(0,0,0,0.3)] animate-pulse p-3 sm:p-3.5">
+      <div>
+        <!-- Curvy Card Artwork Placeholder Container (Curvy on ALL 4 corners!) -->
+        <div class="aspect-[3/4] bg-[#060a14] card-curvy-frame overflow-hidden relative rounded-2xl skeleton border border-white/[0.08] mb-3 flex items-center justify-center">
+          <!-- Curvy Frosted Badges Placeholder -->
+          <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+            <div class="w-16 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+            <div class="w-20 h-5 rounded-full bg-white/[0.08] border border-white/[0.1] backdrop-blur-md"></div>
+          </div>
+          
+          <!-- Glowing Pokéball silhouette watermark -->
+          <div class="opacity-15">
+            <svg class="w-20 h-20 text-[#1FB5D6]" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.5" fill="#0B1120" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+          </div>
+
+          <!-- Curvy Set Tag Placeholder -->
+          <div class="absolute bottom-2.5 left-3">
+            <div class="w-28 h-3.5 rounded-full bg-white/[0.07]"></div>
+          </div>
+        </div>
+
+        <!-- Curvy Meta Info Placeholder -->
+        <div class="px-1 pb-1 space-y-2.5">
+          <div class="h-4 rounded-xl bg-white/[0.08] w-4/5"></div>
+          <div class="flex items-center justify-between pt-1">
+            <div class="h-4 rounded-xl bg-white/[0.07] w-20"></div>
+            <div class="h-4 rounded-full bg-white/[0.05] w-14"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curvy Action Buttons Placeholder -->
+      <div class="pt-2 grid grid-cols-2 gap-2 border-t border-white/[0.04] mt-2">
+        <div class="h-8 rounded-xl bg-white/[0.04] border border-white/[0.06]"></div>
+        <div class="h-8 rounded-xl bg-gradient-to-r from-[#0E839E]/20 to-[#1FB5D6]/20"></div>
+      </div>
+    </div>
+      </div>
+
+      <!-- Empty Filter State -->
+      <div id="showcase-empty" class="hidden text-center py-16">
+        <div class="w-16 h-16 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center mx-auto mb-4 text-gray-500">
+          <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 class="font-pixel text-xs text-white mb-2">NO CARDS FOUND</h3>
+        <p class="font-body text-xs text-gray-400 mb-4">No cards matched your filter or search query.</p>
+        <button id="showcase-reset" class="bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[7px] px-4 py-2.5 rounded-xl">
+          RESET FILTERS
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- ==================== HOW TO ORDER / MESSENGER FLOW ==================== -->
+    <section class="py-16 bg-[#060a14]/60 border-y border-white/[0.06] relative">
+      <div class="max-w-7xl mx-auto px-6">
+        
+        <div class="text-center max-w-xl mx-auto mb-12">
+          <span class="font-pixel text-[8px] text-[#1FB5D6] tracking-wider uppercase">SEAMLESS TRANSACTIONS</span>
+          <h2 class="font-pixel text-base sm:text-lg text-white mt-2 mb-2">HOW INQUIRING WORKS</h2>
+          <p class="font-body text-xs text-gray-400">Direct deal workflow straight to our team.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          
+          <!-- Step 1 -->
+          <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6 text-center hover:border-[#0E839E]/40 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-[#0E839E]/20 text-[#1FB5D6] font-pixel text-xs flex items-center justify-center mx-auto mb-4 border border-[#0E839E]/30">
+              01
+            </div>
+            <h3 class="font-pixel text-[9px] text-white mb-2">BROWSE SHOWCASE</h3>
+            <p class="font-body text-xs text-gray-400 leading-relaxed">
+              Explore our verified singles, Special Art Rares, and graded PSA 10 slabs.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6 text-center hover:border-[#1FB5D6]/40 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-[#1FB5D6]/20 text-[#1FB5D6] font-pixel text-xs flex items-center justify-center mx-auto mb-4 border border-[#1FB5D6]/30">
+              02
+            </div>
+            <h3 class="font-pixel text-[9px] text-white mb-2">TAP "INQUIRE"</h3>
+            <p class="font-body text-xs text-gray-400 leading-relaxed">
+              Opens a direct message pre-filled with the exact card name, condition, and price tag.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6 text-center hover:border-[#F6D06F]/40 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-[#F6D06F]/20 text-[#F6D06F] font-pixel text-xs flex items-center justify-center mx-auto mb-4 border border-[#F6D06F]/30">
+              03
+            </div>
+            <h3 class="font-pixel text-[9px] text-white mb-2">INSPECT & LOCK DEAL</h3>
+            <p class="font-body text-xs text-gray-400 leading-relaxed">
+              We provide additional high-res photos or live videos before payment via GCash or Bank.
+            </p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6 text-center hover:border-emerald-500/40 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 font-pixel text-xs flex items-center justify-center mx-auto mb-4 border border-emerald-500/30">
+              04
+            </div>
+            <h3 class="font-pixel text-[9px] text-white mb-2">SECURE DISPATCH</h3>
+            <p class="font-body text-xs text-gray-400 leading-relaxed">
+              Cards are double-sleeved, placed in toploaders, bubble wrapped, and dispatched via courier.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==================== VOUCHERS PREVIEW ==================== -->
+    <section class="py-16 px-6 max-w-7xl mx-auto">
+      
+      <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+        <div>
+          <span class="inline-flex items-center space-x-1.5 font-pixel text-[8px] text-[#F6D06F] tracking-wider uppercase">
+            <svg class="w-3 h-3 text-[#F6D06F] fill-current" viewBox="0 0 24 24"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
+            <span>LIMITED TIME CODES</span>
+          </span>
+          <h2 class="font-pixel text-base sm:text-lg text-white mt-1">PROMOS & VOUCHERS</h2>
+        </div>
+        <a href="/vouchers.html" class="font-pixel text-[8px] text-[#1FB5D6] hover:underline inline-flex items-center space-x-1">
+          <span>VIEW ALL PROMOS</span>
+          <svg class="w-3 h-3 stroke-current fill-none ml-1" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+
+      <div id="vouchers-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Vouchers rendered dynamically -->
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Shared Footer (No admin link) -->
+  <div id="app-footer"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/components.js"></script>
+  <script>
+    (async () => {
+      // 1. Initialize public layout (header, footer, messenger FAB)
+      const settings = await NB.initPublic('home');
+
+      // Update hero text from settings or default
+      if (settings.hero_tagline) document.getElementById('hero-tagline').textContent = settings.hero_tagline;
+      if (settings.hero_subtitle) document.getElementById('hero-subtitle').textContent = settings.hero_subtitle;
+      if (settings.fb_messenger_url) document.getElementById('hero-messenger').href = settings.fb_messenger_url;
+
+      // 2. Load Cards with automatic fallback
+      let allCards = await NB.getCards();
+      let activeFilter = 'all';
+      let searchQuery = '';
+      let activeSort = 'featured';
+
+      const gridEl = document.getElementById('showcase-grid');
+      const countEl = document.getElementById('showcase-count');
+      const emptyEl = document.getElementById('showcase-empty');
+      const searchInput = document.getElementById('showcase-search');
+      const sortSelect = document.getElementById('showcase-sort');
+      const filterPills = document.querySelectorAll('.filter-btn');
+
+      // Render function
+      function renderShowcase() {
+        let filtered = [...allCards];
+
+        // Search filter
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase().trim();
+          filtered = filtered.filter(c => 
+            (c.name && c.name.toLowerCase().includes(q)) ||
+            (c.set_name && c.set_name.toLowerCase().includes(q)) ||
+            (c.rarity && c.rarity.toLowerCase().includes(q)) ||
+            (c.condition && c.condition.toLowerCase().includes(q))
+          );
+        }
+
+        // Category filter
+        if (activeFilter === 'featured') {
+          filtered = filtered.filter(c => c.is_featured);
+        } else if (activeFilter === 'sar') {
+          filtered = filtered.filter(c => c.rarity === 'SAR' || c.rarity === 'Illustration Rare');
+        } else if (activeFilter === 'psa') {
+          filtered = filtered.filter(c => (c.condition && c.condition.includes('PSA')) || c.rarity === 'PSA 10');
+        } else if (activeFilter === 'available') {
+          filtered = filtered.filter(c => !c.is_sold);
+        }
+
+        // Sorting
+        if (activeSort === 'price_desc') {
+          filtered.sort((a, b) => (b.price || 0) - (a.price || 0));
+        } else if (activeSort === 'price_asc') {
+          filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
+        } else if (activeSort === 'name') {
+          filtered.sort((a, b) => a.name.localeCompare(b.name));
+        } else {
+          // Featured / default
+          filtered.sort((a, b) => (b.is_featured ? 1 : 0) - (a.is_featured ? 1 : 0));
+        }
+
+        // Update count
+        countEl.textContent = `${filtered.length} CARD${filtered.length === 1 ? '' : 'S'} SHOWN`;
+
+        // Render Cards or Empty State
+        if (filtered.length === 0) {
+          gridEl.innerHTML = '';
+          emptyEl.classList.remove('hidden');
+        } else {
+          emptyEl.classList.add('hidden');
+          gridEl.innerHTML = filtered.map(c => NB.card(c, settings)).join('');
+        }
+      }
+
+      // Initial render
+      renderShowcase();
+
+      // Search event
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        renderShowcase();
+      });
+
+      // Sort event
+      sortSelect.addEventListener('change', (e) => {
+        activeSort = e.target.value;
+        renderShowcase();
+      });
+
+      // Filter pills click
+      filterPills.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterPills.forEach(b => {
+            b.classList.remove('border-[#1FB5D6]', 'bg-[#1FB5D6]/20', 'text-[#1FB5D6]');
+            b.classList.add('border-white/10', 'bg-white/[0.02]', 'text-gray-400');
+          });
+          btn.classList.remove('border-white/10', 'bg-white/[0.02]', 'text-gray-400');
+          btn.classList.add('border-[#1FB5D6]', 'bg-[#1FB5D6]/20', 'text-[#1FB5D6]');
+          activeFilter = btn.dataset.filter;
+          renderShowcase();
+        });
+      });
+
+      // Reset button
+      document.getElementById('showcase-reset')?.addEventListener('click', () => {
+        searchQuery = '';
+        searchInput.value = '';
+        activeFilter = 'all';
+        filterPills.forEach(b => {
+          if (b.dataset.filter === 'all') {
+            b.classList.add('border-[#1FB5D6]', 'bg-[#1FB5D6]/20', 'text-[#1FB5D6]');
+          } else {
+            b.classList.remove('border-[#1FB5D6]', 'bg-[#1FB5D6]/20', 'text-[#1FB5D6]');
+            b.classList.add('border-white/10', 'bg-white/[0.02]', 'text-gray-400');
+          }
+        });
+        renderShowcase();
+      });
+
+      // 3. Load Vouchers preview
+      const vouchers = await NB.getVouchers();
+      const vouchersGrid = document.getElementById('vouchers-grid');
+      if (vouchersGrid && vouchers && vouchers.length > 0) {
+        vouchersGrid.innerHTML = vouchers.slice(0, 3).map(v => NB.voucher(v, settings.fb_messenger_url)).join('');
+      }
+
+      // ==================== 4. 3 BIG CARDS HERO CONTROLLER ====================
+      const heroCards = [
+        {
+          id: 1,
+          name: 'Charizard ex',
+          glowClass: 'bg-[#0E839E]/30',
+        },
+        {
+          id: 4,
+          name: 'Giratina V',
+          glowClass: 'bg-[#1FB5D6]/30',
+        },
+        {
+          id: 3,
+          name: 'Mew ex',
+          glowClass: 'bg-[#F472B6]/25',
+        }
+      ];
+
+      let heroActiveIndex = 0;
+      let heroCycleTimer = null;
+      let isUserHovering = false;
+      let isTransitioning = false;
+      let hoverArmed = true; // "kaisa lng siya mu move then pag ihover out and in napud ang next"
+      const CYCLE_INTERVAL_MS = 8000; // 8 seconds per card when idle ("matagal ang pag change")
+
+      const slabElements = [
+        document.getElementById('hero-big-slab-0'),
+        document.getElementById('hero-big-slab-1'),
+        document.getElementById('hero-big-slab-2')
+      ];
+      const glowEl = document.getElementById('hero-slab-glow');
+      const dockBtns = document.querySelectorAll('.hero-dock-btn');
+      const stageEl = document.getElementById('hero-3d-stage');
+      const dockContainer = document.getElementById('hero-dock-container');
+
+      function startAutoCycle() {
+        stopAutoCycle();
+        if (isUserHovering) return; // Do not auto-cycle while user is hovering!
+
+        // Restart timer bar animation on current active pill
+        dockBtns.forEach((btn, i) => {
+          const bar = btn.querySelector('.dock-progress-bar');
+          if (bar) {
+            if (i === heroActiveIndex) {
+              bar.classList.remove('opacity-0');
+              bar.classList.add('opacity-100');
+              bar.classList.remove('hero-timer-bar');
+              void bar.offsetWidth;
+              bar.classList.add('hero-timer-bar');
+            } else {
+              bar.classList.remove('opacity-100', 'hero-timer-bar');
+              bar.classList.add('opacity-0');
+              bar.style.width = '0%';
+            }
+          }
+        });
+
+        heroCycleTimer = setInterval(() => {
+          if (!isUserHovering) {
+            const nextIndex = (heroActiveIndex + 1) % heroCards.length;
+            setHeroHighlight(nextIndex);
+          }
+        }, CYCLE_INTERVAL_MS);
+      }
+
+      function stopAutoCycle() {
+        if (heroCycleTimer) {
+          clearInterval(heroCycleTimer);
+          heroCycleTimer = null;
+        }
+        dockBtns.forEach((btn, i) => {
+          const bar = btn.querySelector('.dock-progress-bar');
+          if (bar) {
+            if (i === heroActiveIndex) {
+              bar.classList.remove('hero-timer-bar');
+              bar.style.width = '100%';
+              bar.classList.add('opacity-100');
+              bar.classList.remove('opacity-0');
+            } else {
+              bar.classList.remove('opacity-100', 'hero-timer-bar');
+              bar.classList.add('opacity-0');
+              bar.style.width = '0%';
+            }
+          }
+        });
+      }
+
+      function setHeroHighlight(index) {
+        if (index < 0 || index >= heroCards.length) return;
+        heroActiveIndex = index;
+
+        // Position assignments: center (index), right (index+1)%3, left (index+2)%3
+        const centerIdx = index;
+        const rightIdx = (index + 1) % 3;
+        const leftIdx = (index + 2) % 3;
+
+        // Update Slabs in 3D Space
+        slabElements.forEach((slab, i) => {
+          if (!slab) return;
+          slab.classList.remove('hero-slab-pos-center', 'hero-slab-pos-right', 'hero-slab-pos-left');
+          
+          if (i === centerIdx) {
+            slab.classList.add('hero-slab-pos-center');
+          } else if (i === rightIdx) {
+            slab.classList.add('hero-slab-pos-right');
+          } else if (i === leftIdx) {
+            slab.classList.add('hero-slab-pos-left');
+          }
+        });
+
+        // Update Ambient Glow Hue
+        if (glowEl) {
+          glowEl.className = `absolute w-96 h-[440px] ${heroCards[index].glowClass} rounded-3xl blur-3xl -z-10 transition-all duration-700 pointer-events-none`;
+        }
+
+        // Update Dock Pills
+        dockBtns.forEach((btn, i) => {
+          const isCurrent = (i === index);
+          btn.classList.toggle('hero-selector-active', isCurrent);
+          btn.classList.toggle('hero-selector-inactive', !isCurrent);
+        });
+
+        // If not hovering, keep auto cycle running
+        if (!isUserHovering) {
+          startAutoCycle();
+        } else {
+          stopAutoCycle();
+        }
+      }
+
+      // Hover on 3D Slabs:
+      // Exactly 1 move per hover. Re-arm only when user hovers out and in again!
+      slabElements.forEach((slab, idx) => {
+        if (!slab) return;
+
+        slab.addEventListener('mouseenter', () => {
+          // If already in center or currently animating or not armed, do not move!
+          if (heroActiveIndex === idx || isTransitioning || !hoverArmed) return;
+
+          // Move ONCE!
+          hoverArmed = false; // Disarmed! Won't move again while cursor stays in this area
+          isTransitioning = true;
+          setHeroHighlight(idx);
+
+          setTimeout(() => {
+            isTransitioning = false;
+          }, 700);
+        });
+
+        slab.addEventListener('mouseleave', () => {
+          // When mouse leaves this slab, re-arm so the next hover-in will work!
+          setTimeout(() => {
+            if (!isTransitioning) {
+              hoverArmed = true;
+            }
+          }, 150);
+        });
+
+        slab.addEventListener('click', (e) => {
+          if (heroActiveIndex !== idx) {
+            e.preventDefault();
+            hoverArmed = false;
+            isTransitioning = true;
+            setHeroHighlight(idx);
+            setTimeout(() => { isTransitioning = false; }, 700);
+          }
+        });
+      });
+
+      // Track stage hover state to pause auto-cycle and re-arm on stage exit
+      if (stageEl) {
+        stageEl.addEventListener('mouseenter', () => {
+          isUserHovering = true;
+          stopAutoCycle();
+          hoverArmed = true;
+        });
+
+        stageEl.addEventListener('mouseleave', () => {
+          isUserHovering = false;
+          hoverArmed = true;
+          isTransitioning = false;
+          startAutoCycle();
+        });
+      }
+
+      if (dockContainer) {
+        dockContainer.addEventListener('mouseenter', () => {
+          isUserHovering = true;
+          stopAutoCycle();
+        });
+
+        dockContainer.addEventListener('mouseleave', () => {
+          isUserHovering = false;
+          startAutoCycle();
+        });
+      }
+
+      // Dock Pill buttons
+      dockBtns.forEach((btn) => {
+        const idx = parseInt(btn.dataset.index, 10);
+        btn.addEventListener('mouseenter', () => {
+          if (heroActiveIndex !== idx) {
+            setHeroHighlight(idx);
+          }
+        });
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (heroActiveIndex !== idx) {
+            setHeroHighlight(idx);
+          }
+        });
+      });
+
+      // Visibility change
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && !isUserHovering) {
+          startAutoCycle();
+        }
+      });
+
+      // Initial start
+      setHeroHighlight(0);
+      startAutoCycle();
+
+    })();
+  </script>
+</body>
+</html>

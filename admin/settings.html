@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SITE SETTINGS | Nooblax Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          teal: { DEFAULT: '#0E839E', light: '#1FB5D6', dark: '#0A6B82' },
+          cream: { DEFAULT: '#F6D06F', light: '#FFDF85' },
+          cherry: { DEFAULT: '#E63946', light: '#EE3F3F' },
+          ink: { DEFAULT: '#1A1E24' },
+          shell: { DEFAULT: '#ECEFF1' },
+          base: { DEFAULT: '#FAFAFA', light: '#F4F6F8' }
+        },
+        fontFamily: {
+          pixel: ['"Press Start 2P"', 'cursive'],
+          body: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          sans: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          mono: ['"Space Grotesk"', 'ui-monospace', 'monospace']
+        }
+      }
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="font-body bg-[#0B1120] text-gray-200">
+  <!-- Admin mobile topbar -->
+  <div id="admin-topbar"></div>
+  <!-- Admin desktop sidebar -->
+  <div id="admin-sidebar"></div>
+  
+  <!-- Main content area -->
+  <div class="md:ml-64 min-h-screen bg-[#0B1120]">
+    <div class="p-6 md:p-8 fade-in">
+      <h1 class="text-white font-pixel text-sm mb-6">SITE SETTINGS</h1>
+      
+      <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6 max-w-2xl">
+        <form id="settings-form" class="space-y-4">
+          <div>
+            <label class="block font-pixel text-[7px] text-gray-500 uppercase mb-1">Site Name</label>
+            <input type="text" id="site_name" name="site_name" class="w-full p-3 font-body">
+          </div>
+          
+          <div>
+            <label class="block font-pixel text-[7px] text-gray-500 uppercase mb-1">Inquiry / Chat URL</label>
+            <input type="url" id="fb_messenger_url" name="fb_messenger_url" class="w-full p-3 font-body">
+            <p class="text-xs text-gray-600 font-body mt-1">Enter your direct message or chat link (e.g., https://m.me/yourpage or contact link)</p>
+          </div>
+          
+          <div>
+            <label class="block font-pixel text-[7px] text-gray-500 uppercase mb-1">Hero Tagline</label>
+            <input type="text" id="hero_tagline" name="hero_tagline" class="w-full p-3 font-body">
+          </div>
+          
+          <div>
+            <label class="block font-pixel text-[7px] text-gray-500 uppercase mb-1">Hero Subtitle</label>
+            <textarea id="hero_subtitle" name="hero_subtitle" rows="3" class="w-full p-3 font-body"></textarea>
+          </div>
+          
+          <div class="pt-6 border-t border-white/[0.06] mt-6">
+            <button type="submit" id="submit-btn" class="bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[9px] px-8 py-3 rounded-xl hover:shadow-[0_4px_20px_rgba(14,131,158,0.4)] transition-all duration-300">SAVE SETTINGS</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/components.js"></script>
+  <script>
+    (async () => {
+      const ctx = await NB.initAdmin('settings');
+      if (!ctx) return;
+      
+      const settings = ctx.settings || {};
+      
+      document.getElementById('site_name').value = settings.site_name || '';
+      document.getElementById('fb_messenger_url').value = settings.fb_messenger_url || '';
+      document.getElementById('hero_tagline').value = settings.hero_tagline || '';
+      document.getElementById('hero_subtitle').value = settings.hero_subtitle || '';
+
+      document.getElementById('settings-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'SAVING...';
+        
+        try {
+          const fields = ['site_name', 'fb_messenger_url', 'hero_tagline', 'hero_subtitle'];
+          for (const key of fields) {
+            const value = document.getElementById(key).value;
+            const { error } = await supabaseClient.from('settings').upsert({ key, value }, { onConflict: 'key' });
+            if (error) throw error;
+          }
+          NB.toast('Settings saved!', 'success');
+        } catch (err) {
+          console.error(err);
+          NB.toast('Error saving settings.', 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'SAVE SETTINGS';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
