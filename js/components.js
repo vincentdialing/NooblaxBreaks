@@ -483,7 +483,7 @@ const NB = {
 
   // ======================== LAYOUT – HEADER (NO ADMIN) ========================
 
-  header(activePage, settings) {
+  headerInner(activePage, settings) {
     const name = this.esc((settings?.site_name||'NOOBLAX BREAKS')).toUpperCase();
     const messengerUrl = settings?.fb_messenger_url || this.DEFAULT_SETTINGS.fb_messenger_url;
     const nav = [
@@ -502,8 +502,6 @@ const NB = {
     const mlink = (i) => `<a href="${i.h}" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors ${activePage===i.k?'text-[#1FB5D6] bg-[#1FB5D6]/10':'text-gray-400 hover:text-[#1FB5D6] hover:bg-white/[0.03]'}">${i.n}</a>`;
     
     return `
-    <!-- Main Navigation Bar (Clean public view, NO ADMIN LINK) -->
-    <header class="sticky top-0 bg-[#0B1120]/85 backdrop-blur-2xl border-b border-white/[0.06] z-50">
       <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
         <div class="flex justify-between items-center h-24 sm:h-28">
           
@@ -547,7 +545,14 @@ const NB = {
             </a>
           </div>
         </div>
-      </div>
+      </div>`;
+  },
+
+  header(activePage, settings) {
+    return `
+    <!-- Main Navigation Bar (Clean public view, NO ADMIN LINK) -->
+    <header id="app-header" class="site-header sticky top-0 z-50">
+      ${this.headerInner(activePage, settings)}
     </header>`;
   },
 
@@ -692,19 +697,59 @@ const NB = {
   // ======================== PAGE INITIALIZERS ========================
 
   async initPublic(activePage) {
-    const settings = await this.loadSettings();
-    const hdr = document.getElementById('app-header');
-    const ftr = document.getElementById('app-footer');
-    if (hdr) hdr.innerHTML = this.header(activePage, settings);
-    if (ftr) ftr.innerHTML = this.footer(settings);
-    const fab = document.createElement('div');
-    fab.innerHTML = this.messengerFAB(settings);
-    document.body.appendChild(fab.firstElementChild);
-    setTimeout(() => {
+    const bindMenu = () => {
       const btn = document.getElementById('mobile-menu-btn');
       const menu = document.getElementById('mobile-menu');
-      if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-    }, 0);
+      if (btn && menu && !btn.dataset.bound) {
+        btn.dataset.bound = 'true';
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          menu.classList.toggle('hidden');
+        });
+      }
+    };
+
+    // 1. Immediately bind menu if already pre-rendered
+    bindMenu();
+
+    const hdr = document.getElementById('app-header');
+    // If hdr is present but empty, fill immediately so there is zero delay/blank flash
+    if (hdr && hdr.children.length === 0) {
+      if (hdr.tagName.toUpperCase() === 'HEADER') {
+        hdr.innerHTML = this.headerInner(activePage, this.DEFAULT_SETTINGS);
+      } else {
+        hdr.outerHTML = this.header(activePage, this.DEFAULT_SETTINGS);
+      }
+      bindMenu();
+    }
+
+    const settings = await this.loadSettings();
+
+    // Dynamically update site name or messenger url without re-rendering or flashing DOM
+    const currentHdr = document.getElementById('app-header');
+    if (currentHdr) {
+      if (settings?.fb_messenger_url) {
+        currentHdr.querySelectorAll('a[href*="m.me"]').forEach(a => {
+          a.href = settings.fb_messenger_url;
+        });
+      }
+      if (settings?.site_name) {
+        const brandText = currentHdr.querySelector('.brand-logo-text');
+        if (brandText) brandText.textContent = settings.site_name.toUpperCase();
+      }
+    }
+
+    const ftr = document.getElementById('app-footer');
+    if (ftr) ftr.innerHTML = this.footer(settings);
+
+    if (!document.getElementById('nb-messenger-fab')) {
+      const fab = document.createElement('div');
+      fab.id = 'nb-messenger-fab';
+      fab.innerHTML = this.messengerFAB(settings);
+      document.body.appendChild(fab.firstElementChild);
+    }
+
+    bindMenu();
     return settings;
   },
 
