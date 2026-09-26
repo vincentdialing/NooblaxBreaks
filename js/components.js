@@ -513,10 +513,10 @@ const NB = {
       <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
         <div class="flex justify-between items-center h-24 sm:h-28">
           
-          <!-- Official Brand Logo -->
-          <a href="/" class="flex items-center space-x-3 group py-1 brand-logo">
-            <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-12 sm:h-16 md:h-18 w-auto object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] drop-shadow-[0_0_10px_rgba(246,208,111,0.2)] flex-shrink-0">
-            <span class="font-pixel brand-logo-text text-[10px] sm:text-xs md:text-sm lg:text-base tracking-wider flex items-center space-x-1.5 sm:space-x-2">${brandHtml}</span>
+          <!-- Official Brand Logo (No hover animation) -->
+          <a href="/" class="flex items-center space-x-3 py-1 brand-logo">
+            <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-12 sm:h-16 md:h-18 w-auto object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] drop-shadow-[0_0_10px_rgba(246,208,111,0.2)] flex-shrink-0">
+            <span class="font-pixel brand-logo-text brand-text-gradient text-[10px] sm:text-xs md:text-sm lg:text-base tracking-wider">${rawName}</span>
           </a>
 
           <!-- Desktop Navigation with generous breathing room & spacious gaps -->
@@ -581,7 +581,7 @@ const NB = {
           <div class="md:col-span-2">
             <div class="flex items-center space-x-3 mb-4 brand-logo">
               <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-10 sm:h-12 w-auto object-contain flex-shrink-0 drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
-              <span class="font-pixel brand-logo-text text-[10px] sm:text-xs tracking-wider flex items-center space-x-1.5 sm:space-x-2">${brandHtml}</span>
+              <span class="font-pixel brand-logo-text brand-text-gradient text-[10px] sm:text-xs tracking-wider">${rawName}</span>
             </div>
             <p class="font-body text-sm text-gray-400 max-w-md leading-relaxed mb-4">
               Your premier Pokémon TCG showcase in the Philippines. Featuring authenticated raw chase singles, Special Art Rares (SAR), and PSA 10 slabs. Transactions and inquiries handled directly through direct messages.
@@ -666,8 +666,8 @@ const NB = {
       <div class="p-5 border-b border-white/[0.06] flex items-center space-x-3">
         <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-10 w-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] flex-shrink-0">
         <div>
-          <span class="font-pixel text-[#F6D06F] text-[9px] block drop-shadow-[0_0_10px_rgba(246,208,111,0.5)]">NOOBLAX</span>
-          <span class="font-pixel text-[7px] text-[#1FB5D6] mt-1 block tracking-wider">BREAKS ADMIN</span>
+          <span class="font-pixel brand-text-gradient text-[9px] block">NOOBLAX BREAKS</span>
+          <span class="font-pixel text-[7px] text-gray-500 mt-1 block tracking-wider">ADMIN PANEL</span>
         </div>
       </div>
       <nav class="flex-1 py-4 space-y-1">${items.map(li).join('')}</nav>
@@ -689,7 +689,7 @@ const NB = {
     <div class="md:hidden bg-[#060a14]/95 backdrop-blur-2xl border-b border-white/[0.06] text-white px-4 py-3 flex items-center justify-between sticky top-0 z-40">
       <div class="flex items-center space-x-2.5">
         <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-7 w-auto object-contain">
-        <span class="font-pixel text-[8px] tracking-wider"><span class="text-[#F6D06F] drop-shadow-[0_0_8px_rgba(246,208,111,0.5)]">NOOBLAX</span> <span class="text-[#1FB5D6] drop-shadow-[0_0_8px_rgba(31,181,214,0.5)]">ADMIN</span></span>
+        <span class="font-pixel brand-text-gradient text-[8.5px] tracking-wider">NOOBLAX ADMIN</span>
       </div>
       <div class="flex items-center space-x-3">
         <a href="/" class="text-gray-500 hover:text-[#1FB5D6] transition-colors"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
@@ -749,13 +749,8 @@ const NB = {
       if (settings?.site_name) {
         const brandText = currentHdr.querySelector('.brand-logo-text');
         if (brandText) {
-          const rawName = settings.site_name.toUpperCase();
-          if (rawName.includes(' ')) {
-            const parts = rawName.split(' ');
-            brandText.innerHTML = `<span class="brand-text-gold">${this.esc(parts[0])}</span> <span class="brand-text-teal">${this.esc(parts.slice(1).join(' '))}</span>`;
-          } else {
-            brandText.innerHTML = `<span class="brand-text-gold">${this.esc(rawName)}</span>`;
-          }
+          brandText.classList.add('brand-text-gradient');
+          brandText.textContent = settings.site_name.toUpperCase();
         }
       }
     }

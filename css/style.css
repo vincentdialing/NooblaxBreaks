@@ -211,6 +211,22 @@ body {
   text-decoration: none !important;
 }
 
+.brand-text-gradient,
+.brand-logo .brand-text-gradient,
+.brand-logo:visited .brand-text-gradient,
+.brand-logo:hover .brand-text-gradient,
+.brand-logo:active .brand-text-gradient,
+.brand-logo-text.brand-text-gradient {
+  background: linear-gradient(to right, #FFDF85 0%, #F6D06F 28%, #2DD4BF 68%, #1FB5D6 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+  display: inline-block !important;
+  filter: drop-shadow(0 0 10px rgba(246, 208, 111, 0.4)) drop-shadow(0 0 16px rgba(31, 181, 214, 0.4)) !important;
+  letter-spacing: 0.08em;
+}
+
 .brand-text-gold,
 .brand-logo span.brand-text-gold,
 .brand-logo:visited span.brand-text-gold {
