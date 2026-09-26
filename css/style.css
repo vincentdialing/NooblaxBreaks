@@ -203,21 +203,25 @@ body {
   text-shadow: 0 0 12px rgba(31,181,214,0.5);
 }
 
-/* Brand Logo Text - Always vibrant teal, impervious to :visited or browser overrides */
+/* Brand Logo Text - Vibrant Gold & Teal, impervious to :visited or browser overrides */
 .brand-logo,
 .brand-logo:visited,
 .brand-logo:hover,
 .brand-logo:active {
-  color: #1FB5D6 !important;
   text-decoration: none !important;
 }
 
-.brand-logo-text,
-.brand-logo-text:visited,
-.brand-logo-text:hover,
-.brand-logo-text:active,
-.brand-logo span,
-.brand-logo:visited span {
+.brand-text-gold,
+.brand-logo span.brand-text-gold,
+.brand-logo:visited span.brand-text-gold {
+  color: #F6D06F !important;
+  -webkit-text-fill-color: #F6D06F !important;
+  text-shadow: 0 0 12px rgba(246, 208, 111, 0.6), 0 0 24px rgba(246, 208, 111, 0.3) !important;
+}
+
+.brand-text-teal,
+.brand-logo span.brand-text-teal,
+.brand-logo:visited span.brand-text-teal {
   color: #1FB5D6 !important;
   -webkit-text-fill-color: #1FB5D6 !important;
   text-shadow: 0 0 12px rgba(31, 181, 214, 0.6), 0 0 24px rgba(31, 181, 214, 0.3) !important;

@@ -484,22 +484,30 @@ const NB = {
   // ======================== LAYOUT – HEADER (NO ADMIN) ========================
 
   headerInner(activePage, settings) {
-    const name = this.esc((settings?.site_name||'NOOBLAX BREAKS')).toUpperCase();
+    const rawName = (settings?.site_name||'NOOBLAX BREAKS').toUpperCase();
     const messengerUrl = settings?.fb_messenger_url || this.DEFAULT_SETTINGS.fb_messenger_url;
     const nav = [
       {n:'Home',          h:'/',              k:'home'},
       {n:'Card Showcase', h:'/cards.html',    k:'cards'},
       {n:'Vouchers',      h:'/vouchers.html', k:'vouchers'},
     ];
+    let brandHtml;
+    if (rawName.includes(' ')) {
+      const parts = rawName.split(' ');
+      brandHtml = `<span class="brand-text-gold">${this.esc(parts[0])}</span> <span class="brand-text-teal">${this.esc(parts.slice(1).join(' '))}</span>`;
+    } else {
+      brandHtml = `<span class="brand-text-gold">${this.esc(rawName)}</span>`;
+    }
+
     const link = (i) => `
-      <a href="${i.h}" class="relative group py-3 px-2 font-pixel text-[8.5px] lg:text-[9.5px] uppercase tracking-widest transition-all duration-300 ${activePage===i.k ? 'text-[#1FB5D6] drop-shadow-[0_0_12px_rgba(31,181,214,0.6)] font-bold' : 'text-gray-400 hover:text-[#1FB5D6]'}">
+      <a href="${i.h}" class="relative group py-3 px-2 font-pixel text-[8.5px] lg:text-[9.5px] uppercase tracking-widest transition-all duration-300 ${activePage===i.k ? 'text-[#F6D06F] drop-shadow-[0_0_12px_rgba(246,208,111,0.6)] font-bold' : 'text-gray-300 hover:text-[#F6D06F]'}">
         <span>${i.n}</span>
         ${activePage===i.k 
-          ? '<span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0E839E] via-[#1FB5D6] to-[#0E839E] rounded-full shadow-[0_0_10px_rgba(31,181,214,0.8)]"></span>' 
-          : '<span class="absolute -bottom-1 left-1/2 right-1/2 h-0.5 bg-[#1FB5D6] rounded-full transition-all duration-300 group-hover:left-0 group-hover:right-0 opacity-0 group-hover:opacity-100 shadow-[0_0_6px_rgba(31,181,214,0.6)]"></span>'
+          ? '<span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#F6D06F] via-[#FFDF85] to-[#F6D06F] rounded-full shadow-[0_0_10px_rgba(246,208,111,0.8)]"></span>' 
+          : '<span class="absolute -bottom-1 left-1/2 right-1/2 h-0.5 bg-[#F6D06F] rounded-full transition-all duration-300 group-hover:left-0 group-hover:right-0 opacity-0 group-hover:opacity-100 shadow-[0_0_6px_rgba(246,208,111,0.6)]"></span>'
         }
       </a>`;
-    const mlink = (i) => `<a href="${i.h}" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors ${activePage===i.k?'text-[#1FB5D6] bg-[#1FB5D6]/10':'text-gray-400 hover:text-[#1FB5D6] hover:bg-white/[0.03]'}">${i.n}</a>`;
+    const mlink = (i) => `<a href="${i.h}" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors ${activePage===i.k?'text-[#F6D06F] bg-[#F6D06F]/10 font-bold':'text-gray-400 hover:text-[#F6D06F] hover:bg-white/[0.03]'}">${i.n}</a>`;
     
     return `
       <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
@@ -507,8 +515,8 @@ const NB = {
           
           <!-- Official Brand Logo -->
           <a href="/" class="flex items-center space-x-3 group py-1 brand-logo">
-            <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-12 sm:h-16 md:h-18 w-auto object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-[0_0_14px_rgba(31,181,214,0.45)] flex-shrink-0">
-            <span class="font-pixel brand-logo-text text-[#1FB5D6] text-[10px] sm:text-xs md:text-sm lg:text-base tracking-wider" style="color: #1FB5D6 !important; -webkit-text-fill-color: #1FB5D6 !important; text-shadow: 0 0 14px rgba(31,181,214,0.6);">${name}</span>
+            <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-12 sm:h-16 md:h-18 w-auto object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] drop-shadow-[0_0_10px_rgba(246,208,111,0.2)] flex-shrink-0">
+            <span class="font-pixel brand-logo-text text-[10px] sm:text-xs md:text-sm lg:text-base tracking-wider flex items-center space-x-1.5 sm:space-x-2">${brandHtml}</span>
           </a>
 
           <!-- Desktop Navigation with generous breathing room & spacious gaps -->
@@ -518,13 +526,13 @@ const NB = {
 
           <!-- Direct Messenger CTA Button -->
           <div class="flex items-center space-x-5">
-            <a href="${messengerUrl}" target="_blank" class="hidden sm:inline-flex items-center space-x-3 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[8.5px] lg:text-[9px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl shadow-[0_4px_20px_rgba(14,131,158,0.4)] hover:shadow-[0_6px_28px_rgba(14,131,158,0.7)] hover:-translate-y-0.5 transition-all">
-              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+            <a href="${messengerUrl}" target="_blank" class="hidden sm:inline-flex items-center space-x-2.5 bg-gradient-to-r from-[#F6D06F] via-[#FFDF85] to-[#F6D06F] text-[#0A1A24] font-pixel text-[8.5px] lg:text-[9px] font-bold px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl shadow-[0_4px_20px_rgba(246,208,111,0.35)] hover:shadow-[0_6px_28px_rgba(246,208,111,0.65)] hover:-translate-y-0.5 transition-all">
+              <svg class="h-4 w-4 text-[#0A1A24] fill-none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
               <span>INQUIRE NOW</span>
             </a>
 
             <!-- Mobile Hamburger Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-[#1FB5D6] transition-colors p-2.5 rounded-xl hover:bg-white/[0.04]" aria-label="Menu">
+            <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-[#F6D06F] transition-colors p-2.5 rounded-xl hover:bg-white/[0.04]" aria-label="Menu">
               <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
           </div>
@@ -536,8 +544,8 @@ const NB = {
         <div class="py-2 px-2">
           ${nav.map(mlink).join('')}
           <div class="pt-2 pb-1 border-t border-white/[0.06] mt-2">
-            <a href="${messengerUrl}" target="_blank" class="block w-full text-center bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[8px] py-3 rounded-xl">
-              MESSAGE US DIRECTLY
+            <a href="${messengerUrl}" target="_blank" class="block w-full text-center bg-gradient-to-r from-[#F6D06F] via-[#FFDF85] to-[#F6D06F] text-[#0A1A24] font-pixel text-[8px] font-bold py-3 rounded-xl shadow-[0_4px_16px_rgba(246,208,111,0.3)]">
+              MESSAGE DIRECTLY
             </a>
           </div>
         </div>
@@ -556,7 +564,14 @@ const NB = {
 
   footer(settings) {
     const url = settings?.fb_messenger_url || this.DEFAULT_SETTINGS.fb_messenger_url;
-    const name = this.esc((settings?.site_name||'NOOBLAX BREAKS')).toUpperCase();
+    const rawName = (settings?.site_name||'NOOBLAX BREAKS').toUpperCase();
+    let brandHtml;
+    if (rawName.includes(' ')) {
+      const parts = rawName.split(' ');
+      brandHtml = `<span class="brand-text-gold">${this.esc(parts[0])}</span> <span class="brand-text-teal">${this.esc(parts.slice(1).join(' '))}</span>`;
+    } else {
+      brandHtml = `<span class="brand-text-gold">${this.esc(rawName)}</span>`;
+    }
     return `
     <footer class="bg-[#060a14] mt-20 py-16 border-t border-white/[0.06]">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -565,8 +580,8 @@ const NB = {
           <!-- Column 1: Brand Info -->
           <div class="md:col-span-2">
             <div class="flex items-center space-x-3 mb-4 brand-logo">
-              <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-10 sm:h-12 w-auto object-contain flex-shrink-0 drop-shadow-[0_0_10px_rgba(31,181,214,0.4)]">
-              <span class="font-pixel brand-logo-text text-[#1FB5D6] text-[10px] sm:text-xs tracking-wider" style="color: #1FB5D6 !important; -webkit-text-fill-color: #1FB5D6 !important; text-shadow: 0 0 10px rgba(31,181,214,0.5);">${name}</span>
+              <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-10 sm:h-12 w-auto object-contain flex-shrink-0 drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+              <span class="font-pixel brand-logo-text text-[10px] sm:text-xs tracking-wider flex items-center space-x-1.5 sm:space-x-2">${brandHtml}</span>
             </div>
             <p class="font-body text-sm text-gray-400 max-w-md leading-relaxed mb-4">
               Your premier Pokémon TCG showcase in the Philippines. Featuring authenticated raw chase singles, Special Art Rares (SAR), and PSA 10 slabs. Transactions and inquiries handled directly through direct messages.
@@ -649,15 +664,15 @@ const NB = {
     return `
     <aside class="fixed left-0 top-0 w-64 h-screen bg-[#060a14]/95 backdrop-blur-2xl border-r border-white/[0.06] z-40 flex-col hidden md:flex">
       <div class="p-5 border-b border-white/[0.06] flex items-center space-x-3">
-        <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-10 w-auto object-contain drop-shadow-[0_0_8px_rgba(31,181,214,0.4)] flex-shrink-0">
+        <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-10 w-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] flex-shrink-0">
         <div>
-          <span class="font-pixel text-[#1FB5D6] text-[9px] block drop-shadow-[0_0_10px_rgba(31,181,214,0.5)]">NOOBLAX</span>
-          <span class="font-pixel text-[7px] text-gray-500 mt-1 block tracking-wider">ADMIN PANEL</span>
+          <span class="font-pixel text-[#F6D06F] text-[9px] block drop-shadow-[0_0_10px_rgba(246,208,111,0.5)]">NOOBLAX</span>
+          <span class="font-pixel text-[7px] text-[#1FB5D6] mt-1 block tracking-wider">BREAKS ADMIN</span>
         </div>
       </div>
       <nav class="flex-1 py-4 space-y-1">${items.map(li).join('')}</nav>
       <div class="p-4 border-t border-white/[0.06] space-y-2">
-        <a href="/" class="flex items-center space-x-2 text-gray-500 hover:text-[#1FB5D6] font-body text-sm transition-colors px-2">
+        <a href="/" class="flex items-center space-x-2 text-gray-500 hover:text-[#F6D06F] font-body text-sm transition-colors px-2">
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
           <span>View Site</span>
         </a>
@@ -674,7 +689,7 @@ const NB = {
     <div class="md:hidden bg-[#060a14]/95 backdrop-blur-2xl border-b border-white/[0.06] text-white px-4 py-3 flex items-center justify-between sticky top-0 z-40">
       <div class="flex items-center space-x-2.5">
         <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-7 w-auto object-contain">
-        <span class="font-pixel text-[#1FB5D6] text-[8px] drop-shadow-[0_0_8px_rgba(31,181,214,0.5)]">NOOBLAX ADMIN</span>
+        <span class="font-pixel text-[8px] tracking-wider"><span class="text-[#F6D06F] drop-shadow-[0_0_8px_rgba(246,208,111,0.5)]">NOOBLAX</span> <span class="text-[#1FB5D6] drop-shadow-[0_0_8px_rgba(31,181,214,0.5)]">ADMIN</span></span>
       </div>
       <div class="flex items-center space-x-3">
         <a href="/" class="text-gray-500 hover:text-[#1FB5D6] transition-colors"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
@@ -733,7 +748,15 @@ const NB = {
       }
       if (settings?.site_name) {
         const brandText = currentHdr.querySelector('.brand-logo-text');
-        if (brandText) brandText.textContent = settings.site_name.toUpperCase();
+        if (brandText) {
+          const rawName = settings.site_name.toUpperCase();
+          if (rawName.includes(' ')) {
+            const parts = rawName.split(' ');
+            brandText.innerHTML = `<span class="brand-text-gold">${this.esc(parts[0])}</span> <span class="brand-text-teal">${this.esc(parts.slice(1).join(' '))}</span>`;
+          } else {
+            brandText.innerHTML = `<span class="brand-text-gold">${this.esc(rawName)}</span>`;
+          }
+        }
       }
     }
 
