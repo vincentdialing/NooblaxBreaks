@@ -382,10 +382,19 @@ const NB = {
       'Common':            'glass-badge-neutral'
     };
     const theme = themeMap[r] || 'glass-badge-neutral';
+    const labelMap = {
+      'Illustration Rare': 'IR',
+      'Special Illustration Rare': 'SIR',
+      'Secret Rare': 'SECRET',
+      'Ultra Rare': 'ULTRA',
+      'Art Rare': 'AR',
+      'Rare Holo': 'HOLO'
+    };
+    const label = labelMap[r] || r || 'CARD';
     return `
     <span class="glass-badge ${theme}">
       <span class="badge-pip"></span>
-      <span class="badge-text">${this.esc(r || 'CARD')}</span>
+      <span class="badge-text">${this.esc(label)}</span>
     </span>`;
   },
 
@@ -471,7 +480,7 @@ const NB = {
           <div class="absolute inset-0 bg-gradient-to-b from-[#060a14]/75 via-transparent to-[#0B1120] opacity-85 pointer-events-none rounded-2xl"></div>
           
           <!-- Frosted Glass Badges Header -->
-          <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none z-10 gap-1.5">
+          <div class="absolute top-2 left-2 right-2 sm:top-2.5 sm:left-2.5 sm:right-2.5 flex items-center justify-between pointer-events-none z-10 gap-1">
             ${this.conditionBadge(c)}
             ${this.rarityBadge(c.rarity)}
           </div>
@@ -486,15 +495,15 @@ const NB = {
           </div>` : ''}
           
           <!-- Set Name Badge -->
-          <div class="absolute bottom-2.5 left-3 right-3 flex items-center justify-between z-10">
-            <p class="font-pixel text-[7px] text-[#1FB5D6] drop-shadow-md truncate">${this.esc(c.set_name)}</p>
+          <div class="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between z-10">
+            <p class="font-pixel text-[6.5px] sm:text-[7px] text-[#1FB5D6] drop-shadow-md whitespace-nowrap overflow-hidden">${this.esc(c.set_name)}</p>
           </div>
         </a>
 
         <!-- Card Meta Info -->
         <div class="px-1 pb-1">
           <a href="/card.html?id=${c.id}" class="block">
-            <h3 class="font-body font-bold text-white text-xs sm:text-sm hover:text-[#1FB5D6] transition-colors line-clamp-1 mb-1.5">${this.esc(c.name)}</h3>
+            <h3 class="font-body font-bold text-white text-xs sm:text-sm hover:text-[#1FB5D6] transition-colors line-clamp-2 leading-snug min-h-[2rem] sm:min-h-[2.5rem] mb-1.5">${this.esc(c.name)}</h3>
           </a>
           <div class="flex items-center justify-between mt-2 gap-1.5 flex-wrap">
             <span class="font-pixel text-[10.5px] sm:text-xs text-[#1FB5D6] drop-shadow-[0_0_10px_rgba(31,181,214,0.5)] whitespace-nowrap">${this.price(c.price)}</span>
