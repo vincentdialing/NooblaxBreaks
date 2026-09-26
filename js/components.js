@@ -500,14 +500,14 @@ const NB = {
     }
 
     const link = (i) => `
-      <a href="${i.h}" class="relative group py-3 px-2 font-pixel text-[8.5px] lg:text-[9.5px] uppercase tracking-widest transition-all duration-300 ${activePage===i.k ? 'text-[#F6D06F] drop-shadow-[0_0_12px_rgba(246,208,111,0.6)] font-bold' : 'text-gray-300 hover:text-[#F6D06F]'}">
+      <a href="${i.h}" class="relative group py-3 px-2 font-pixel text-[8.5px] lg:text-[9.5px] uppercase tracking-widest transition-all duration-300 ${activePage===i.k ? 'text-[#1FB5D6] drop-shadow-[0_0_12px_rgba(31,181,214,0.6)] font-bold' : 'text-gray-400 hover:text-[#1FB5D6]'}">
         <span>${i.n}</span>
         ${activePage===i.k 
-          ? '<span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#F6D06F] via-[#FFDF85] to-[#F6D06F] rounded-full shadow-[0_0_10px_rgba(246,208,111,0.8)]"></span>' 
-          : '<span class="absolute -bottom-1 left-1/2 right-1/2 h-0.5 bg-[#F6D06F] rounded-full transition-all duration-300 group-hover:left-0 group-hover:right-0 opacity-0 group-hover:opacity-100 shadow-[0_0_6px_rgba(246,208,111,0.6)]"></span>'
+          ? '<span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0E839E] via-[#1FB5D6] to-[#0E839E] rounded-full shadow-[0_0_10px_rgba(31,181,214,0.8)]"></span>' 
+          : '<span class="absolute -bottom-1 left-1/2 right-1/2 h-0.5 bg-[#1FB5D6] rounded-full transition-all duration-300 group-hover:left-0 group-hover:right-0 opacity-0 group-hover:opacity-100 shadow-[0_0_6px_rgba(31,181,214,0.6)]"></span>'
         }
       </a>`;
-    const mlink = (i) => `<a href="${i.h}" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors ${activePage===i.k?'text-[#F6D06F] bg-[#F6D06F]/10 font-bold':'text-gray-400 hover:text-[#F6D06F] hover:bg-white/[0.03]'}">${i.n}</a>`;
+    const mlink = (i) => `<a href="${i.h}" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors ${activePage===i.k?'text-[#1FB5D6] bg-[#1FB5D6]/10 font-bold':'text-gray-400 hover:text-[#1FB5D6] hover:bg-white/[0.03]'}">${i.n}</a>`;
     
     return `
       <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
@@ -524,15 +524,15 @@ const NB = {
             ${nav.map(link).join('')}
           </nav>
 
-          <!-- Direct Messenger CTA Button -->
+          <!-- Direct Messenger CTA Button (Gradient) -->
           <div class="flex items-center space-x-5">
-            <a href="${messengerUrl}" target="_blank" class="hidden sm:inline-flex items-center space-x-2.5 bg-gradient-to-r from-[#F6D06F] via-[#FFDF85] to-[#F6D06F] text-[#0A1A24] font-pixel text-[8.5px] lg:text-[9px] font-bold px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl shadow-[0_4px_20px_rgba(246,208,111,0.35)] hover:shadow-[0_6px_28px_rgba(246,208,111,0.65)] hover:-translate-y-0.5 transition-all">
-              <svg class="h-4 w-4 text-[#0A1A24] fill-none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+            <a href="${messengerUrl}" target="_blank" class="hidden sm:inline-flex items-center space-x-3 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[8.5px] lg:text-[9px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl shadow-[0_4px_20px_rgba(14,131,158,0.4)] hover:shadow-[0_6px_28px_rgba(14,131,158,0.7)] hover:-translate-y-0.5 transition-all">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
               <span>INQUIRE NOW</span>
             </a>
 
             <!-- Mobile Hamburger Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-[#F6D06F] transition-colors p-2.5 rounded-xl hover:bg-white/[0.04]" aria-label="Menu">
+            <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-[#1FB5D6] transition-colors p-2.5 rounded-xl hover:bg-white/[0.04]" aria-label="Menu">
               <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
           </div>
@@ -544,7 +544,7 @@ const NB = {
         <div class="py-2 px-2">
           ${nav.map(mlink).join('')}
           <div class="pt-2 pb-1 border-t border-white/[0.06] mt-2">
-            <a href="${messengerUrl}" target="_blank" class="block w-full text-center bg-gradient-to-r from-[#F6D06F] via-[#FFDF85] to-[#F6D06F] text-[#0A1A24] font-pixel text-[8px] font-bold py-3 rounded-xl shadow-[0_4px_16px_rgba(246,208,111,0.3)]">
+            <a href="${messengerUrl}" target="_blank" class="block w-full text-center bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[8px] py-3 rounded-xl shadow-[0_4px_16px_rgba(14,131,158,0.3)]">
               MESSAGE DIRECTLY
             </a>
           </div>
