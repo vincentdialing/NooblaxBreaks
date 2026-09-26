@@ -252,7 +252,7 @@
                   <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.12] to-transparent pointer-events-none"></div>
                   <!-- Hover Pill -->
                   <div class="absolute inset-x-0 bottom-2.5 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <span class="bg-[#0B1120]/85 backdrop-blur-md border border-white/20 text-[#1FB5D6] font-pixel text-[7px] px-3 py-1 rounded-full shadow-lg">
+                    <span class="slab-pill-action bg-[#0B1120]/85 backdrop-blur-md border border-white/20 text-[#1FB5D6] font-pixel text-[7px] px-3 py-1 rounded-full shadow-lg">
                       VIEW GRAIL →
                     </span>
                   </div>
@@ -298,8 +298,8 @@
                   <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.12] to-transparent pointer-events-none"></div>
                   <!-- Hover Pill -->
                   <div class="absolute inset-x-0 bottom-2.5 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <span class="bg-[#0B1120]/85 backdrop-blur-md border border-white/20 text-[#1FB5D6] font-pixel text-[7px] px-3 py-1 rounded-full shadow-lg">
-                      VIEW GRAIL →
+                    <span class="slab-pill-action bg-[#0B1120]/85 backdrop-blur-md border border-white/20 text-[#1FB5D6] font-pixel text-[7px] px-3 py-1 rounded-full shadow-lg">
+                      CLICK TO SPOTLIGHT ✦
                     </span>
                   </div>
                 </div>
@@ -344,8 +344,8 @@
                   <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.12] to-transparent pointer-events-none"></div>
                   <!-- Hover Pill -->
                   <div class="absolute inset-x-0 bottom-2.5 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <span class="bg-[#0B1120]/85 backdrop-blur-md border border-white/20 text-[#1FB5D6] font-pixel text-[7px] px-3 py-1 rounded-full shadow-lg">
-                      VIEW GRAIL →
+                    <span class="slab-pill-action bg-[#0B1120]/85 backdrop-blur-md border border-white/20 text-[#1FB5D6] font-pixel text-[7px] px-3 py-1 rounded-full shadow-lg">
+                      CLICK TO SPOTLIGHT ✦
                     </span>
                   </div>
                 </div>
@@ -370,31 +370,28 @@
               <!-- Card 1 Pill: Charizard -->
               <button type="button" 
                       data-index="0" 
-                      class="hero-dock-btn relative py-2 px-1.5 rounded-xl border text-center transition-all duration-300 overflow-hidden hero-selector-active"
+                      class="hero-dock-btn relative py-2 px-1.5 rounded-xl border text-center transition-all duration-300 overflow-hidden hero-selector-active cursor-pointer"
                       aria-label="Spotlight 1: Charizard ex">
                 <span class="font-pixel text-[7.5px] block text-white truncate">Charizard</span>
                 <span class="font-pixel text-[6.5px] text-[#1FB5D6] mt-0.5 block">₱8.5k</span>
-                <div class="dock-progress-bar absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hero-timer-bar opacity-100"></div>
               </button>
 
               <!-- Card 2 Pill: Giratina -->
               <button type="button" 
                       data-index="1" 
-                      class="hero-dock-btn relative py-2 px-1.5 rounded-xl border text-center transition-all duration-300 overflow-hidden hero-selector-inactive"
+                      class="hero-dock-btn relative py-2 px-1.5 rounded-xl border text-center transition-all duration-300 overflow-hidden hero-selector-inactive cursor-pointer"
                       aria-label="Spotlight 2: Giratina V">
                 <span class="font-pixel text-[7.5px] block text-white truncate">Giratina V</span>
                 <span class="font-pixel text-[6.5px] text-[#1FB5D6] mt-0.5 block">₱18.5k</span>
-                <div class="dock-progress-bar absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] opacity-0"></div>
               </button>
 
               <!-- Card 3 Pill: Mew ex -->
               <button type="button" 
                       data-index="2" 
-                      class="hero-dock-btn relative py-2 px-1.5 rounded-xl border text-center transition-all duration-300 overflow-hidden hero-selector-inactive"
+                      class="hero-dock-btn relative py-2 px-1.5 rounded-xl border text-center transition-all duration-300 overflow-hidden hero-selector-inactive cursor-pointer"
                       aria-label="Spotlight 3: Mew ex">
                 <span class="font-pixel text-[7.5px] block text-white truncate">Mew ex</span>
                 <span class="font-pixel text-[6.5px] text-[#1FB5D6] mt-0.5 block">₱6.2k</span>
-                <div class="dock-progress-bar absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] opacity-0"></div>
               </button>
 
             </div>
@@ -1045,11 +1042,6 @@
       ];
 
       let heroActiveIndex = 0;
-      let heroCycleTimer = null;
-      let isUserHovering = false;
-      let isTransitioning = false;
-      let hoverArmed = true; // "kaisa lng siya mu move then pag ihover out and in napud ang next"
-      const CYCLE_INTERVAL_MS = 8000; // 8 seconds per card when idle ("matagal ang pag change")
 
       const slabElements = [
         document.getElementById('hero-big-slab-0'),
@@ -1058,60 +1050,6 @@
       ];
       const glowEl = document.getElementById('hero-slab-glow');
       const dockBtns = document.querySelectorAll('.hero-dock-btn');
-      const stageEl = document.getElementById('hero-3d-stage');
-      const dockContainer = document.getElementById('hero-dock-container');
-
-      function startAutoCycle() {
-        stopAutoCycle();
-        if (isUserHovering) return; // Do not auto-cycle while user is hovering!
-
-        // Restart timer bar animation on current active pill
-        dockBtns.forEach((btn, i) => {
-          const bar = btn.querySelector('.dock-progress-bar');
-          if (bar) {
-            if (i === heroActiveIndex) {
-              bar.classList.remove('opacity-0');
-              bar.classList.add('opacity-100');
-              bar.classList.remove('hero-timer-bar');
-              void bar.offsetWidth;
-              bar.classList.add('hero-timer-bar');
-            } else {
-              bar.classList.remove('opacity-100', 'hero-timer-bar');
-              bar.classList.add('opacity-0');
-              bar.style.width = '0%';
-            }
-          }
-        });
-
-        heroCycleTimer = setInterval(() => {
-          if (!isUserHovering) {
-            const nextIndex = (heroActiveIndex + 1) % heroCards.length;
-            setHeroHighlight(nextIndex);
-          }
-        }, CYCLE_INTERVAL_MS);
-      }
-
-      function stopAutoCycle() {
-        if (heroCycleTimer) {
-          clearInterval(heroCycleTimer);
-          heroCycleTimer = null;
-        }
-        dockBtns.forEach((btn, i) => {
-          const bar = btn.querySelector('.dock-progress-bar');
-          if (bar) {
-            if (i === heroActiveIndex) {
-              bar.classList.remove('hero-timer-bar');
-              bar.style.width = '100%';
-              bar.classList.add('opacity-100');
-              bar.classList.remove('opacity-0');
-            } else {
-              bar.classList.remove('opacity-100', 'hero-timer-bar');
-              bar.classList.add('opacity-0');
-              bar.style.width = '0%';
-            }
-          }
-        });
-      }
 
       function setHeroHighlight(index) {
         if (index < 0 || index >= heroCards.length) return;
@@ -1127,12 +1065,19 @@
           if (!slab) return;
           slab.classList.remove('hero-slab-pos-center', 'hero-slab-pos-right', 'hero-slab-pos-left');
           
+          const pill = slab.querySelector('.slab-pill-action');
           if (i === centerIdx) {
             slab.classList.add('hero-slab-pos-center');
+            slab.setAttribute('title', `${heroCards[i].name} - Click to view details`);
+            if (pill) pill.textContent = 'VIEW GRAIL →';
           } else if (i === rightIdx) {
             slab.classList.add('hero-slab-pos-right');
+            slab.setAttribute('title', `${heroCards[i].name} - Click to spotlight`);
+            if (pill) pill.textContent = 'CLICK TO SPOTLIGHT ✦';
           } else if (i === leftIdx) {
             slab.classList.add('hero-slab-pos-left');
+            slab.setAttribute('title', `${heroCards[i].name} - Click to spotlight`);
+            if (pill) pill.textContent = 'CLICK TO SPOTLIGHT ✦';
           }
         });
 
@@ -1147,90 +1092,32 @@
           btn.classList.toggle('hero-selector-active', isCurrent);
           btn.classList.toggle('hero-selector-inactive', !isCurrent);
         });
-
-        // If not hovering, keep auto cycle running
-        if (!isUserHovering) {
-          startAutoCycle();
-        } else {
-          stopAutoCycle();
-        }
       }
 
-      // Hover on 3D Slabs:
-      // Exactly 1 move per hover. Re-arm only when user hovers out and in again!
+      // CLICK-ONLY interaction for 3D Slabs:
+      // Clicking side slab brings it to center; clicking center slab navigates to card details
       slabElements.forEach((slab, idx) => {
         if (!slab) return;
 
-        slab.addEventListener('mouseenter', () => {
-          // If already in center or currently animating or not armed, do not move!
-          if (heroActiveIndex === idx || isTransitioning || !hoverArmed) return;
+        const anchor = slab.querySelector('a');
 
-          // Move ONCE!
-          hoverArmed = false; // Disarmed! Won't move again while cursor stays in this area
-          isTransitioning = true;
-          setHeroHighlight(idx);
-
-          setTimeout(() => {
-            isTransitioning = false;
-          }, 700);
-        });
-
-        slab.addEventListener('mouseleave', () => {
-          // When mouse leaves this slab, re-arm so the next hover-in will work!
-          setTimeout(() => {
-            if (!isTransitioning) {
-              hoverArmed = true;
-            }
-          }, 150);
-        });
-
-        slab.addEventListener('click', (e) => {
+        const handleSlabClick = (e) => {
           if (heroActiveIndex !== idx) {
             e.preventDefault();
-            hoverArmed = false;
-            isTransitioning = true;
+            e.stopPropagation();
             setHeroHighlight(idx);
-            setTimeout(() => { isTransitioning = false; }, 700);
           }
-        });
+        };
+
+        slab.addEventListener('click', handleSlabClick);
+        if (anchor) {
+          anchor.addEventListener('click', handleSlabClick);
+        }
       });
 
-      // Track stage hover state to pause auto-cycle and re-arm on stage exit
-      if (stageEl) {
-        stageEl.addEventListener('mouseenter', () => {
-          isUserHovering = true;
-          stopAutoCycle();
-          hoverArmed = true;
-        });
-
-        stageEl.addEventListener('mouseleave', () => {
-          isUserHovering = false;
-          hoverArmed = true;
-          isTransitioning = false;
-          startAutoCycle();
-        });
-      }
-
-      if (dockContainer) {
-        dockContainer.addEventListener('mouseenter', () => {
-          isUserHovering = true;
-          stopAutoCycle();
-        });
-
-        dockContainer.addEventListener('mouseleave', () => {
-          isUserHovering = false;
-          startAutoCycle();
-        });
-      }
-
-      // Dock Pill buttons
+      // CLICK-ONLY interaction for Dock Pills:
       dockBtns.forEach((btn) => {
         const idx = parseInt(btn.dataset.index, 10);
-        btn.addEventListener('mouseenter', () => {
-          if (heroActiveIndex !== idx) {
-            setHeroHighlight(idx);
-          }
-        });
         btn.addEventListener('click', (e) => {
           e.preventDefault();
           if (heroActiveIndex !== idx) {
@@ -1239,16 +1126,8 @@
         });
       });
 
-      // Visibility change
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden && !isUserHovering) {
-          startAutoCycle();
-        }
-      });
-
-      // Initial start
+      // Initial spotlight
       setHeroHighlight(0);
-      startAutoCycle();
 
     })();
   </script>
