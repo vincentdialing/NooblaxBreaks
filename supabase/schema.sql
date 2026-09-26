@@ -93,7 +93,7 @@ CREATE TRIGGER cards_updated_at
 -- Default settings
 INSERT INTO settings (key, value) VALUES
   ('site_name',      'Nooblax Breaks'),
-  ('fb_messenger_url','https://m.me/nooblaxbreaks'),
+  ('fb_messenger_url','https://www.facebook.com/profile.php?id=61593883622380'),
   ('hero_tagline',   'Premium Pokemon TCG Cards & Breaks'),
   ('hero_subtitle',  'Discover rare pulls, graded gems, and exclusive deals. Your next chase card is waiting.')
 ON CONFLICT (key) DO NOTHING;

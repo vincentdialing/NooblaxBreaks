@@ -478,6 +478,9 @@ input, select, textarea {
   border: 1px solid rgba(255,255,255,0.1) !important;
   border-radius: 12px !important;
   transition: all 0.3s ease;
+  padding: 10px 14px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 input:focus, select:focus, textarea:focus {
@@ -499,6 +502,8 @@ select {
   -webkit-appearance: none !important;
   appearance: none !important;
   padding-right: 40px !important;
+  padding-left: 14px !important;
+  max-width: 100% !important;
 }
 
 /* Checkbox styling */
@@ -515,6 +520,29 @@ input[type="checkbox"] {
 ::-webkit-scrollbar-track { background: #0B1120; }
 ::-webkit-scrollbar-thumb { background: #0E839E; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #1FB5D6; }
+
+/* Thin scrollbar for filter sidebar */
+.filter-sidebar-scroll::-webkit-scrollbar { width: 3px; }
+.filter-sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+.filter-sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(31,181,214,0.2); border-radius: 4px; }
+.filter-sidebar-scroll::-webkit-scrollbar-thumb:hover { background: rgba(31,181,214,0.5); }
+
+/* Sticky filter sidebar — desktop only (lg: 1024px and up) */
+@media (min-width: 1024px) {
+  .filter-sidebar-sticky {
+    position: sticky !important;
+    top: 132px !important;
+    max-height: calc(100vh - 148px) !important;
+    overflow-y: auto !important;
+  }
+}
+@media (max-width: 1023px) {
+  .filter-sidebar-sticky {
+    position: static !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+}
 
 /* ======================== PAGE ANIMATIONS ======================== */
 @keyframes fadeIn {
@@ -606,11 +634,16 @@ tr:hover td {
   align-items: center !important;
   justify-content: center !important;
   line-height: 1 !important;
-  gap: 7px !important;
+  gap: 6px !important;
+  height: 36px !important;
 }
 
 .filter-btn > :first-child {
-  transform: translateY(2px) !important;
   flex-shrink: 0 !important;
 }
+
+.filter-btn svg {
+  display: block !important;
+}
+
 

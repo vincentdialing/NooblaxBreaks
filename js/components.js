@@ -27,7 +27,7 @@ const NB = {
 
   DEFAULT_SETTINGS: {
     site_name: 'Nooblax Breaks',
-    fb_messenger_url: 'https://m.me/nooblaxbreaks',
+    fb_messenger_url: 'https://www.facebook.com/profile.php?id=61593883622380',
     hero_tagline: 'RARE GRAILS. GRADED SLABS. NEXT-LEVEL PULLS.',
     hero_subtitle: 'The premier collector\'s showcase for authenticated Pokémon TCG singles, Special Art Rares (SAR), and PSA 10 slabs. Message us directly for live availability & fast nationwide delivery.',
   },
@@ -36,6 +36,7 @@ const NB = {
     {
       id: 1,
       name: 'Charizard ex (Special Art Rare)',
+      pokemon_type: 'Fire',
       set_name: 'Scarlet & Violet: 151',
       rarity: 'SAR',
       price: 8500,
@@ -48,6 +49,7 @@ const NB = {
     {
       id: 2,
       name: 'Umbreon VMAX (Moonbreon Alt Art)',
+      pokemon_type: 'Darkness',
       set_name: 'Sword & Shield: Evolving Skies',
       rarity: 'Secret Rare',
       price: 42000,
@@ -60,6 +62,7 @@ const NB = {
     {
       id: 3,
       name: 'Mew ex (Special Art Rare)',
+      pokemon_type: 'Psychic',
       set_name: 'Scarlet & Violet: 151',
       rarity: 'SAR',
       price: 6200,
@@ -72,6 +75,7 @@ const NB = {
     {
       id: 4,
       name: 'Giratina V (Alternate Art)',
+      pokemon_type: 'Dragon',
       set_name: 'Sword & Shield: Lost Origin',
       rarity: 'Ultra Rare',
       price: 18500,
@@ -84,6 +88,7 @@ const NB = {
     {
       id: 5,
       name: 'Gengar VMAX (Alternate Art)',
+      pokemon_type: 'Psychic, Darkness',
       set_name: 'Sword & Shield: Fusion Strike',
       rarity: 'Secret Rare',
       price: 16800,
@@ -96,6 +101,7 @@ const NB = {
     {
       id: 6,
       name: 'Rayquaza VMAX (Alternate Art)',
+      pokemon_type: 'Dragon',
       set_name: 'Sword & Shield: Evolving Skies',
       rarity: 'Secret Rare',
       price: 24500,
@@ -108,6 +114,7 @@ const NB = {
     {
       id: 7,
       name: 'Mewtwo VSTAR (Galarian Gallery)',
+      pokemon_type: 'Psychic',
       set_name: 'Crown Zenith',
       rarity: 'Art Rare',
       price: 3900,
@@ -120,6 +127,7 @@ const NB = {
     {
       id: 8,
       name: 'Charizard ex (Special Illustration Rare)',
+      pokemon_type: 'Darkness, Fire',
       set_name: 'Obsidian Flames',
       rarity: 'SAR',
       price: 4900,
@@ -132,6 +140,7 @@ const NB = {
     {
       id: 9,
       name: 'Iono (Special Art Rare)',
+      pokemon_type: 'Lightning, Colorless',
       set_name: 'Paldea Evolved',
       rarity: 'SAR',
       price: 4800,
@@ -144,6 +153,7 @@ const NB = {
     {
       id: 10,
       name: 'Magikarp (Illustration Rare)',
+      pokemon_type: 'Water',
       set_name: 'Paldea Evolved',
       rarity: 'Illustration Rare',
       price: 5400,
@@ -156,6 +166,7 @@ const NB = {
     {
       id: 11,
       name: 'Gardevoir ex (Special Art Rare)',
+      pokemon_type: 'Psychic',
       set_name: 'Scarlet & Violet Base',
       rarity: 'SAR',
       price: 2800,
@@ -168,6 +179,7 @@ const NB = {
     {
       id: 12,
       name: 'Pikachu VMAX (Rainbow Secret)',
+      pokemon_type: 'Lightning',
       set_name: 'Crown Zenith / Vivid Voltage',
       rarity: 'Secret Rare',
       price: 11500,
@@ -176,6 +188,58 @@ const NB = {
       is_sold: false,
       image_url: 'https://images.pokemontcg.io/swsh4/188_hires.png',
       description: 'Beloved Chunky Pikachu ("Chonkachu") in sparkling Rainbow Hyper Rare holographic foil. Encased in a crystal-clear PSA 10 slab.'
+    },
+    {
+      id: 13,
+      name: 'Venusaur ex (Special Art Rare)',
+      pokemon_type: 'Grass',
+      set_name: 'Scarlet & Violet: 151',
+      rarity: 'SAR',
+      price: 3600,
+      condition: 'PSA 10',
+      is_featured: false,
+      is_sold: false,
+      image_url: 'https://images.pokemontcg.io/sv3pt5/198_hires.png',
+      description: 'The verdant giant Venusaur blooming in a vibrant tropical glade. Flawless foil texture certified PSA 10.'
+    },
+    {
+      id: 14,
+      name: 'Lucario VSTAR (Galarian Gallery)',
+      pokemon_type: 'Fighting',
+      set_name: 'Crown Zenith',
+      rarity: 'Art Rare',
+      price: 2900,
+      condition: 'Mint',
+      is_featured: false,
+      is_sold: false,
+      image_url: 'https://images.pokemontcg.io/swsh12pt5gg/GG22_hires.png',
+      description: 'Dynamic aura sphere strike illustration with pristine centering and crisp edges.'
+    },
+    {
+      id: 15,
+      name: 'Origin Forme Dialga VSTAR (Gold Secret)',
+      pokemon_type: 'Metal',
+      set_name: 'Crown Zenith',
+      rarity: 'Secret Rare',
+      price: 6800,
+      condition: 'PSA 10',
+      is_featured: false,
+      is_sold: false,
+      image_url: 'https://images.pokemontcg.io/swsh12pt5gg/GG68_hires.png',
+      description: 'The golden master of time radiating immense celestial energy. Pristine PSA 10 slab.'
+    },
+    {
+      id: 16,
+      name: 'Snorlax (151 Illustration Rare)',
+      pokemon_type: 'Colorless',
+      set_name: 'Scarlet & Violet: 151',
+      rarity: 'Illustration Rare',
+      price: 2400,
+      condition: 'Mint',
+      is_featured: true,
+      is_sold: false,
+      image_url: 'https://images.pokemontcg.io/svp/51_hires.png',
+      description: 'The sleepy mascot of Nooblax Breaks sleeping peacefully surrounded by playful Pidgey and Diglett.'
     }
   ],
 
@@ -297,8 +361,12 @@ const NB = {
 
   messengerInquiryUrl(card, settings) {
     const base = settings?.fb_messenger_url || this.DEFAULT_SETTINGS.fb_messenger_url;
+    if (base.includes('facebook.com') || base.includes('profile.php')) {
+      return base;
+    }
     const msg = `Hi Nooblax! I am interested in inquiring about this Pokémon card: ${card.name} (${card.set_name || 'Single'}) - Price: ${this.price(card.price)}`;
-    return `${base}?text=${encodeURIComponent(msg)}`;
+    const joinChar = base.includes('?') ? '&' : '?';
+    return `${base}${joinChar}text=${encodeURIComponent(msg)}`;
   },
 
   rarityBadge(r) {
@@ -346,6 +414,40 @@ const NB = {
     })[r] || 'text-gray-300';
   },
 
+  matchesType(card, targetType) {
+    if (!targetType) return true;
+    const target = targetType.trim().toLowerCase();
+
+    // 1. Explicit pokemon_type field on card (supports array or comma/slash separated)
+    if (card && card.pokemon_type) {
+      const types = Array.isArray(card.pokemon_type)
+        ? card.pokemon_type.map(t => String(t).trim().toLowerCase())
+        : String(card.pokemon_type).toLowerCase().split(/[\s,\/]+/);
+      return types.some(t => t === target || t.includes(target));
+    }
+
+    // 2. Intelligent fallback from Pokémon name & description
+    const text = (((card?.name || '') + ' ' + (card?.description || ''))).toLowerCase();
+    const typeKeywords = {
+      fire: ['fire', 'flame', 'charizard', 'charmander', 'charmeleon', 'arcanine', 'moltres', 'cinderace', 'blaziken', 'flareon'],
+      water: ['water', 'aqua', 'magikarp', 'gyarados', 'blastoise', 'squirtle', 'wartortle', 'vaporeon', 'suicune', 'greninja', 'kyogre'],
+      grass: ['grass', 'leaf', 'venusaur', 'bulbasaur', 'ivysaur', 'celebi', 'leafeon', 'sceptile', 'meowscarada'],
+      lightning: ['lightning', 'electric', 'pikachu', 'raichu', 'zapdos', 'jolteon', 'miraidon', 'iono', 'luxray', 'ampharos'],
+      psychic: ['psychic', 'mewtwo', 'mew', 'gengar', 'gardevoir', 'alakazam', 'espeon', 'ralts', 'kirlia'],
+      fighting: ['fighting', 'fight', 'lucario', 'machamp', 'urshifu', 'koraidon', 'tyranitar'],
+      darkness: ['darkness', 'dark', 'umbreon', 'moonbreon', 'darkrai', 'roaring moon'],
+      metal: ['metal', 'steel', 'dialga', 'scizor', 'corviknight'],
+      dragon: ['dragon', 'giratina', 'rayquaza', 'dragonite', 'garchomp'],
+      colorless: ['colorless', 'normal', 'snorlax', 'eevee', 'lugia', 'arceus', 'pidgeot']
+    };
+
+    if (typeKeywords[target] && typeKeywords[target].some(k => text.includes(k))) {
+      return true;
+    }
+
+    return false;
+  },
+
   RARITIES: ['Common','Uncommon','Rare Holo','Ultra Rare','SAR','Art Rare','Secret Rare','PSA 10','Illustration Rare'],
   CONDITIONS: ['Mint','NM','LP','MP','HP','PSA 10','PSA 9','PSA 8','BGS 10','BGS 9.5'],
 
@@ -356,10 +458,10 @@ const NB = {
     const inquireUrl = this.messengerInquiryUrl(c, settings);
 
     return `
-    <div class="group relative bg-white/[0.04] backdrop-blur-xl rounded-3xl border border-white/[0.08] hover:border-[#0E839E]/50 transition-all duration-500 overflow-hidden hover:shadow-[0_12px_44px_rgba(14,131,158,0.25)] hover:-translate-y-1.5 flex flex-col justify-between card-holo p-3 sm:p-3.5">
+    <div class="group relative bg-white/[0.04] backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/[0.08] hover:border-[#0E839E]/50 transition-all duration-500 overflow-hidden hover:shadow-[0_12px_44px_rgba(14,131,158,0.25)] hover:-translate-y-1.5 flex flex-col justify-between card-holo p-2.5 sm:p-3.5">
       <div>
         <!-- Curvy Card Artwork Frame (Curvy on ALL 4 corners!) -->
-        <a href="/card.html?id=${c.id}" class="block aspect-[3/4] bg-[#060a14] skeleton card-curvy-frame overflow-hidden relative rounded-2xl border border-white/[0.08] shadow-inner mb-3">
+        <a href="/card.html?id=${c.id}" class="block aspect-[3/4] bg-[#060a14] skeleton card-curvy-frame overflow-hidden relative rounded-2xl border border-white/[0.08] shadow-inner mb-2.5 sm:mb-3">
           <img src="${img}" alt="${this.esc(c.name)}" 
                onload="this.parentElement.classList.remove('skeleton')"
                onerror="this.onerror=null;this.src='/assets/placeholder.svg';this.parentElement.classList.remove('skeleton');" 
@@ -374,8 +476,14 @@ const NB = {
             ${this.rarityBadge(c.rarity)}
           </div>
 
-          <!-- Sold Overlay -->
-          ${c.is_sold ? '<div class="absolute inset-0 bg-[#0B1120]/80 backdrop-blur-sm flex items-center justify-center z-20 rounded-2xl"><span class="font-pixel text-[#E63946] text-xs border-2 border-[#E63946]/60 bg-[#E63946]/10 px-4 py-2 rounded-2xl rotate-[-12deg] shadow-[0_0_24px_rgba(230,57,70,0.4)]">SOLD OUT</span></div>' : ''}
+          <!-- Sold Overlay (Modern cyber-glass badge) -->
+          ${c.is_sold ? `
+          <div class="absolute inset-0 bg-[#060a14]/80 backdrop-blur-[2px] flex items-center justify-center z-20 rounded-2xl p-2 pointer-events-none">
+            <div class="bg-[#0B1120]/90 border border-[#E63946]/50 backdrop-blur-md px-3.5 py-1.5 rounded-xl shadow-[0_0_24px_rgba(230,57,70,0.35)] flex items-center space-x-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#E63946] shadow-[0_0_6px_#E63946] animate-pulse flex-shrink-0"></span>
+              <span class="font-pixel text-[8px] sm:text-[8.5px] text-[#E63946] tracking-wider whitespace-nowrap">SOLD OUT</span>
+            </div>
+          </div>` : ''}
           
           <!-- Set Name Badge -->
           <div class="absolute bottom-2.5 left-3 right-3 flex items-center justify-between z-10">
@@ -386,11 +494,14 @@ const NB = {
         <!-- Card Meta Info -->
         <div class="px-1 pb-1">
           <a href="/card.html?id=${c.id}" class="block">
-            <h3 class="font-body font-bold text-white text-sm hover:text-[#1FB5D6] transition-colors line-clamp-1 mb-1.5">${this.esc(c.name)}</h3>
+            <h3 class="font-body font-bold text-white text-xs sm:text-sm hover:text-[#1FB5D6] transition-colors line-clamp-1 mb-1.5">${this.esc(c.name)}</h3>
           </a>
-          <div class="flex items-baseline justify-between mt-2">
-            <span class="font-pixel text-xs text-[#1FB5D6] drop-shadow-[0_0_10px_rgba(31,181,214,0.5)]">${this.price(c.price)}</span>
-            <span class="font-body text-[10px] text-gray-400 bg-white/[0.04] px-2.5 py-0.5 rounded-full border border-white/[0.06]">Available</span>
+          <div class="flex items-center justify-between mt-2 gap-1.5 flex-wrap">
+            <span class="font-pixel text-[10.5px] sm:text-xs text-[#1FB5D6] drop-shadow-[0_0_10px_rgba(31,181,214,0.5)] whitespace-nowrap">${this.price(c.price)}</span>
+            ${c.is_sold 
+              ? '<span class="inline-flex items-center gap-1 text-[8.5px] sm:text-[9.5px] font-body text-[#E63946] font-medium whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-[#E63946] shadow-[0_0_6px_#E63946] flex-shrink-0"></span>Sold Out</span>'
+              : '<span class="inline-flex items-center gap-1 text-[8.5px] sm:text-[9.5px] font-body text-emerald-400 font-medium whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399] flex-shrink-0"></span>Available</span>'
+            }
           </div>
         </div>
       </div>
@@ -401,10 +512,10 @@ const NB = {
           DETAILS
         </a>
         ${c.is_sold 
-          ? `<span class="text-center bg-white/[0.03] text-gray-500 font-pixel text-[7px] py-2.5 rounded-xl cursor-not-allowed">SOLD</span>`
+          ? `<span class="text-center bg-white/[0.02] text-gray-500 font-pixel text-[7px] py-2.5 rounded-xl cursor-not-allowed border border-white/[0.05] flex items-center justify-center">SOLD OUT</span>`
           : `<a href="${inquireUrl}" target="_blank" class="text-center bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[7px] py-2.5 rounded-xl hover:shadow-[0_4px_18px_rgba(14,131,158,0.45)] hover:brightness-110 transition-all flex items-center justify-center space-x-1">
               <span>INQUIRE</span>
-              <svg class="w-3 h-3 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+              <svg class="hidden sm:inline-block w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
             </a>`
         }
       </div>
@@ -474,7 +585,7 @@ const NB = {
         <p class="font-pixel text-[7px] text-gray-500">Valid: ${v.valid_from ? new Date(v.valid_from).toLocaleDateString() : 'Now'} \u2014 ${v.valid_until ? new Date(v.valid_until).toLocaleDateString() : 'Ongoing'}</p>
       </div>
       <div class="pl-6 pr-6 pb-6 pt-2 border-t border-white/[0.04]">
-        <a href="${messengerUrl||'https://m.me/nooblaxbreaks'}?text=${encodeURIComponent('Hi! I want to claim voucher code: ' + v.code)}" target="_blank" class="w-full block text-center bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[7px] py-2.5 rounded-xl hover:shadow-[0_4px_20px_rgba(14,131,158,0.4)] transition-all duration-300">
+        <a href="${messengerUrl||'https://www.facebook.com/profile.php?id=61593883622380'}" target="_blank" class="w-full block text-center bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[7px] py-2.5 rounded-xl hover:shadow-[0_4px_20px_rgba(14,131,158,0.4)] transition-all duration-300">
           <span class="inline-flex items-center justify-center space-x-1.5"><span>CLAIM VOUCHER</span><span>${this.icons.arrowRight}</span></span>
         </a>
       </div>
@@ -600,12 +711,13 @@ const NB = {
           <div>
             <h4 class="font-pixel text-[8px] text-gray-300 uppercase mb-4 tracking-wider">Navigation</h4>
             <div class="flex flex-col space-y-2.5">
-              <a href="/" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors">Home Showcase</a>
-              <a href="/cards.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors">Browse All Cards</a>
-              <a href="/vouchers.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors">Active Vouchers</a>
-              <a href="${url}" target="_blank" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors">Contact Owner</a>
+              <a href="/" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Home</a>
+              <a href="/cards.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Cards</a>
+              <a href="/vouchers.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Vouchers</a>
+              <a href="${url}" target="_blank" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Contact</a>
             </div>
           </div>
+
 
           <!-- Column 3: Direct Inquiry CTA -->
           <div>
