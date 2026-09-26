@@ -29,7 +29,7 @@ const NB = {
     site_name: 'Nooblax Breaks',
     fb_messenger_url: 'https://m.me/nooblaxbreaks',
     hero_tagline: 'RARE GRAILS. GRADED SLABS. NEXT-LEVEL PULLS.',
-    hero_subtitle: 'The collector\'s vault for premium Pokémon TCG singles, Special Art Rares (SAR), and PSA 10 slabs. Message us directly for live deals & fast shipping.',
+    hero_subtitle: 'The premier collector\'s showcase for authenticated Pokémon TCG singles, Special Art Rares (SAR), and PSA 10 slabs. Message us directly for live availability & fast nationwide delivery.',
   },
 
   DEFAULT_CARDS: [
