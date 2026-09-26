@@ -505,10 +505,10 @@ const NB = {
       <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
         <div class="flex justify-between items-center h-24 sm:h-28">
           
-          <!-- Official Brand Logo -->
-          <a href="/" class="flex items-center space-x-3 group py-1 brand-logo">
-            <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-12 sm:h-16 md:h-18 w-auto object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-[0_0_14px_rgba(31,181,214,0.45)] flex-shrink-0">
-            <span class="font-pixel brand-logo-text text-[#1FB5D6] text-[10px] sm:text-xs md:text-sm lg:text-base tracking-wider" style="color: #1FB5D6 !important; -webkit-text-fill-color: #1FB5D6 !important; text-shadow: 0 0 14px rgba(31,181,214,0.6);">${name}</span>
+          <!-- Official Brand Logo (Hero Graphic with full logotype included) -->
+          <a href="/" class="flex items-center group py-1 brand-logo" title="${name}">
+            <img src="/assets/LOGO_NB.png" alt="${name}" class="h-16 sm:h-20 md:h-22 w-auto object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-[0_0_16px_rgba(31,181,214,0.45)] flex-shrink-0">
+            <span class="sr-only">${name}</span>
           </a>
 
           <!-- Desktop Navigation with generous breathing room & spacious gaps -->
@@ -516,9 +516,9 @@ const NB = {
             ${nav.map(link).join('')}
           </nav>
 
-          <!-- Direct Messenger CTA Button -->
+          <!-- Direct Messenger CTA Button (Styled with Snorlax Cyan & Arcade Gold hover) -->
           <div class="flex items-center space-x-5">
-            <a href="${messengerUrl}" target="_blank" class="hidden sm:inline-flex items-center space-x-3 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[8.5px] lg:text-[9px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl shadow-[0_4px_20px_rgba(14,131,158,0.4)] hover:shadow-[0_6px_28px_rgba(14,131,158,0.7)] hover:-translate-y-0.5 transition-all">
+            <a href="${messengerUrl}" target="_blank" class="hidden sm:inline-flex items-center space-x-3 bg-gradient-to-r from-[#0E839E] via-[#149CBF] to-[#1FB5D6] border border-[#1FB5D6]/40 hover:border-[#F6D06F]/80 text-white font-pixel text-[8.5px] lg:text-[9px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl shadow-[0_4px_20px_rgba(14,131,158,0.4)] hover:shadow-[0_6px_28px_rgba(246,208,111,0.35)] hover:-translate-y-0.5 transition-all">
               <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
               <span>INQUIRE NOW</span>
             </a>
@@ -536,8 +536,8 @@ const NB = {
         <div class="py-2 px-2">
           ${nav.map(mlink).join('')}
           <div class="pt-2 pb-1 border-t border-white/[0.06] mt-2">
-            <a href="${messengerUrl}" target="_blank" class="block w-full text-center bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[8px] py-3 rounded-xl">
-              MESSAGE US DIRECTLY
+            <a href="${messengerUrl}" target="_blank" class="block w-full text-center bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] border border-[#1FB5D6]/40 text-white font-pixel text-[8px] py-3 rounded-xl shadow-[0_4px_16px_rgba(14,131,158,0.4)]">
+              MESSAGE DIRECTLY
             </a>
           </div>
         </div>
@@ -564,9 +564,9 @@ const NB = {
           
           <!-- Column 1: Brand Info -->
           <div class="md:col-span-2">
-            <div class="flex items-center space-x-3 mb-4 brand-logo">
-              <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-10 sm:h-12 w-auto object-contain flex-shrink-0 drop-shadow-[0_0_10px_rgba(31,181,214,0.4)]">
-              <span class="font-pixel brand-logo-text text-[#1FB5D6] text-[10px] sm:text-xs tracking-wider" style="color: #1FB5D6 !important; -webkit-text-fill-color: #1FB5D6 !important; text-shadow: 0 0 10px rgba(31,181,214,0.5);">${name}</span>
+            <div class="flex items-center mb-4 brand-logo">
+              <img src="/assets/LOGO_NB.png" alt="${name}" class="h-14 sm:h-16 w-auto object-contain flex-shrink-0 drop-shadow-[0_0_12px_rgba(31,181,214,0.4)]">
+              <span class="sr-only">${name}</span>
             </div>
             <p class="font-body text-sm text-gray-400 max-w-md leading-relaxed mb-4">
               Your premier Pokémon TCG showcase in the Philippines. Featuring authenticated raw chase singles, Special Art Rares (SAR), and PSA 10 slabs. Transactions and inquiries handled directly through direct messages.
