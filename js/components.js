@@ -505,14 +505,10 @@ const NB = {
       <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
         <div class="flex justify-between items-center h-24 sm:h-28">
           
-          <!-- Logo with Glowing Pokeball element -->
-          <a href="/" class="flex items-center space-x-3.5 group py-2 brand-logo">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#0E839E] to-[#1FB5D6] p-0.5 shadow-[0_0_14px_rgba(31,181,214,0.5)] group-hover:scale-105 transition-transform flex items-center justify-center flex-shrink-0">
-              <div class="w-full h-full rounded-full bg-[#0B1120] flex items-center justify-center">
-                <div class="w-3 h-3 rounded-full bg-[#1FB5D6] animate-pulse"></div>
-              </div>
-            </div>
-            <span class="font-pixel brand-logo-text text-[#1FB5D6] text-xs sm:text-sm md:text-base tracking-wider" style="color: #1FB5D6 !important; -webkit-text-fill-color: #1FB5D6 !important; text-shadow: 0 0 14px rgba(31,181,214,0.6);">${name}</span>
+          <!-- Official Brand Logo -->
+          <a href="/" class="flex items-center space-x-3 group py-1 brand-logo">
+            <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-12 sm:h-16 md:h-18 w-auto object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-[0_0_14px_rgba(31,181,214,0.45)] flex-shrink-0">
+            <span class="font-pixel brand-logo-text text-[#1FB5D6] text-[10px] sm:text-xs md:text-sm lg:text-base tracking-wider" style="color: #1FB5D6 !important; -webkit-text-fill-color: #1FB5D6 !important; text-shadow: 0 0 14px rgba(31,181,214,0.6);">${name}</span>
           </a>
 
           <!-- Desktop Navigation with generous breathing room & spacious gaps -->
@@ -568,13 +564,9 @@ const NB = {
           
           <!-- Column 1: Brand Info -->
           <div class="md:col-span-2">
-            <div class="flex items-center space-x-2.5 mb-3 brand-logo">
-              <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-[#0E839E] to-[#1FB5D6] p-0.5 flex-shrink-0">
-                <div class="w-full h-full rounded-full bg-[#0B1120] flex items-center justify-center">
-                  <div class="w-2 h-2 rounded-full bg-[#1FB5D6]"></div>
-                </div>
-              </div>
-              <span class="font-pixel brand-logo-text text-[#1FB5D6] text-[9px]" style="color: #1FB5D6 !important; -webkit-text-fill-color: #1FB5D6 !important; text-shadow: 0 0 10px rgba(31,181,214,0.5);">${name}</span>
+            <div class="flex items-center space-x-3 mb-4 brand-logo">
+              <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-10 sm:h-12 w-auto object-contain flex-shrink-0 drop-shadow-[0_0_10px_rgba(31,181,214,0.4)]">
+              <span class="font-pixel brand-logo-text text-[#1FB5D6] text-[10px] sm:text-xs tracking-wider" style="color: #1FB5D6 !important; -webkit-text-fill-color: #1FB5D6 !important; text-shadow: 0 0 10px rgba(31,181,214,0.5);">${name}</span>
             </div>
             <p class="font-body text-sm text-gray-400 max-w-md leading-relaxed mb-4">
               Your premier Pokémon TCG showcase in the Philippines. Featuring authenticated raw chase singles, Special Art Rares (SAR), and PSA 10 slabs. Transactions and inquiries handled directly through direct messages.
@@ -656,9 +648,12 @@ const NB = {
     };
     return `
     <aside class="fixed left-0 top-0 w-64 h-screen bg-[#060a14]/95 backdrop-blur-2xl border-r border-white/[0.06] z-40 flex-col hidden md:flex">
-      <div class="p-6 border-b border-white/[0.06]">
-        <span class="font-pixel text-[#1FB5D6] text-[9px] block drop-shadow-[0_0_10px_rgba(31,181,214,0.5)]">NOOBLAX</span>
-        <span class="font-pixel text-[7px] text-gray-600 mt-1 block">ADMIN PANEL</span>
+      <div class="p-5 border-b border-white/[0.06] flex items-center space-x-3">
+        <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-10 w-auto object-contain drop-shadow-[0_0_8px_rgba(31,181,214,0.4)] flex-shrink-0">
+        <div>
+          <span class="font-pixel text-[#1FB5D6] text-[9px] block drop-shadow-[0_0_10px_rgba(31,181,214,0.5)]">NOOBLAX</span>
+          <span class="font-pixel text-[7px] text-gray-500 mt-1 block tracking-wider">ADMIN PANEL</span>
+        </div>
       </div>
       <nav class="flex-1 py-4 space-y-1">${items.map(li).join('')}</nav>
       <div class="p-4 border-t border-white/[0.06] space-y-2">
@@ -677,7 +672,10 @@ const NB = {
   adminTopbar(activePage) {
     return `
     <div class="md:hidden bg-[#060a14]/95 backdrop-blur-2xl border-b border-white/[0.06] text-white px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-      <span class="font-pixel text-[#1FB5D6] text-[8px] drop-shadow-[0_0_8px_rgba(31,181,214,0.5)]">NOOBLAX ADMIN</span>
+      <div class="flex items-center space-x-2.5">
+        <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-7 w-auto object-contain">
+        <span class="font-pixel text-[#1FB5D6] text-[8px] drop-shadow-[0_0_8px_rgba(31,181,214,0.5)]">NOOBLAX ADMIN</span>
+      </div>
       <div class="flex items-center space-x-3">
         <a href="/" class="text-gray-500 hover:text-[#1FB5D6] transition-colors"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
         <button id="admin-mobile-menu-btn" class="text-gray-400 hover:text-white transition-colors">
