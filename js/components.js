@@ -319,6 +319,7 @@ const NB = {
       location: 'SM Seaside City, Cebu',
       date: 'December 2025',
       image: '/assets/events/event-1.jpg',
+      fallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Pyrkon_2022_Pokemon_Trading_Card_Game.jpg/1280px-Pyrkon_2022_Pokemon_Trading_Card_Game.jpg',
       description: 'Participated in the regional TCG tournament with over 100 collectors.'
     },
     {
@@ -327,6 +328,7 @@ const NB = {
       location: 'Ayala Center Cebu',
       date: 'March 2026',
       image: '/assets/events/event-2.jpg',
+      fallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/POKEMON_card_battle.jpg/1280px-POKEMON_card_battle.jpg',
       description: 'Official card trade meetup with live breaks and giveaways.'
     },
     {
@@ -335,6 +337,7 @@ const NB = {
       location: 'Robinsons Galleria Cebu',
       date: 'July 2026',
       image: '/assets/events/event-3.jpg',
+      fallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Entrance_of_the_2022_London_Pok%C3%A9mon_World_Championships_-_August_2022.jpg/1280px-Entrance_of_the_2022_London_Pok%C3%A9mon_World_Championships_-_August_2022.jpg',
       description: 'Community league tournament and collector showcase.'
     }
   ],
@@ -763,7 +766,7 @@ Is this still available for delivery? Thank you!`;
     <div class="group relative bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] overflow-hidden hover:border-[#0E839E]/40 hover:shadow-[0_8px_40px_rgba(14,131,158,0.15)] transition-all duration-500">
       <!-- Event Image -->
       <div class="aspect-[16/10] overflow-hidden relative bg-[#0B1120]">
-        <img src="${ev.image}" alt="${this.esc(ev.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy">
+        <img src="${ev.image}" ${ev.fallback ? `onerror="this.onerror=null;this.src='${ev.fallback}'"` : ''} alt="${this.esc(ev.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy">
         <div class="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent"></div>
         <!-- Date badge -->
         <div class="absolute top-3 left-3">
