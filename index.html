@@ -89,7 +89,7 @@
             <span class="absolute -bottom-1 left-1/2 right-1/2 h-0.5 bg-[#1FB5D6] rounded-full transition-all duration-300 group-hover:left-0 group-hover:right-0 opacity-0 group-hover:opacity-100 shadow-[0_0_6px_rgba(31,181,214,0.6)]"></span>
           </a>
           <a href="/vouchers.html" class="relative group py-3 px-2 font-pixel text-[8.5px] lg:text-[9.5px] uppercase tracking-widest transition-all duration-300 text-gray-400 hover:text-[#1FB5D6]">
-            <span>Vouchers</span>
+            <span>Vouches</span>
             <span class="absolute -bottom-1 left-1/2 right-1/2 h-0.5 bg-[#1FB5D6] rounded-full transition-all duration-300 group-hover:left-0 group-hover:right-0 opacity-0 group-hover:opacity-100 shadow-[0_0_6px_rgba(31,181,214,0.6)]"></span>
           </a>
         </nav>
@@ -114,7 +114,7 @@
       <div class="py-2 px-2">
         <a href="/" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors text-[#1FB5D6] bg-[#1FB5D6]/10 font-bold">Home</a>
         <a href="/cards.html" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors text-gray-400 hover:text-[#1FB5D6] hover:bg-white/[0.03]">Card Showcase</a>
-        <a href="/vouchers.html" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors text-gray-400 hover:text-[#1FB5D6] hover:bg-white/[0.03]">Vouchers</a>
+        <a href="/vouchers.html" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors text-gray-400 hover:text-[#1FB5D6] hover:bg-white/[0.03]">Vouches</a>
         <div class="pt-2 pb-1 border-t border-white/[0.06] mt-2">
           <a href="https://www.facebook.com/profile.php?id=61593883622380" target="_blank" class="block w-full text-center bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[8px] py-3 rounded-xl shadow-[0_4px_16px_rgba(14,131,158,0.3)]">
             MESSAGE DIRECTLY
@@ -183,187 +183,101 @@
 
         </div>
 
-        <!-- Right: 3 Big Cards 3D Interactive Showcase (6 cols) -->
+        <!-- Right: TCG Event Photos & Community Proof Showcase (6 cols) -->
         <div class="lg:col-span-6 flex flex-col items-center justify-center relative w-full pt-4">
           
-          <!-- Outer Ambient Glow Ring (changes color dynamically) -->
-          <div id="hero-slab-glow" class="absolute w-96 h-[440px] bg-[#0E839E]/25 rounded-3xl blur-3xl -z-10 transition-all duration-700 pointer-events-none"></div>
+          <!-- Outer Ambient Glow Ring -->
+          <div id="hero-event-glow" class="absolute w-96 h-[440px] bg-[#0E839E]/25 rounded-3xl blur-3xl -z-10 transition-all duration-700 pointer-events-none"></div>
 
-          <!-- 3D Overlapping Stage Container (Floating together in 3D space!) -->
-          <div id="hero-3d-stage" class="float-slab relative w-full max-w-[500px] sm:max-w-[550px] h-[450px] sm:h-[480px] flex items-center justify-center hero-slabs-stage select-none">
+          <!-- Glass Frame Container for Events -->
+          <div class="relative w-full max-w-[520px] bg-white/[0.04] backdrop-blur-2xl border border-white/10 rounded-3xl p-3 sm:p-4 shadow-[0_16px_48px_rgba(0,0,0,0.6)]">
             
-            <!-- Big Slab 0: Charizard ex -->
-            <div id="hero-big-slab-0" 
-                 data-index="0"
-                 class="hero-big-slab hero-slab-pos-center w-[250px] sm:w-[280px] bg-white/[0.06] backdrop-blur-2xl border-4 border-white/20 rounded-3xl p-3 sm:p-3.5 slab-border group cursor-pointer"
-                 title="Charizard ex SAR - Click to view">
-              <a href="/card.html?id=1" class="block">
-                <!-- PSA Label -->
-                <div class="bg-gradient-to-b from-[#FAF8F5] to-[#EAE6DF] border-2 border-[#E63946] rounded-xl p-2 sm:p-2.5 mb-2.5 sm:mb-3 shadow-inner text-[#1A1E24]">
-                  <div class="flex items-center justify-between border-b border-[#E63946]/30 pb-1 mb-1">
-                    <span class="font-pixel text-[8px] text-[#E63946] tracking-tighter">PSA</span>
-                    <span class="font-pixel text-[8.5px] sm:text-[9px] font-bold text-[#E63946]">GEM MT 10</span>
-                  </div>
-                  <div class="font-sans text-[7.5px] sm:text-[8px] font-extrabold uppercase tracking-tight text-gray-900 leading-tight truncate">
-                    2023 POKÉMON 151 SPECIAL ART RARE
-                  </div>
-                  <div class="flex justify-between items-center text-[6.5px] sm:text-[7px] font-bold text-gray-600 mt-0.5 font-sans">
-                    <span>#199 CHARIZARD ex</span>
-                    <span>CERT #84920194</span>
+            <!-- Top Bar: Clean minimal live verification badge (One line on mobile) -->
+            <div class="flex items-center justify-between mb-2.5 sm:mb-3 px-1">
+              <div class="inline-flex items-center space-x-1.5 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-1 rounded-full flex-shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="font-pixel text-[6.5px] sm:text-[7.5px] text-emerald-400 tracking-normal sm:tracking-wider whitespace-nowrap">LIVE EVENT PROOF</span>
+              </div>
+              <span class="text-[10px] sm:text-xs text-gray-400 font-sans whitespace-nowrap ml-2">Nooblax Community</span>
+            </div>
+
+            <!-- Main Event Photo Showcase -->
+            <div class="relative aspect-[16/10] sm:aspect-[16/10.5] rounded-2xl overflow-hidden bg-[#0B1120] border border-white/10 group shadow-2xl">
+              <!-- Slides Container -->
+              <div id="hero-event-slides" class="relative w-full h-full">
+                <!-- Slide 0 -->
+                <div class="hero-event-slide absolute inset-0 transition-opacity duration-700 opacity-100 z-10" data-index="0">
+                  <img src="/assets/events/event-1.jpg" alt="TCG Tournament" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-[#0B1120]/95 via-[#0B1120]/30 to-transparent"></div>
+                  <!-- Minimal Content Overlay -->
+                  <div class="absolute inset-x-0 bottom-0 p-3 sm:p-4">
+                    <h3 class="font-pixel text-[10px] sm:text-xs text-white drop-shadow-md">Cebu TCG Tournament</h3>
+                    <p class="font-body text-xs text-[#1FB5D6] flex items-center space-x-1 mt-0.5">
+                      <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                      <span>SM Seaside City, Cebu</span>
+                    </p>
                   </div>
                 </div>
 
-                <!-- Card Art -->
-                <div class="aspect-[3/4] rounded-xl overflow-hidden relative shadow-lg card-holo bg-[#0B1120]">
-                  <img src="https://images.pokemontcg.io/sv3pt5/199_hires.png" 
-                       alt="Charizard ex SAR" 
-                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                  <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.12] to-transparent pointer-events-none"></div>
-                  <!-- Hover Pill -->
-                  <div class="absolute inset-x-0 bottom-2.5 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <span class="slab-pill-action bg-[#0B1120]/85 backdrop-blur-md border border-white/20 text-[#1FB5D6] font-pixel text-[7px] px-3 py-1 rounded-full shadow-lg">
-                      VIEW GRAIL →
-                    </span>
+                <!-- Slide 1 -->
+                <div class="hero-event-slide absolute inset-0 transition-opacity duration-700 opacity-0 z-0" data-index="1">
+                  <img src="/assets/events/event-2.jpg" alt="Pokemon Card Meetup & Trade" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-[#0B1120]/95 via-[#0B1120]/30 to-transparent"></div>
+                  <!-- Minimal Content Overlay -->
+                  <div class="absolute inset-x-0 bottom-0 p-3 sm:p-4">
+                    <h3 class="font-pixel text-[10px] sm:text-xs text-white drop-shadow-md">Pokemon Card Meetup & Trade</h3>
+                    <p class="font-body text-xs text-[#1FB5D6] flex items-center space-x-1 mt-0.5">
+                      <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                      <span>Ayala Center Cebu</span>
+                    </p>
                   </div>
                 </div>
 
-                <!-- Bottom Tag -->
-                <div class="mt-2.5 sm:mt-3 flex items-center justify-between px-1">
-                  <span class="inline-flex items-center space-x-1 font-pixel text-[7.5px] sm:text-[8px] text-[#F6D06F] drop-shadow-md">
-                    <svg class="w-3 h-3 text-[#F6D06F] fill-current" viewBox="0 0 24 24"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
-                    <span>CHASE GRAIL</span>
-                  </span>
-                  <span class="font-pixel text-xs text-[#1FB5D6] drop-shadow-[0_0_8px_rgba(31,181,214,0.5)]">₱8,500</span>
+                <!-- Slide 2 -->
+                <div class="hero-event-slide absolute inset-0 transition-opacity duration-700 opacity-0 z-0" data-index="2">
+                  <img src="/assets/events/event-3.jpg" alt="Card Expo & Trade Booth" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-[#0B1120]/95 via-[#0B1120]/30 to-transparent"></div>
+                  <!-- Minimal Content Overlay -->
+                  <div class="absolute inset-x-0 bottom-0 p-3 sm:p-4">
+                    <h3 class="font-pixel text-[10px] sm:text-xs text-white drop-shadow-md">Card Expo & Trade Booth</h3>
+                    <p class="font-body text-xs text-[#1FB5D6] flex items-center space-x-1 mt-0.5">
+                      <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                      <span>Robinsons Galleria Cebu</span>
+                    </p>
+                  </div>
                 </div>
+              </div>
+
+              <!-- Prev / Next Controls -->
+              <button id="hero-event-prev" class="absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#0B1120]/80 hover:bg-[#0B1120] border border-white/20 text-white flex items-center justify-center transition-all z-20 cursor-pointer shadow-lg hover:scale-105 active:scale-95" aria-label="Previous Event">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <button id="hero-event-next" class="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#0B1120]/80 hover:bg-[#0B1120] border border-white/20 text-white flex items-center justify-center transition-all z-20 cursor-pointer shadow-lg hover:scale-105 active:scale-95" aria-label="Next Event">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+
+            <!-- Event Selector Pills Dock (NO TRIPLE DOTS, cleanly fits on mobile) -->
+            <div class="mt-3 grid grid-cols-3 gap-1.5 sm:gap-2" id="hero-event-dock">
+              <button type="button" data-event-idx="0" class="hero-event-pill py-2 px-1 sm:px-2 rounded-xl border text-center transition-all cursor-pointer bg-[#0E839E]/20 border-[#1FB5D6] text-white">
+                <span class="font-pixel text-[7px] sm:text-[7.5px] block whitespace-nowrap">Tourney</span>
+              </button>
+              <button type="button" data-event-idx="1" class="hero-event-pill py-2 px-1 sm:px-2 rounded-xl border text-center transition-all cursor-pointer bg-white/[0.02] border-white/10 text-gray-400 hover:text-white">
+                <span class="font-pixel text-[7px] sm:text-[7.5px] block whitespace-nowrap">Meetup</span>
+              </button>
+              <button type="button" data-event-idx="2" class="hero-event-pill py-2 px-1 sm:px-2 rounded-xl border text-center transition-all cursor-pointer bg-white/[0.02] border-white/10 text-gray-400 hover:text-white">
+                <span class="font-pixel text-[7px] sm:text-[7.5px] block whitespace-nowrap">Booth</span>
+              </button>
+            </div>
+
+            <!-- Sleek Footer Link -->
+            <div class="mt-3 pt-2.5 border-t border-white/[0.06] text-center">
+              <a href="/vouchers.html" class="text-[#1FB5D6] hover:underline font-pixel text-[7.5px] inline-flex items-center space-x-1">
+                <span>VIEW ALL VOUCHES & EVENT PROOF</span>
+                <span>→</span>
               </a>
             </div>
 
-            <!-- Big Slab 1: Giratina V -->
-            <div id="hero-big-slab-1" 
-                 data-index="1"
-                 class="hero-big-slab hero-slab-pos-right w-[250px] sm:w-[280px] bg-white/[0.06] backdrop-blur-2xl border-4 border-white/20 rounded-3xl p-3 sm:p-3.5 slab-border group cursor-pointer"
-                 title="Giratina V Alt Art - Click to view">
-              <a href="/card.html?id=4" class="block">
-                <!-- PSA Label -->
-                <div class="bg-gradient-to-b from-[#FAF8F5] to-[#EAE6DF] border-2 border-[#E63946] rounded-xl p-2 sm:p-2.5 mb-2.5 sm:mb-3 shadow-inner text-[#1A1E24]">
-                  <div class="flex items-center justify-between border-b border-[#E63946]/30 pb-1 mb-1">
-                    <span class="font-pixel text-[8px] text-[#E63946] tracking-tighter">PSA</span>
-                    <span class="font-pixel text-[8.5px] sm:text-[9px] font-bold text-[#E63946]">GEM MT 10</span>
-                  </div>
-                  <div class="font-sans text-[7.5px] sm:text-[8px] font-extrabold uppercase tracking-tight text-gray-900 leading-tight truncate">
-                    2022 POKÉMON LOST ORIGIN ALT ART
-                  </div>
-                  <div class="flex justify-between items-center text-[6.5px] sm:text-[7px] font-bold text-gray-600 mt-0.5 font-sans">
-                    <span>#186 GIRATINA V</span>
-                    <span>CERT #78291043</span>
-                  </div>
-                </div>
-
-                <!-- Card Art -->
-                <div class="aspect-[3/4] rounded-xl overflow-hidden relative shadow-lg card-holo bg-[#0B1120]">
-                  <img src="https://images.pokemontcg.io/swsh11/186_hires.png" 
-                       alt="Giratina V Alt Art" 
-                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                  <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.12] to-transparent pointer-events-none"></div>
-                  <!-- Hover Pill -->
-                  <div class="absolute inset-x-0 bottom-2.5 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <span class="slab-pill-action bg-[#0B1120]/85 backdrop-blur-md border border-white/20 text-[#1FB5D6] font-pixel text-[7px] px-3 py-1 rounded-full shadow-lg">
-                      CLICK TO SPOTLIGHT ✦
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Bottom Tag -->
-                <div class="mt-2.5 sm:mt-3 flex items-center justify-between px-1">
-                  <span class="inline-flex items-center space-x-1 font-pixel text-[7.5px] sm:text-[8px] text-[#1FB5D6] drop-shadow-md">
-                    <svg class="w-3 h-3 text-[#1FB5D6] stroke-current fill-none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3v6l-5 13"/><path d="M13 3v6l5 13"/><path d="M2 9h20"/></svg>
-                    <span>HOLY GRAIL</span>
-                  </span>
-                  <span class="font-pixel text-xs text-[#1FB5D6] drop-shadow-[0_0_8px_rgba(31,181,214,0.5)]">₱18,500</span>
-                </div>
-              </a>
-            </div>
-
-            <!-- Big Slab 2: Mew ex -->
-            <div id="hero-big-slab-2" 
-                 data-index="2"
-                 class="hero-big-slab hero-slab-pos-left w-[250px] sm:w-[280px] bg-white/[0.06] backdrop-blur-2xl border-4 border-white/20 rounded-3xl p-3 sm:p-3.5 slab-border group cursor-pointer"
-                 title="Mew ex SAR - Click to view">
-              <a href="/card.html?id=3" class="block">
-                <!-- PSA Label -->
-                <div class="bg-gradient-to-b from-[#FAF8F5] to-[#EAE6DF] border-2 border-[#E63946] rounded-xl p-2 sm:p-2.5 mb-2.5 sm:mb-3 shadow-inner text-[#1A1E24]">
-                  <div class="flex items-center justify-between border-b border-[#E63946]/30 pb-1 mb-1">
-                    <span class="font-pixel text-[8px] text-[#E63946] tracking-tighter">PSA</span>
-                    <span class="font-pixel text-[8.5px] sm:text-[9px] font-bold text-[#E63946]">GEM MT 10</span>
-                  </div>
-                  <div class="font-sans text-[7.5px] sm:text-[8px] font-extrabold uppercase tracking-tight text-gray-900 leading-tight truncate">
-                    2023 POKÉMON 151 SPECIAL ART RARE
-                  </div>
-                  <div class="flex justify-between items-center text-[6.5px] sm:text-[7px] font-bold text-gray-600 mt-0.5 font-sans">
-                    <span>#205 MEW ex</span>
-                    <span>CERT #91024812</span>
-                  </div>
-                </div>
-
-                <!-- Card Art -->
-                <div class="aspect-[3/4] rounded-xl overflow-hidden relative shadow-lg card-holo bg-[#0B1120]">
-                  <img src="https://images.pokemontcg.io/sv3pt5/205_hires.png" 
-                       alt="Mew ex SAR" 
-                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                  <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.12] to-transparent pointer-events-none"></div>
-                  <!-- Hover Pill -->
-                  <div class="absolute inset-x-0 bottom-2.5 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <span class="slab-pill-action bg-[#0B1120]/85 backdrop-blur-md border border-white/20 text-[#1FB5D6] font-pixel text-[7px] px-3 py-1 rounded-full shadow-lg">
-                      CLICK TO SPOTLIGHT ✦
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Bottom Tag -->
-                <div class="mt-2.5 sm:mt-3 flex items-center justify-between px-1">
-                  <span class="inline-flex items-center space-x-1 font-pixel text-[7.5px] sm:text-[8px] text-[#F472B6] drop-shadow-md">
-                    <svg class="w-3 h-3 text-[#F472B6] fill-current" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg>
-                    <span>SECRET RARE</span>
-                  </span>
-                  <span class="font-pixel text-xs text-[#1FB5D6] drop-shadow-[0_0_8px_rgba(31,181,214,0.5)]">₱6,200</span>
-                </div>
-              </a>
-            </div>
-
-          </div>
-
-          <!-- Interactive Selector Pill Dock Below 3 Big Slabs -->
-          <div id="hero-dock-container" class="mt-4 w-full max-w-[340px] sm:max-w-[380px] bg-[#060a14]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] z-40">
-            <div class="grid grid-cols-3 gap-1.5" id="hero-card-dock">
-              
-              <!-- Card 1 Pill: Charizard -->
-              <button type="button" 
-                      data-index="0" 
-                      class="hero-dock-btn relative py-2 px-1.5 rounded-xl border text-center transition-all duration-300 overflow-hidden hero-selector-active cursor-pointer"
-                      aria-label="Spotlight 1: Charizard ex">
-                <span class="font-pixel text-[7.5px] block text-white truncate">Charizard</span>
-                <span class="font-pixel text-[6.5px] text-[#1FB5D6] mt-0.5 block">₱8.5k</span>
-              </button>
-
-              <!-- Card 2 Pill: Giratina -->
-              <button type="button" 
-                      data-index="1" 
-                      class="hero-dock-btn relative py-2 px-1.5 rounded-xl border text-center transition-all duration-300 overflow-hidden hero-selector-inactive cursor-pointer"
-                      aria-label="Spotlight 2: Giratina V">
-                <span class="font-pixel text-[7.5px] block text-white truncate">Giratina V</span>
-                <span class="font-pixel text-[6.5px] text-[#1FB5D6] mt-0.5 block">₱18.5k</span>
-              </button>
-
-              <!-- Card 3 Pill: Mew ex -->
-              <button type="button" 
-                      data-index="2" 
-                      class="hero-dock-btn relative py-2 px-1.5 rounded-xl border text-center transition-all duration-300 overflow-hidden hero-selector-inactive cursor-pointer"
-                      aria-label="Spotlight 3: Mew ex">
-                <span class="font-pixel text-[7.5px] block text-white truncate">Mew ex</span>
-                <span class="font-pixel text-[6.5px] text-[#1FB5D6] mt-0.5 block">₱6.2k</span>
-              </button>
-
-            </div>
           </div>
 
         </div>
@@ -781,50 +695,58 @@
           <p class="font-body text-xs text-gray-400">Direct deal workflow straight to our team.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           
           <!-- Step 1 -->
-          <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6 text-center hover:border-[#0E839E]/40 transition-all">
-            <div class="w-10 h-10 rounded-xl bg-[#0E839E]/20 text-[#1FB5D6] font-pixel text-xs flex items-center justify-center mx-auto mb-4 border border-[#0E839E]/30">
-              01
+          <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-3.5 sm:p-5 md:p-6 text-center hover:border-[#0E839E]/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#0E839E]/20 text-[#1FB5D6] font-pixel text-[10px] sm:text-xs flex items-center justify-center mx-auto mb-2.5 sm:mb-4 border border-[#0E839E]/30">
+                01
+              </div>
+              <h3 class="font-pixel text-[7.5px] sm:text-[9px] text-white mb-1.5 sm:mb-2 leading-tight">BROWSE SHOWCASE</h3>
+              <p class="font-body text-[10.5px] sm:text-xs text-gray-400 leading-snug sm:leading-relaxed">
+                Explore our verified singles, SARs, and PSA 10 slabs.
+              </p>
             </div>
-            <h3 class="font-pixel text-[9px] text-white mb-2">BROWSE SHOWCASE</h3>
-            <p class="font-body text-xs text-gray-400 leading-relaxed">
-              Explore our verified singles, Special Art Rares, and graded PSA 10 slabs.
-            </p>
           </div>
 
           <!-- Step 2 -->
-          <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6 text-center hover:border-[#1FB5D6]/40 transition-all">
-            <div class="w-10 h-10 rounded-xl bg-[#1FB5D6]/20 text-[#1FB5D6] font-pixel text-xs flex items-center justify-center mx-auto mb-4 border border-[#1FB5D6]/30">
-              02
+          <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-3.5 sm:p-5 md:p-6 text-center hover:border-[#1FB5D6]/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#1FB5D6]/20 text-[#1FB5D6] font-pixel text-[10px] sm:text-xs flex items-center justify-center mx-auto mb-2.5 sm:mb-4 border border-[#1FB5D6]/30">
+                02
+              </div>
+              <h3 class="font-pixel text-[7.5px] sm:text-[9px] text-white mb-1.5 sm:mb-2 leading-tight">TAP "INQUIRE"</h3>
+              <p class="font-body text-[10.5px] sm:text-xs text-gray-400 leading-snug sm:leading-relaxed">
+                Direct message pre-filled with card details & price.
+              </p>
             </div>
-            <h3 class="font-pixel text-[9px] text-white mb-2">TAP "INQUIRE"</h3>
-            <p class="font-body text-xs text-gray-400 leading-relaxed">
-              Opens a direct message pre-filled with the exact card name, condition, and price tag.
-            </p>
           </div>
 
           <!-- Step 3 -->
-          <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6 text-center hover:border-[#F6D06F]/40 transition-all">
-            <div class="w-10 h-10 rounded-xl bg-[#F6D06F]/20 text-[#F6D06F] font-pixel text-xs flex items-center justify-center mx-auto mb-4 border border-[#F6D06F]/30">
-              03
+          <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-3.5 sm:p-5 md:p-6 text-center hover:border-[#F6D06F]/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#F6D06F]/20 text-[#F6D06F] font-pixel text-[10px] sm:text-xs flex items-center justify-center mx-auto mb-2.5 sm:mb-4 border border-[#F6D06F]/30">
+                03
+              </div>
+              <h3 class="font-pixel text-[7.5px] sm:text-[9px] text-white mb-1.5 sm:mb-2 leading-tight">INSPECT & LOCK</h3>
+              <p class="font-body text-[10.5px] sm:text-xs text-gray-400 leading-snug sm:leading-relaxed">
+                HD photo/video proof before payment via GCash or Bank.
+              </p>
             </div>
-            <h3 class="font-pixel text-[9px] text-white mb-2">INSPECT & LOCK DEAL</h3>
-            <p class="font-body text-xs text-gray-400 leading-relaxed">
-              We provide additional high-res photos or live videos before payment via GCash or Bank.
-            </p>
           </div>
 
           <!-- Step 4 -->
-          <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6 text-center hover:border-emerald-500/40 transition-all">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 font-pixel text-xs flex items-center justify-center mx-auto mb-4 border border-emerald-500/30">
-              04
+          <div class="bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-3.5 sm:p-5 md:p-6 text-center hover:border-emerald-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-emerald-500/20 text-emerald-400 font-pixel text-[10px] sm:text-xs flex items-center justify-center mx-auto mb-2.5 sm:mb-4 border border-emerald-500/30">
+                04
+              </div>
+              <h3 class="font-pixel text-[7.5px] sm:text-[9px] text-white mb-1.5 sm:mb-2 leading-tight">SECURE DISPATCH</h3>
+              <p class="font-body text-[10.5px] sm:text-xs text-gray-400 leading-snug sm:leading-relaxed">
+                Double-sleeved, toploader, bubble wrap & courier shipping.
+              </p>
             </div>
-            <h3 class="font-pixel text-[9px] text-white mb-2">SECURE DISPATCH</h3>
-            <p class="font-body text-xs text-gray-400 leading-relaxed">
-              Cards are double-sleeved, placed in toploaders, bubble wrapped, and dispatched via courier.
-            </p>
           </div>
 
         </div>
@@ -833,25 +755,25 @@
     </section>
 
 
-    <!-- ==================== VOUCHERS PREVIEW ==================== -->
+    <!-- ==================== COLLECTOR VOUCHES PREVIEW ==================== -->
     <section class="py-16 px-6 max-w-7xl mx-auto">
       
       <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
         <div>
           <span class="inline-flex items-center space-x-1.5 font-pixel text-[8px] text-[#F6D06F] tracking-wider uppercase">
             <svg class="w-3 h-3 text-[#F6D06F] fill-current" viewBox="0 0 24 24"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
-            <span>LIMITED TIME CODES</span>
+            <span>COMMUNITY FEEDBACK</span>
           </span>
-          <h2 class="font-pixel text-base sm:text-lg text-white mt-1">PROMOS & VOUCHERS</h2>
+          <h2 class="font-pixel text-base sm:text-lg text-white mt-1">COLLECTOR VOUCHES & REVIEWS</h2>
         </div>
         <a href="/vouchers.html" class="font-pixel text-[8px] text-[#1FB5D6] hover:underline inline-flex items-center space-x-1">
-          <span>VIEW ALL PROMOS</span>
+          <span>VIEW ALL PROOFS & VOUCHES</span>
           <svg class="w-3 h-3 stroke-current fill-none ml-1" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
       </div>
 
       <div id="vouchers-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Vouchers rendered dynamically -->
+        <!-- Testimonials rendered dynamically -->
       </div>
 
     </section>
@@ -988,119 +910,89 @@
         renderShowcase();
       });
 
-      // 3. Load Vouchers preview
-      const vouchers = await NB.getVouchers();
+      // 3. Load Vouches / Testimonials preview
+      const testimonials = await NB.getTestimonials();
       const vouchersGrid = document.getElementById('vouchers-grid');
-      if (vouchersGrid && vouchers && vouchers.length > 0) {
-        vouchersGrid.innerHTML = vouchers.slice(0, 3).map(v => NB.voucher(v, settings.fb_messenger_url)).join('');
+      if (vouchersGrid && testimonials && testimonials.length > 0) {
+        vouchersGrid.innerHTML = testimonials.slice(0, 3).map(t => NB.testimonialCard(t)).join('');
       }
 
-      // ==================== 4. 3 BIG CARDS HERO CONTROLLER ====================
-      const heroCards = [
-        {
-          id: 1,
-          name: 'Charizard ex',
-          glowClass: 'bg-[#0E839E]/30',
-        },
-        {
-          id: 4,
-          name: 'Giratina V',
-          glowClass: 'bg-[#1FB5D6]/30',
-        },
-        {
-          id: 3,
-          name: 'Mew ex',
-          glowClass: 'bg-[#F472B6]/25',
-        }
-      ];
+      // ==================== 4. HERO EVENT GALLERY CONTROLLER ====================
+      const eventSlides = document.querySelectorAll('.hero-event-slide');
+      const eventPills = document.querySelectorAll('.hero-event-pill');
+      const eventPrevBtn = document.getElementById('hero-event-prev');
+      const eventNextBtn = document.getElementById('hero-event-next');
+      let currentEventIdx = 0;
+      let eventTimer = null;
 
-      let heroActiveIndex = 0;
+      function showEventSlide(idx) {
+        if (!eventSlides.length) return;
+        currentEventIdx = (idx + eventSlides.length) % eventSlides.length;
 
-      const slabElements = [
-        document.getElementById('hero-big-slab-0'),
-        document.getElementById('hero-big-slab-1'),
-        document.getElementById('hero-big-slab-2')
-      ];
-      const glowEl = document.getElementById('hero-slab-glow');
-      const dockBtns = document.querySelectorAll('.hero-dock-btn');
-
-      function setHeroHighlight(index) {
-        if (index < 0 || index >= heroCards.length) return;
-        heroActiveIndex = index;
-
-        // Position assignments: center (index), right (index+1)%3, left (index+2)%3
-        const centerIdx = index;
-        const rightIdx = (index + 1) % 3;
-        const leftIdx = (index + 2) % 3;
-
-        // Update Slabs in 3D Space
-        slabElements.forEach((slab, i) => {
-          if (!slab) return;
-          slab.classList.remove('hero-slab-pos-center', 'hero-slab-pos-right', 'hero-slab-pos-left');
-          
-          const pill = slab.querySelector('.slab-pill-action');
-          if (i === centerIdx) {
-            slab.classList.add('hero-slab-pos-center');
-            slab.setAttribute('title', `${heroCards[i].name} - Click to view details`);
-            if (pill) pill.textContent = 'VIEW GRAIL →';
-          } else if (i === rightIdx) {
-            slab.classList.add('hero-slab-pos-right');
-            slab.setAttribute('title', `${heroCards[i].name} - Click to spotlight`);
-            if (pill) pill.textContent = 'CLICK TO SPOTLIGHT ✦';
-          } else if (i === leftIdx) {
-            slab.classList.add('hero-slab-pos-left');
-            slab.setAttribute('title', `${heroCards[i].name} - Click to spotlight`);
-            if (pill) pill.textContent = 'CLICK TO SPOTLIGHT ✦';
-          }
+        eventSlides.forEach((slide, i) => {
+          const isCurrent = (i === currentEventIdx);
+          slide.classList.toggle('opacity-100', isCurrent);
+          slide.classList.toggle('opacity-0', !isCurrent);
+          slide.classList.toggle('z-10', isCurrent);
+          slide.classList.toggle('z-0', !isCurrent);
         });
 
-        // Update Ambient Glow Hue
-        if (glowEl) {
-          glowEl.className = `absolute w-96 h-[440px] ${heroCards[index].glowClass} rounded-3xl blur-3xl -z-10 transition-all duration-700 pointer-events-none`;
-        }
-
-        // Update Dock Pills
-        dockBtns.forEach((btn, i) => {
-          const isCurrent = (i === index);
-          btn.classList.toggle('hero-selector-active', isCurrent);
-          btn.classList.toggle('hero-selector-inactive', !isCurrent);
+        eventPills.forEach((pill, i) => {
+          const isCurrent = (i === currentEventIdx);
+          if (isCurrent) {
+            pill.className = 'hero-event-pill py-2 px-1 sm:px-2 rounded-xl border text-center transition-all cursor-pointer bg-[#0E839E]/20 border-[#1FB5D6] text-white';
+          } else {
+            pill.className = 'hero-event-pill py-2 px-1 sm:px-2 rounded-xl border text-center transition-all cursor-pointer bg-white/[0.02] border-white/10 text-gray-400 hover:text-white';
+          }
         });
       }
 
-      // CLICK-ONLY interaction for 3D Slabs:
-      // Clicking side slab brings it to center; clicking center slab navigates to card details
-      slabElements.forEach((slab, idx) => {
-        if (!slab) return;
+      function startEventAutoPlay() {
+        stopEventAutoPlay();
+        eventTimer = setInterval(() => {
+          showEventSlide(currentEventIdx + 1);
+        }, 5000);
+      }
 
-        const anchor = slab.querySelector('a');
+      function stopEventAutoPlay() {
+        if (eventTimer) clearInterval(eventTimer);
+      }
 
-        const handleSlabClick = (e) => {
-          if (heroActiveIndex !== idx) {
-            e.preventDefault();
-            e.stopPropagation();
-            setHeroHighlight(idx);
-          }
-        };
-
-        slab.addEventListener('click', handleSlabClick);
-        if (anchor) {
-          anchor.addEventListener('click', handleSlabClick);
-        }
-      });
-
-      // CLICK-ONLY interaction for Dock Pills:
-      dockBtns.forEach((btn) => {
-        const idx = parseInt(btn.dataset.index, 10);
-        btn.addEventListener('click', (e) => {
+      if (eventPrevBtn) {
+        eventPrevBtn.addEventListener('click', (e) => {
           e.preventDefault();
-          if (heroActiveIndex !== idx) {
-            setHeroHighlight(idx);
-          }
+          showEventSlide(currentEventIdx - 1);
+          startEventAutoPlay();
+        });
+      }
+
+      if (eventNextBtn) {
+        eventNextBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          showEventSlide(currentEventIdx + 1);
+          startEventAutoPlay();
+        });
+      }
+
+      eventPills.forEach(pill => {
+        pill.addEventListener('click', (e) => {
+          e.preventDefault();
+          const idx = parseInt(pill.dataset.eventIdx, 10);
+          showEventSlide(idx);
+          startEventAutoPlay();
         });
       });
 
-      // Initial spotlight
-      setHeroHighlight(0);
+      // Pause on hover
+      const eventContainer = document.getElementById('hero-event-slides');
+      if (eventContainer) {
+        eventContainer.addEventListener('mouseenter', stopEventAutoPlay);
+        eventContainer.addEventListener('mouseleave', startEventAutoPlay);
+      }
+
+      // Initialize
+      showEventSlide(0);
+      startEventAutoPlay();
 
     })();
   </script>

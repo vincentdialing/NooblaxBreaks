@@ -243,38 +243,99 @@ const NB = {
     }
   ],
 
-  // ======================== DEFAULT VOUCHERS ========================
+  // ======================== DEFAULT VOUCHERS (legacy, kept for admin) ========================
 
   DEFAULT_VOUCHERS: [
+    { id: 1, code: 'NOOBLAX10', description: 'Enjoy 10% OFF on any single card purchase!', discount_type: 'percentage', discount_value: 10, valid_from: '2026-01-01', valid_until: '2026-12-31', is_active: true },
+    { id: 2, code: 'FIRSTBREAK', description: 'Flat P100 discount on your first order.', discount_type: 'fixed', discount_value: 100, valid_from: '2026-01-01', valid_until: '2026-12-31', is_active: true },
+    { id: 3, code: 'FREESHIP', description: 'Free shipping on orders P3,500+.', discount_type: 'fixed', discount_value: 200, valid_from: '2026-01-01', valid_until: '2026-12-31', is_active: true }
+  ],
+
+  // ======================== DEFAULT TESTIMONIALS ========================
+
+  DEFAULT_TESTIMONIALS: [
     {
       id: 1,
-      code: 'NOOBLAX10',
-      description: 'Enjoy 10% OFF on any single Pokémon card purchase during live showcase drops!',
-      discount_type: 'percentage',
-      discount_value: 10,
-      valid_from: '2026-01-01',
-      valid_until: '2026-12-31',
-      is_active: true
+      name: 'Mark D.',
+      location: 'Cebu City',
+      rating: 5,
+      text: 'Super legit seller! Inquired about the Charizard ex SAR and received a reply within minutes. The card arrived in pristine condition, securely packed with thick bubble wrap and a reinforced hard case. Will definitely buy again!',
+      date: '2026-08-15',
+      verified: true
     },
     {
       id: 2,
-      code: 'FIRSTBREAK',
-      description: 'Flat ₱100 discount voucher on your first card inquiry or box break order.',
-      discount_type: 'fixed',
-      discount_value: 100,
-      valid_from: '2026-01-01',
-      valid_until: '2026-12-31',
-      is_active: true
+      name: 'Jessa R.',
+      location: 'Manila',
+      rating: 5,
+      text: 'First time ordering high-value Pokemon cards online and the entire transaction was seamless. The seller was extremely responsive and sent an HD close-up video of the card before shipping. 100% trusted and recommended!',
+      date: '2026-07-22',
+      verified: true
     },
     {
       id: 3,
-      code: 'FREESHIP',
-      description: 'Free protected courier shipping on card orders of ₱3,500 and above nationwide.',
-      discount_type: 'fixed',
-      discount_value: 200,
-      valid_from: '2026-01-01',
-      valid_until: '2026-12-31',
-      is_active: true
+      name: 'Kyle M.',
+      location: 'Davao City',
+      rating: 5,
+      text: "I have placed 3 separate orders with Nooblax Breaks now. Every single card is authentic, mint, and packaged with extreme care. Fair prices, transparent service, and fast courier shipping. Best TCG seller in the Philippines!",
+      date: '2026-06-10',
+      verified: true
+    },
+    {
+      id: 4,
+      name: 'Raph T.',
+      location: 'Iloilo City',
+      rating: 5,
+      text: 'Ordered the PSA 10 Giratina V Alt Art. The slab is completely genuine and verified directly on the official PSA cert database. Fast shipping from Cebu to Iloilo in just 2 days. Thank you, Nooblax!',
+      date: '2026-05-18',
+      verified: true
+    },
+    {
+      id: 5,
+      name: 'Angelo C.',
+      location: 'Cagayan de Oro',
+      rating: 5,
+      text: 'Found their page on Facebook and sent a DM. Incredibly accommodating and friendly seller who provided timestamped photos and clear condition checks. True collector-to-collector experience!',
+      date: '2026-04-05',
+      verified: true
+    },
+    {
+      id: 6,
+      name: 'Tricia S.',
+      location: 'Quezon City',
+      rating: 5,
+      text: 'For anyone hesitant about ordering, go for it! My Mew ex SAR arrived in flawless mint condition with bulletproof protective packaging. Nooblax Breaks is definitely the real deal.',
+      date: '2026-03-20',
+      verified: true
+    }
+  ],
+
+  // ======================== DEFAULT EVENTS ========================
+
+  DEFAULT_EVENTS: [
+    {
+      id: 1,
+      title: 'Cebu TCG Tournament 2025',
+      location: 'SM Seaside City, Cebu',
+      date: 'December 2025',
+      image: '/assets/events/event-1.jpg',
+      description: 'Participated in the regional TCG tournament with over 100 collectors.'
+    },
+    {
+      id: 2,
+      title: 'Pokemon Card Meetup & Trade',
+      location: 'Ayala Center Cebu',
+      date: 'March 2026',
+      image: '/assets/events/event-2.jpg',
+      description: 'Official card trade meetup with live breaks and giveaways.'
+    },
+    {
+      id: 3,
+      title: 'Community League Finals',
+      location: 'Robinsons Galleria Cebu',
+      date: 'July 2026',
+      image: '/assets/events/event-3.jpg',
+      description: 'Community league tournament and collector showcase.'
     }
   ],
 
@@ -334,6 +395,22 @@ const NB = {
     return this.DEFAULT_VOUCHERS;
   },
 
+  async getTestimonials() {
+    try {
+      if (typeof supabaseClient !== 'undefined' && supabaseClient.from) {
+        const { data, error } = await supabaseClient.from('testimonials').select('*').order('date', { ascending: false });
+        if (!error && data && data.length > 0) return data;
+      }
+    } catch (e) {
+      console.warn('Testimonials fallback:', e);
+    }
+    return this.DEFAULT_TESTIMONIALS;
+  },
+
+  getEvents() {
+    return this.DEFAULT_EVENTS;
+  },
+
   async checkAuth() {
     try {
       const { data: { session } } = await supabaseClient.auth.getSession();
@@ -360,13 +437,51 @@ const NB = {
   },
 
   messengerInquiryUrl(card, settings) {
-    const base = settings?.fb_messenger_url || this.DEFAULT_SETTINGS.fb_messenger_url;
-    if (base.includes('facebook.com') || base.includes('profile.php')) {
-      return base;
+    const rawUrl = settings?.fb_messenger_url || this.DEFAULT_SETTINGS.fb_messenger_url || '';
+    
+    // Extract Page ID / Page username
+    let pageTarget = '61593883622380';
+    const matchId = String(rawUrl).match(/id=(\d+)/);
+    if (matchId && matchId[1]) {
+      pageTarget = matchId[1];
+    } else if (rawUrl.includes('m.me/')) {
+      pageTarget = rawUrl.split('m.me/')[1].split(/[/?#]/)[0] || '61593883622380';
+    } else if (rawUrl.includes('facebook.com/')) {
+      const slug = rawUrl.split('facebook.com/')[1].split(/[/?#]/)[0];
+      if (slug && slug !== 'profile.php') pageTarget = slug;
     }
-    const msg = `Hi Nooblax! I am interested in inquiring about this Pokémon card: ${card.name} (${card.set_name || 'Single'}) - Price: ${this.price(card.price)}`;
-    const joinChar = base.includes('?') ? '&' : '?';
-    return `${base}${joinChar}text=${encodeURIComponent(msg)}`;
+
+    if (!card) {
+      return `https://m.me/${pageTarget}`;
+    }
+
+    const cond = card.condition || 'RAW NM';
+    const setName = card.set_name || 'Single';
+    const priceFormatted = this.price(card.price);
+
+    const msg = `Hi Nooblax Breaks! I would like to inquire about this Pokémon card:
+
+Card: ${card.name}
+Set: ${setName}
+Condition: ${cond}
+Price: ${priceFormatted}
+
+Is this still available for delivery? Thank you!`;
+
+    return `https://m.me/${pageTarget}?text=${encodeURIComponent(msg)}`;
+  },
+
+  getInquiryText(card) {
+    if (!card) return 'Hi Nooblax Breaks! I would like to inquire about Pokémon cards in your showcase.';
+    const cond = card.condition || 'RAW NM';
+    const setName = card.set_name || 'Single';
+    const priceFormatted = this.price(card.price);
+    return `Hi Nooblax Breaks! I would like to inquire about this Pokémon card:\n\nCard: ${card.name}\nSet: ${setName}\nCondition: ${cond}\nPrice: ${priceFormatted}\n\nIs this still available for delivery? Thank you!`;
+  },
+
+  copyToClipboard(text) {
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(text).catch(() => {});
   },
 
   rarityBadge(r) {
@@ -601,6 +716,73 @@ const NB = {
     </div>`;
   },
 
+  // ======================== TESTIMONIAL CARD COMPONENT ========================
+
+  testimonialCard(t) {
+    const stars = Array.from({length: 5}, (_, i) =>
+      `<svg class="w-3.5 h-3.5 ${i < t.rating ? 'text-[#F6D06F]' : 'text-gray-600'}" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg>`
+    ).join('');
+    const dateStr = t.date ? new Date(t.date).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+    const initials = t.name.split(' ').map(w => w[0]).join('').toUpperCase();
+    return `
+    <div class="relative bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6 hover:border-[#0E839E]/40 hover:shadow-[0_8px_40px_rgba(14,131,158,0.15)] transition-all duration-500 flex flex-col">
+      <!-- Quote icon -->
+      <div class="absolute top-4 right-5 text-[#1FB5D6]/10">
+        <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983z"/></svg>
+      </div>
+
+      <!-- Stars -->
+      <div class="flex items-center space-x-0.5 mb-3">${stars}</div>
+
+      <!-- Review text -->
+      <p class="font-body text-sm text-gray-300 leading-relaxed mb-5 flex-1">"${this.esc(t.text)}"</p>
+
+      <!-- Author -->
+      <div class="flex items-center space-x-3 pt-4 border-t border-white/[0.06]">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#0E839E] to-[#1FB5D6] flex items-center justify-center flex-shrink-0">
+          <span class="font-pixel text-[8px] text-white">${initials}</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center space-x-2">
+            <span class="font-body text-sm font-semibold text-white">${this.esc(t.name)}</span>
+            ${t.verified ? '<svg class="w-3.5 h-3.5 text-[#1FB5D6] flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>' : ''}
+          </div>
+          <div class="flex items-center space-x-2 mt-0.5">
+            <span class="font-body text-xs text-gray-500">${this.esc(t.location)}</span>
+            ${dateStr ? `<span class="text-gray-600">·</span><span class="font-body text-xs text-gray-500">${dateStr}</span>` : ''}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  },
+
+  // ======================== EVENT CARD COMPONENT ========================
+
+  eventCard(ev) {
+    return `
+    <div class="group relative bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] overflow-hidden hover:border-[#0E839E]/40 hover:shadow-[0_8px_40px_rgba(14,131,158,0.15)] transition-all duration-500">
+      <!-- Event Image -->
+      <div class="aspect-[16/10] overflow-hidden relative bg-[#0B1120]">
+        <img src="${ev.image}" alt="${this.esc(ev.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent"></div>
+        <!-- Date badge -->
+        <div class="absolute top-3 left-3">
+          <span class="inline-flex items-center space-x-1 bg-[#0B1120]/80 backdrop-blur-md border border-white/10 px-2.5 py-1 rounded-lg">
+            <span class="font-pixel text-[7px] text-[#1FB5D6]">${this.esc(ev.date)}</span>
+          </span>
+        </div>
+      </div>
+      <!-- Content -->
+      <div class="p-4">
+        <h3 class="font-pixel text-[9.5px] text-white mb-1.5 truncate">${this.esc(ev.title)}</h3>
+        <div class="flex items-center space-x-1 text-gray-400">
+          <svg class="w-3.5 h-3.5 text-[#F6D06F] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span class="font-body text-xs text-gray-300 truncate">${this.esc(ev.location)}</span>
+        </div>
+      </div>
+    </div>`;
+  },
+
   // ======================== LAYOUT – HEADER (NO ADMIN) ========================
 
   headerInner(activePage, settings) {
@@ -609,7 +791,7 @@ const NB = {
     const nav = [
       {n:'Home',          h:'/',              k:'home'},
       {n:'Card Showcase', h:'/cards.html',    k:'cards'},
-      {n:'Vouchers',      h:'/vouchers.html', k:'vouchers'},
+      {n:'Vouches',      h:'/vouchers.html', k:'vouchers'},
     ];
     let brandHtml;
     if (rawName.includes(' ')) {
@@ -722,7 +904,7 @@ const NB = {
             <div class="flex flex-col space-y-2.5">
               <a href="/" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Home</a>
               <a href="/cards.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Cards</a>
-              <a href="/vouchers.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Vouchers</a>
+              <a href="/vouchers.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Vouches</a>
               <a href="${url}" target="_blank" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Contact</a>
             </div>
           </div>
@@ -756,7 +938,7 @@ const NB = {
   messengerFAB(settings) {
     const url = settings?.fb_messenger_url || this.DEFAULT_SETTINGS.fb_messenger_url;
     return `
-    <a href="${url}" target="_blank" class="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white px-5 py-3.5 rounded-full shadow-[0_4px_24px_rgba(14,131,158,0.45)] hover:shadow-[0_8px_36px_rgba(14,131,158,0.7)] hover:-translate-y-1 transition-all duration-300 flex items-center space-x-2.5 group">
+    <a id="messenger-fab-link" href="${url}" target="_blank" class="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white px-5 py-3.5 rounded-full shadow-[0_4px_24px_rgba(14,131,158,0.45)] hover:shadow-[0_8px_36px_rgba(14,131,158,0.7)] hover:-translate-y-1 transition-all duration-300 flex items-center space-x-2.5 group">
       <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
       <span class="font-pixel text-[8px] tracking-wider">INQUIRE</span>
     </a>`;
