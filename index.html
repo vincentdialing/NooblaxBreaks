@@ -317,9 +317,9 @@
           </div>
 
           <!-- Sort & Count -->
-          <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-end">
-            <span id="showcase-count" class="font-pixel text-[8px] text-gray-400">LOADING CARDS...</span>
-            <select id="showcase-sort" class="bg-white/[0.04] border border-white/10 text-xs text-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:border-[#1FB5D6]">
+          <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-end flex-shrink-0">
+            <span id="showcase-count" class="font-pixel text-[8px] text-gray-400 whitespace-nowrap">LOADING CARDS...</span>
+            <select id="showcase-sort" class="bg-[#0B1120] border border-white/10 text-xs text-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1FB5D6] cursor-pointer font-medium">
               <option value="featured">Featured First</option>
               <option value="price_desc">Price: High to Low</option>
               <option value="price_asc">Price: Low to High</option>
@@ -848,8 +848,7 @@
         } else if (activeSort === 'name') {
           filtered.sort((a, b) => a.name.localeCompare(b.name));
         } else {
-          // Featured / default
-          filtered.sort((a, b) => (b.is_featured ? 1 : 0) - (a.is_featured ? 1 : 0));
+          // Keep custom arranged order from getCards() as configured in admin portal
         }
 
         // Update count
@@ -918,12 +917,49 @@
       }
 
       // ==================== 4. HERO EVENT GALLERY CONTROLLER ====================
-      const eventSlides = document.querySelectorAll('.hero-event-slide');
-      const eventPills = document.querySelectorAll('.hero-event-pill');
+      const heroEventSlidesContainer = document.getElementById('hero-event-slides');
+      const heroEventDock = document.getElementById('hero-event-dock');
       const eventPrevBtn = document.getElementById('hero-event-prev');
       const eventNextBtn = document.getElementById('hero-event-next');
       let currentEventIdx = 0;
       let eventTimer = null;
+
+      try {
+        const eventsList = await NB.getEvents();
+        if (eventsList && eventsList.length > 0 && heroEventSlidesContainer && heroEventDock) {
+          heroEventSlidesContainer.innerHTML = eventsList.map((ev, i) => `
+            <div class="hero-event-slide absolute inset-0 transition-opacity duration-700 ${i === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}" data-index="${i}">
+              <img src="${ev.image_url || ev.image}" ${ev.fallback_url || ev.fallback ? `onerror="this.onerror=null;this.src='${ev.fallback_url || ev.fallback}'"` : ''} alt="${NB.esc(ev.title)}" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0B1120]/95 via-[#0B1120]/30 to-transparent"></div>
+              <div class="absolute inset-x-0 bottom-0 p-3 sm:p-4">
+                <h3 class="font-pixel text-[10px] sm:text-xs text-white drop-shadow-md">${NB.esc(ev.title)}</h3>
+                <p class="font-body text-xs text-[#1FB5D6] flex items-center space-x-1 mt-0.5">
+                  <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  <span>${NB.esc(ev.location)}</span>
+                </p>
+              </div>
+            </div>
+          `).join('');
+
+          // Render pills (shorten label if needed)
+          heroEventDock.innerHTML = eventsList.map((ev, i) => {
+            const shortLabel = ev.title.includes('Tournament') || ev.title.includes('TCG') ? 'Tourney' :
+                               ev.title.includes('Meetup') ? 'Meetup' :
+                               ev.title.includes('League') || ev.title.includes('Finals') ? 'Finals' :
+                               ev.title.split(' ')[0];
+            return `
+              <button type="button" data-event-idx="${i}" class="hero-event-pill py-2 px-1 sm:px-2 rounded-xl border text-center transition-all cursor-pointer ${i === 0 ? 'bg-[#0E839E]/20 border-[#1FB5D6] text-white' : 'bg-white/[0.02] border-white/10 text-gray-400 hover:text-white'}">
+                <span class="font-pixel text-[7px] sm:text-[7.5px] block whitespace-nowrap">${NB.esc(shortLabel)}</span>
+              </button>
+            `;
+          }).join('');
+        }
+      } catch (err) {
+        console.warn('Dynamic events error:', err);
+      }
+
+      const eventSlides = document.querySelectorAll('.hero-event-slide');
+      const eventPills = document.querySelectorAll('.hero-event-pill');
 
       function showEventSlide(idx) {
         if (!eventSlides.length) return;
@@ -949,6 +985,7 @@
 
       function startEventAutoPlay() {
         stopEventAutoPlay();
+        if (eventSlides.length <= 1) return;
         eventTimer = setInterval(() => {
           showEventSlide(currentEventIdx + 1);
         }, 5000);

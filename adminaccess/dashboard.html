@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dashboard | Nooblax Admin Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="icon" type="image/png" href="assets/LOGO_NB.png">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-[#0B1120] text-gray-100 font-sans min-h-screen">
+
+  <!-- Mobile Topbar Container -->
+  <div id="admin-topbar-container"></div>
+
+  <!-- Desktop Sidebar Container -->
+  <div id="admin-sidebar-container"></div>
+
+  <!-- Main Content Area -->
+  <main class="md:ml-64 p-3.5 sm:p-6 lg:p-10 max-w-7xl">
+    
+    <!-- Header Banner -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Dashboard Overview</h1>
+        <p class="text-xs sm:text-sm text-gray-400 mt-1">Live metrics and content overview connected to Supabase.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="card-form.html" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white text-sm font-bold shadow-lg shadow-[#0E839E]/25 transition-all">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <span>Add New Card</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- KPI Metric Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-5 mb-8 sm:mb-10">
+      
+      <!-- Metric 1: Total Cards -->
+      <div class="bg-[#0A1020] border border-white/10 rounded-2xl p-4 sm:p-6 relative overflow-hidden group hover:border-[#1FB5D6]/40 transition-all">
+        <div class="flex items-center justify-between mb-3 sm:mb-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Total Cards</span>
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0E839E]/20 text-[#1FB5D6] flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          </div>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-white" id="stat-total-cards">--</div>
+        <p class="text-xs text-gray-400 mt-1 sm:mt-2">Active in public inventory</p>
+      </div>
+
+      <!-- Metric 2: Sold Cards -->
+      <div class="bg-[#0A1020] border border-white/10 rounded-2xl p-4 sm:p-6 relative overflow-hidden group hover:border-emerald-500/40 transition-all">
+        <div class="flex items-center justify-between mb-3 sm:mb-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Sold Grails</span>
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-white" id="stat-sold-cards">--</div>
+        <p class="text-xs text-gray-400 mt-1 sm:mt-2">Marked as SOLD / Proof</p>
+      </div>
+
+      <!-- Metric 3: Vouches / Testimonials -->
+      <div class="bg-[#0A1020] border border-white/10 rounded-2xl p-4 sm:p-6 relative overflow-hidden group hover:border-amber-500/40 transition-all">
+        <div class="flex items-center justify-between mb-3 sm:mb-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Verified Vouches</span>
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+          </div>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-white" id="stat-total-testimonials">--</div>
+        <p class="text-xs text-gray-400 mt-1 sm:mt-2">Collector trust reviews</p>
+      </div>
+
+      <!-- Metric 4: TCG Events -->
+      <div class="bg-[#0A1020] border border-white/10 rounded-2xl p-4 sm:p-6 relative overflow-hidden group hover:border-violet-500/40 transition-all">
+        <div class="flex items-center justify-between mb-3 sm:mb-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Events Showcase</span>
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-violet-500/20 text-violet-400 flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-white" id="stat-total-events">--</div>
+        <p class="text-xs text-gray-400 mt-1 sm:mt-2">Tournaments & meetups</p>
+      </div>
+
+    </div>
+
+    <!-- Recent Cards Table Card -->
+    <div class="bg-[#0A1020] border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8">
+      <div class="flex items-center justify-between mb-4 sm:mb-6">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-white">Recently Added Cards</h2>
+          <p class="text-[11px] sm:text-xs text-gray-400 mt-0.5">Quick access to the latest cards in your database</p>
+        </div>
+        <a href="cards.html" class="text-xs font-bold text-[#1FB5D6] hover:underline flex items-center gap-1">
+          <span>View All</span>
+          <span class="hidden sm:inline">Cards</span>
+          <span>&rarr;</span>
+        </a>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-gray-300">
+          <thead class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-gray-400 border-b border-white/10">
+            <tr>
+              <th class="pb-3 pr-2 sm:pr-4">Card</th>
+              <th class="pb-3 pr-4 hidden md:table-cell">Type</th>
+              <th class="pb-3 pr-4 hidden sm:table-cell">Set</th>
+              <th class="pb-3 pr-2 sm:pr-4">Price</th>
+              <th class="pb-3 pr-2 sm:pr-4">Status</th>
+              <th class="pb-3 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody id="recent-cards-body" class="divide-y divide-white/5">
+            <tr>
+              <td colspan="6" class="py-6 text-center text-gray-500">Loading recent cards...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    (async () => {
+      const session = await Admin.initPage('dashboard');
+      if (!session) return;
+
+      try {
+        // Load counts in parallel
+        const [cardsRes, soldRes, testRes, eventsRes, recentCardsRes] = await Promise.all([
+          supabaseClient.from('cards').select('*', { count: 'exact', head: true }),
+          supabaseClient.from('cards').select('*', { count: 'exact', head: true }).eq('is_sold', true),
+          supabaseClient.from('testimonials').select('*', { count: 'exact', head: true }),
+          supabaseClient.from('events').select('*', { count: 'exact', head: true }),
+          supabaseClient.from('cards').select('*').order('created_at', { ascending: false }).limit(5)
+        ]);
+
+        document.getElementById('stat-total-cards').innerText = cardsRes.count ?? 0;
+        document.getElementById('stat-sold-cards').innerText = soldRes.count ?? 0;
+        document.getElementById('stat-total-testimonials').innerText = testRes.count ?? 0;
+        document.getElementById('stat-total-events').innerText = eventsRes.count ?? 0;
+
+        const tbody = document.getElementById('recent-cards-body');
+        if (recentCardsRes.data && recentCardsRes.data.length > 0) {
+          tbody.innerHTML = recentCardsRes.data.map(card => `
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 pr-2 sm:pr-4 flex items-center space-x-2.5 sm:space-x-3">
+                <img src="${card.image_url || '/assets/placeholder.svg'}" alt="${Admin.esc(card.name)}" class="w-9 h-12 sm:w-10 sm:h-14 object-cover rounded-md bg-[#050914] border border-white/10 flex-shrink-0">
+                <div class="min-w-0">
+                  <div class="font-bold text-white text-xs sm:text-sm truncate max-w-[120px] xs:max-w-[160px] sm:max-w-none">${Admin.esc(card.name)}</div>
+                  <div class="text-[10px] text-gray-400 mt-0.5 sm:hidden">${Admin.esc(card.pokemon_type || 'Colorless')} • ${Admin.esc(card.set_name || '—')}</div>
+                  <div class="text-xs text-gray-500 hidden sm:block">${Admin.esc(card.rarity || 'Common')} • ${Admin.esc(card.condition || 'NM')}</div>
+                </div>
+              </td>
+              <td class="py-3 pr-4 text-xs font-semibold text-gray-300 hidden md:table-cell">
+                <span class="px-2.5 py-1 rounded-md bg-white/5 border border-white/10">${Admin.esc(card.pokemon_type || 'Colorless')}</span>
+              </td>
+              <td class="py-3 pr-4 text-xs text-gray-400 hidden sm:table-cell">${Admin.esc(card.set_name || '—')}</td>
+              <td class="py-3 pr-2 sm:pr-4 font-bold text-white text-xs sm:text-sm whitespace-nowrap">${Admin.price(card.price)}</td>
+              <td class="py-3 pr-2 sm:pr-4 text-xs whitespace-nowrap">
+                ${card.is_sold ? '<span class="text-red-400 bg-red-500/10 px-2 py-0.5 rounded font-bold border border-red-500/20 text-[10px] sm:text-xs">SOLD</span>' : '<span class="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-bold border border-emerald-500/20 text-[10px] sm:text-xs">AVAILABLE</span>'}
+              </td>
+              <td class="py-3 text-right whitespace-nowrap">
+                <a href="card-form.html?id=${card.id}" class="text-[11px] sm:text-xs font-bold text-[#1FB5D6] hover:text-white px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-lg sm:rounded-xl bg-[#0E839E]/20 hover:bg-[#0E839E]/40 border border-[#1FB5D6]/30 transition-all shadow-sm inline-block">Edit</a>
+              </td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = '<tr><td colspan="6" class="py-6 text-center text-gray-500">No cards registered yet. Click "Add New Card" to get started!</td></tr>';
+        }
+      } catch (err) {
+        console.error('Dashboard load error:', err);
+        Admin.toast('Error connecting to Supabase: ' + err.message, 'error');
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -229,7 +229,7 @@
         }
 
         // Load Events
-        const events = NB.getEvents();
+        const events = await NB.getEvents();
         if (eventsGrid && events && events.length > 0) {
           eventsGrid.innerHTML = events.map(ev => NB.eventCard(ev)).join('');
         }

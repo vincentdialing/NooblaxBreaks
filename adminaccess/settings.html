@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Site Settings | Nooblax Admin Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="icon" type="image/png" href="assets/LOGO_NB.png">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-[#0B1120] text-gray-100 font-sans min-h-screen">
+
+  <div id="admin-topbar-container"></div>
+  <div id="admin-sidebar-container"></div>
+
+  <main class="md:ml-64 p-3.5 sm:p-6 lg:p-10 max-w-4xl">
+    
+    <div class="mb-6 sm:mb-8">
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Public Site Settings</h1>
+      <p class="text-xs sm:text-sm text-gray-400 mt-1">Configure global branding, Facebook Messenger links, and homepage copy in real-time.</p>
+    </div>
+
+    <div class="bg-[#0A1020] border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-8 lg:p-10 shadow-2xl">
+      <form id="settings-editor-form" class="space-y-6">
+        
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Website Name / Brand Title *</label>
+          <input type="text" id="setting-site-name" required placeholder="Nooblax Breaks"
+                 class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
+          <p class="text-xs text-gray-500 mt-1">Displayed across the top header, browser title, and footer.</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Facebook Messenger Link / Page URL *</label>
+          <input type="url" id="setting-messenger-url" required placeholder="https://www.facebook.com/profile.php?id=..."
+                 class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
+          <p class="text-xs text-gray-500 mt-1">Used for the floating chat button and automatic card inquiry pre-filled messages.</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Hero Tagline</label>
+          <input type="text" id="setting-hero-tagline" placeholder="RARE GRAILS. GRADED SLABS. NEXT-LEVEL PULLS."
+                 class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Hero Subtitle Copy</label>
+          <textarea id="setting-hero-subtitle" rows="3" placeholder="The premier collector's showcase..."
+                    class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]"></textarea>
+        </div>
+
+        <div class="pt-6 border-t border-white/10 flex items-center justify-end">
+          <button type="submit" id="save-settings-btn" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white text-sm font-bold shadow-lg shadow-[#0E839E]/30 transition-all cursor-pointer">
+            Save Settings
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    (async () => {
+      const session = await Admin.initPage('settings');
+      if (!session) return;
+
+      // Load existing settings
+      try {
+        const { data, error } = await supabaseClient.from('settings').select('*');
+        if (error) throw error;
+        if (data) {
+          data.forEach(item => {
+            if (item.key === 'site_name') document.getElementById('setting-site-name').value = item.value || '';
+            if (item.key === 'fb_messenger_url') document.getElementById('setting-messenger-url').value = item.value || '';
+            if (item.key === 'hero_tagline') document.getElementById('setting-hero-tagline').value = item.value || '';
+            if (item.key === 'hero_subtitle') document.getElementById('setting-hero-subtitle').value = item.value || '';
+          });
+        }
+      } catch (err) {
+        console.error('Settings load error:', err);
+      }
+
+      const form = document.getElementById('settings-editor-form');
+      const saveBtn = document.getElementById('save-settings-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        saveBtn.disabled = true;
+        saveBtn.innerText = 'Saving...';
+
+        try {
+          const updates = [
+            { key: 'site_name', value: document.getElementById('setting-site-name').value.trim() },
+            { key: 'fb_messenger_url', value: document.getElementById('setting-messenger-url').value.trim() },
+            { key: 'hero_tagline', value: document.getElementById('setting-hero-tagline').value.trim() },
+            { key: 'hero_subtitle', value: document.getElementById('setting-hero-subtitle').value.trim() }
+          ];
+
+          for (const item of updates) {
+            const { error } = await supabaseClient.from('settings').upsert(item, { onConflict: 'key' });
+            if (error) throw error;
+          }
+
+          Admin.toast('Settings saved successfully!', 'success');
+        } catch (err) {
+          console.error('Save error:', err);
+          Admin.toast('Failed to save settings: ' + err.message, 'error');
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.innerText = 'Save Settings';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Card Editor | Nooblax Admin Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="icon" type="image/png" href="assets/LOGO_NB.png">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-[#0B1120] text-gray-100 font-sans min-h-screen">
+
+  <!-- Mobile Topbar Container -->
+  <div id="admin-topbar-container"></div>
+
+  <!-- Desktop Sidebar Container -->
+  <div id="admin-sidebar-container"></div>
+
+  <!-- Main Content Area -->
+  <main class="md:ml-64 p-3.5 sm:p-6 lg:p-10 max-w-5xl">
+    
+    <!-- Top Nav / Back -->
+    <div class="mb-6 sm:mb-8 flex items-center justify-between">
+      <div>
+        <a href="cards.html" class="inline-flex items-center space-x-1.5 text-xs font-bold text-[#1FB5D6] hover:underline mb-2">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          <span>Back to Card Inventory</span>
+        </a>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white" id="form-heading">Add New Card</h1>
+      </div>
+    </div>
+
+    <!-- Form Container -->
+    <div class="bg-[#0A1020] border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-8 lg:p-10 shadow-2xl">
+      <form id="card-editor-form" class="space-y-6">
+        
+        <!-- Row 1: Card Name & Pokemon Type -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Card Name *</label>
+            <input type="text" id="card-name" required placeholder="e.g. Charizard ex (Special Art Rare)"
+                   class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Pokemon Energy Type *</label>
+            <select id="card-type" required
+                    class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 pr-10 text-white text-sm focus:outline-none focus:border-[#1FB5D6] cursor-pointer appearance-none">
+              <option value="Fire">Fire</option>
+              <option value="Water">Water</option>
+              <option value="Grass">Grass</option>
+              <option value="Lightning">Lightning</option>
+              <option value="Psychic">Psychic</option>
+              <option value="Fighting">Fighting</option>
+              <option value="Darkness">Darkness</option>
+              <option value="Metal">Metal</option>
+              <option value="Dragon">Dragon</option>
+              <option value="Colorless" selected>Colorless</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 2: Set Name & Price -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Set / Expansion Name</label>
+            <input type="text" id="card-set" placeholder="e.g. Scarlet & Violet: 151"
+                   class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Price in Philippine Peso (PHP) *</label>
+            <input type="number" id="card-price" required min="0" step="1" placeholder="e.g. 8500"
+                   class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
+          </div>
+        </div>
+
+        <!-- Row 3: Rarity & Condition -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Rarity</label>
+            <select id="card-rarity" class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 pr-10 text-white text-sm focus:outline-none focus:border-[#1FB5D6] cursor-pointer appearance-none">
+              <!-- Filled via JS -->
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Card Condition / Slab Grade</label>
+            <select id="card-condition" class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 pr-10 text-white text-sm focus:outline-none focus:border-[#1FB5D6] cursor-pointer appearance-none">
+              <!-- Filled via JS -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Image Upload & Preview -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Card Image</label>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+            <div id="image-preview-box" class="w-24 h-32 rounded-xl bg-[#050914] border border-dashed border-white/20 flex items-center justify-center overflow-hidden flex-shrink-0">
+              <span class="text-xs text-gray-500 text-center px-2">No Image</span>
+            </div>
+            <div class="space-y-3 flex-1 w-full">
+              <input type="file" id="card-file" accept="image/*" class="text-xs text-gray-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#0E839E]/20 file:text-[#1FB5D6] hover:file:bg-[#0E839E]/30 file:cursor-pointer cursor-pointer">
+              <div>
+                <span class="text-xs text-gray-500 block mb-1">Or direct image URL:</span>
+                <input type="url" id="card-image-url" placeholder="https://images.pokemontcg.io/..." class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-[#1FB5D6]">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Description / Pull Notes</label>
+          <textarea id="card-desc" rows="3" placeholder="Condition details, centering, slab notes, or artwork highlights..."
+                    class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]"></textarea>
+        </div>
+
+        <!-- Toggles: Featured & Sold -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <label class="flex items-center space-x-3 p-4 rounded-xl bg-[#050914] border border-white/10 cursor-pointer hover:border-white/20 transition-all">
+            <input type="checkbox" id="card-featured" class="w-4 h-4 rounded text-[#1FB5D6] focus:ring-0 bg-transparent border-gray-600">
+            <div>
+              <span class="text-sm font-bold text-white block">Featured on Homepage</span>
+              <span class="text-xs text-gray-400">Display this card in top showcase grails</span>
+            </div>
+          </label>
+          <label class="flex items-center space-x-3 p-4 rounded-xl bg-[#050914] border border-white/10 cursor-pointer hover:border-white/20 transition-all">
+            <input type="checkbox" id="card-sold" class="w-4 h-4 rounded text-rose-500 focus:ring-0 bg-transparent border-gray-600">
+            <div>
+              <span class="text-sm font-bold text-white block">Mark as SOLD</span>
+              <span class="text-xs text-gray-400">Display 'SOLD' badge for social proof</span>
+            </div>
+          </label>
+        </div>
+
+        <!-- Submit Button Bar -->
+        <div class="pt-6 border-t border-white/10 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:space-x-4">
+          <a href="cards.html" class="w-full sm:w-auto text-center px-5 py-3 rounded-xl border border-white/10 text-gray-400 hover:text-white text-sm font-semibold transition-all">Cancel</a>
+          <button type="submit" id="save-card-btn" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white text-sm font-bold shadow-lg shadow-[#0E839E]/30 transition-all cursor-pointer">
+            Save Card
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const cardId = urlParams.get('id');
+
+    (async () => {
+      const session = await Admin.initPage('cards');
+      if (!session) return;
+
+      // Populate selects
+      const raritySelect = document.getElementById('card-rarity');
+      raritySelect.innerHTML = Admin.RARITIES.map(r => `<option value="${r}">${r}</option>`).join('');
+
+      const conditionSelect = document.getElementById('card-condition');
+      conditionSelect.innerHTML = Admin.CONDITIONS.map(c => `<option value="${c}">${c}</option>`).join('');
+
+      // Preview handler
+      const fileInput = document.getElementById('card-file');
+      const urlInput = document.getElementById('card-image-url');
+      const previewBox = document.getElementById('image-preview-box');
+
+      function updatePreview(src) {
+        if (src) {
+          previewBox.innerHTML = `<img src="${src}" class="w-full h-full object-cover">`;
+        } else {
+          previewBox.innerHTML = `<span class="text-xs text-gray-500 text-center px-2">No Image</span>`;
+        }
+      }
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (re) => updatePreview(re.target.result);
+          reader.readAsDataURL(file);
+        }
+      });
+
+      urlInput.addEventListener('input', (e) => {
+        if (!fileInput.files.length) {
+          updatePreview(e.target.value);
+        }
+      });
+
+      // If Edit mode, load card
+      if (cardId) {
+        document.getElementById('form-heading').innerText = 'Edit Card #' + cardId;
+        try {
+          const { data: card, error } = await supabaseClient.from('cards').select('*').eq('id', cardId).single();
+          if (error) throw error;
+          if (card) {
+            document.getElementById('card-name').value = card.name || '';
+            document.getElementById('card-type').value = card.pokemon_type || 'Colorless';
+            document.getElementById('card-set').value = card.set_name || '';
+            document.getElementById('card-price').value = card.price || 0;
+            document.getElementById('card-rarity').value = card.rarity || 'Common';
+            document.getElementById('card-condition').value = card.condition || 'NM';
+            document.getElementById('card-image-url').value = card.image_url || '';
+            document.getElementById('card-desc').value = card.description || '';
+            document.getElementById('card-featured').checked = !!card.is_featured;
+            document.getElementById('card-sold').checked = !!card.is_sold;
+            updatePreview(card.image_url);
+          }
+        } catch (err) {
+          console.error('Error fetching card:', err);
+          Admin.toast('Failed to load card details: ' + err.message, 'error');
+        }
+      }
+
+      // Handle submit
+      const form = document.getElementById('card-editor-form');
+      const saveBtn = document.getElementById('save-card-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        saveBtn.disabled = true;
+        saveBtn.innerText = 'Saving Card...';
+
+        try {
+          let imageUrl = urlInput.value.trim();
+
+          // Upload image file if selected
+          if (fileInput.files.length > 0) {
+            saveBtn.innerText = 'Uploading Image...';
+            const uploadedUrl = await Admin.uploadImage(fileInput.files[0], 'cards');
+            if (uploadedUrl) imageUrl = uploadedUrl;
+          }
+
+          const payload = {
+            name: document.getElementById('card-name').value.trim(),
+            pokemon_type: document.getElementById('card-type').value,
+            set_name: document.getElementById('card-set').value.trim(),
+            price: Number(document.getElementById('card-price').value),
+            rarity: document.getElementById('card-rarity').value,
+            condition: document.getElementById('card-condition').value,
+            image_url: imageUrl,
+            description: document.getElementById('card-desc').value.trim(),
+            is_featured: document.getElementById('card-featured').checked,
+            is_sold: document.getElementById('card-sold').checked
+          };
+
+          if (cardId) {
+            const { error } = await supabaseClient.from('cards').update(payload).eq('id', cardId);
+            if (error) throw error;
+            Admin.toast('Card updated successfully!', 'success');
+          } else {
+            const { error } = await supabaseClient.from('cards').insert(payload);
+            if (error) throw error;
+            Admin.toast('Card created successfully!', 'success');
+          }
+
+          setTimeout(() => {
+            window.location.href = 'cards.html';
+          }, 800);
+        } catch (err) {
+          console.error('Save error:', err);
+          Admin.toast('Error saving card: ' + err.message, 'error');
+          saveBtn.disabled = false;
+          saveBtn.innerText = 'Save Card';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

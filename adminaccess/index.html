@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Login | Nooblax Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="icon" type="image/png" href="assets/LOGO_NB.png">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-[#0B1120] text-gray-100 font-sans min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+
+  <!-- Ambient background glow -->
+  <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#0E839E]/20 rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-[#1FB5D6]/15 rounded-full blur-[140px] pointer-events-none"></div>
+
+  <div class="w-full max-w-md relative z-10">
+    <div class="bg-[#0B1220]/90 border border-white/10 rounded-3xl p-8 sm:p-10 backdrop-blur-2xl shadow-2xl shadow-black/80">
+      
+      <!-- Brand & Title -->
+      <div class="text-center mb-8">
+        <img src="assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-20 sm:h-24 w-auto mx-auto mb-4 object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.6)] drop-shadow-[0_0_16px_rgba(246,208,111,0.25)]">
+        <h1 class="font-pixel brand-logo-text brand-text-gradient text-xs sm:text-sm tracking-wider">NOOBLAX BREAKS</h1>
+        <p class="text-[10px] sm:text-xs text-[#1FB5D6] font-semibold tracking-widest uppercase mt-2">Management Portal</p>
+      </div>
+
+      <!-- Login Form -->
+      <form id="admin-login-form" class="space-y-5">
+        <div>
+          <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">Email Address</label>
+          <input type="email" id="login-email" required placeholder="admin@example.com" 
+                 class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#1FB5D6] focus:ring-1 focus:ring-[#1FB5D6] transition-all">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">Password</label>
+          <input type="password" id="login-password" required placeholder="••••••••" 
+                 class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#1FB5D6] focus:ring-1 focus:ring-[#1FB5D6] transition-all">
+        </div>
+
+        <button type="submit" id="login-submit-btn" 
+                class="w-full py-4 px-6 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] shadow-lg shadow-[#0E839E]/30 transition-all duration-200 transform active:scale-[0.99] flex items-center justify-center space-x-2">
+          <span>Sign In to Dashboard</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </form>
+
+      <!-- Security Notice -->
+      <div class="mt-8 pt-6 border-t border-white/10 text-center">
+        <p class="text-xs text-gray-500">Authorized personnel only. Protected by Supabase RLS authentication.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    (async () => {
+      // Check if already authenticated
+      const session = await Admin.checkAuth();
+      if (session) {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+
+      const form = document.getElementById('admin-login-form');
+      const submitBtn = document.getElementById('login-submit-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Signing in...';
+
+        try {
+          if (!supabaseClient) throw new Error('Supabase configuration missing in js/config.js');
+
+          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+
+          Admin.toast('Login successful! Redirecting...', 'success');
+          setTimeout(() => {
+            window.location.href = 'dashboard.html';
+          }, 800);
+        } catch (err) {
+          console.error('Login error:', err);
+          Admin.toast(err.message || 'Authentication failed', 'error');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span>Sign In to Dashboard</span><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

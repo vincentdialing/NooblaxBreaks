@@ -1,138 +1,64 @@
-# 🎴 Nooblax Breaks — Pokemon TCG Card Showcase
+# Nooblax Breaks – Premium Pokémon TCG Web Showcase
 
-A modern, static website for showcasing Pokemon TCG cards with a **Supabase** backend.  
-No Node.js server needed — just static HTML files that talk directly to Supabase.
-
-## Tech Stack
-
-| Layer | Tech |
-|-------|------|
-| Frontend | HTML, Tailwind CSS (CDN), Vanilla JS |
-| Backend | Supabase (Auth, Database, Storage) |
-| Fonts | Press Start 2P (pixel), Space Grotesk (body/display) |
-| Design | Neo-Brutalist Pixel / Modern Arcade |
+Official web showcase and catalog for **Nooblax Breaks**, featuring authenticated Pokémon Trading Card Game grails, Special Art Rares (SAR), and PSA 10 slabs.
 
 ---
 
-## 🚀 Setup Guide
+## Architecture Overview
 
-### Step 1: Create a Supabase Project
+This project is divided into two distinct components:
 
-1. Go to [supabase.com](https://supabase.com) and create a free account
-2. Click **"New Project"** and give it a name
-3. Wait for the project to provision (~1 minute)
+1. **Main Public Website (`/`)**:
+   - Zero admin presence or links.
+   - Clean, high-converting showcase for collectors and buyers.
+   - Real-time read-only sync with Supabase for cards, collector vouches, and community TCG events.
+   - Direct Messenger inquiry routing with pre-filled card information.
 
-### Step 2: Run the Database Schema
-
-1. In your Supabase dashboard, go to **SQL Editor**
-2. Click **"New Query"**
-3. Copy/paste the entire contents of [`supabase/schema.sql`](supabase/schema.sql)
-4. Click **"Run"** — this creates all tables, RLS policies, storage bucket, and seed data
-
-### Step 3: Create an Admin User
-
-1. Go to **Authentication** → **Users** in your Supabase dashboard
-2. Click **"Add User"** → **"Create New User"**
-3. Enter your **email** and **password**
-4. Check ✅ **"Auto Confirm User"**
-5. Click **"Create User"**
-
-### Step 4: Configure the Frontend
-
-1. Go to **Settings** → **API** in your Supabase dashboard
-2. Copy your **Project URL** and **anon/public key**
-3. Open [`js/config.js`](js/config.js) and replace the placeholders:
-
-```javascript
-const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co';
-const SUPABASE_ANON_KEY = 'your-anon-key-here';
-```
-
-### Step 5: Run Locally
-
-Serve the static files with any HTTP server:
-
-```bash
-# Using npx (Node.js)
-npx serve . -l 3000
-
-# Or Python
-python3 -m http.server 3000
-
-# Or PHP
-php -S localhost:3000
-```
-
-Open **http://localhost:3000** 🎉
+2. **Dedicated Standalone Admin Portal (`/admin-portal/`)**:
+   - Completely separate website with its own authentication and domain/URL readiness.
+   - Full CRUD management for:
+     - **Cards Inventory** (pricing, Pokemon type, rarity, condition, featured, sold status, image upload to Supabase Storage).
+     - **Collector Vouches & Reviews** (add/edit buyer feedback and star ratings).
+     - **TCG Events Showcase** (update real tournament and trade meetup proof photos).
+     - **Public Site Settings** (live updates to Messenger URL, brand title, and hero announcements).
 
 ---
 
-## 📁 Project Structure
+## 3-Step Supabase Setup Guide
 
-```
-Nooblax/
-├── index.html              # Homepage (hero, featured, recent cards)
-├── cards.html              # Browse all cards (search, filter, sort)
-├── card.html               # Single card detail (?id=)
-├── vouchers.html           # Active vouchers & promos
-├── admin/
-│   ├── index.html          # Admin login (email/password)
-│   ├── dashboard.html      # Stats overview
-│   ├── cards.html          # Manage cards (CRUD)
-│   ├── card-form.html      # Add/edit card (?id= for edit)
-│   ├── vouchers.html       # Manage vouchers
-│   ├── voucher-form.html   # Add/edit voucher
-│   └── settings.html       # Site settings (name, messenger URL)
-├── js/
-│   ├── config.js           # Supabase URL + anon key
-│   └── components.js       # Shared UI components & utilities
-├── css/
-│   └── style.css           # Custom styles (neo-brutalist)
-├── assets/
-│   └── placeholder.svg     # Card placeholder image
-└── supabase/
-    └── schema.sql          # Full database schema + seed data
-```
+### Step 1: Run the Database Schema
+1. Log in to your [Supabase Dashboard](https://supabase.com/dashboard).
+2. Go to **SQL Editor** → **New Query**.
+3. Open `supabase/schema.sql` from this repository, copy the entire SQL script, and click **Run**.
+   - This sets up all 5 tables (`cards`, `testimonials`, `events`, `vouchers`, `settings`), public storage bucket (`card-images`), Row Level Security policies, and initial authentic data.
+
+### Step 2: Create Your Admin User
+1. In your Supabase Dashboard, navigate to **Authentication** → **Users**.
+2. Click **Add User** → **Create User**.
+3. Enter your admin email and password.
+
+### Step 3: Connect Credentials
+1. In your Supabase Dashboard, go to **Project Settings** → **API**.
+2. Copy your **Project URL** and **Project API keys (anon public)**.
+3. Paste them into:
+   - `js/config.js` (for the main public site)
+   - `admin-portal/js/config.js` (for the dedicated admin portal)
 
 ---
 
-## 🔗 Pages & URLs
+## Running Locally
 
-| Page | URL | Auth |
-|------|-----|------|
-| Homepage | `/` | Public |
-| Browse Cards | `/cards.html` | Public |
-| Card Detail | `/card.html?id=1` | Public |
-| Vouchers | `/vouchers.html` | Public |
-| Admin Login | `/admin/` | Public |
-| Dashboard | `/admin/dashboard.html` | 🔒 |
-| Manage Cards | `/admin/cards.html` | 🔒 |
-| Add/Edit Card | `/admin/card-form.html` | 🔒 |
-| Manage Vouchers | `/admin/vouchers.html` | 🔒 |
-| Add/Edit Voucher | `/admin/voucher-form.html` | 🔒 |
-| Settings | `/admin/settings.html` | 🔒 |
+To run both sites locally on different ports:
 
----
+- **Main Public Site**:
+  ```bash
+  python3 -m http.server 5501
+  # Open: http://localhost:5501
+  ```
 
-## 🎨 Design System
-
-- **Primary (Teal):** `#0E839E` / `#1FB5D6`
-- **Secondary (Cream):** `#F6D06F` / `#FFDF85`
-- **Accent (Cherry Red):** `#E63946`
-- **Dark Ink:** `#1A1E24`
-- **Shell Gray:** `#ECEFF1`
-- **Pixel Font:** Press Start 2P (headers, badges, prices)
-- **Body & Display Font:** Space Grotesk + Plus Jakarta Sans (descriptions, card titles, nav, forms, PSA labels)
-
----
-
-## 🚢 Deployment
-
-Since this is a static site, deploy to any static hosting:
-
-- **Netlify** — drag & drop the folder
-- **Vercel** — `vercel deploy`
-- **GitHub Pages** — push to repo, enable Pages
-- **Cloudflare Pages** — connect your repo
-
-No build step needed!
+- **Dedicated Admin Portal**:
+  ```bash
+  cd admin-portal
+  python3 -m http.server 8080
+  # Open: http://localhost:8080
+  ```

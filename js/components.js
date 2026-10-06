@@ -363,9 +363,35 @@ const NB = {
   async getCards() {
     try {
       if (typeof supabaseClient !== 'undefined' && supabaseClient.from) {
-        const { data, error } = await supabaseClient.from('cards').select('*').order('created_at', { ascending: false });
+        const { data, error } = await supabaseClient.from('cards').select('*');
         if (!error && data && data.length > 0) {
-          return data;
+          // Check if custom order is stored in settings
+          const { data: orderSetting } = await supabaseClient
+            .from('settings')
+            .select('value')
+            .eq('key', 'card_custom_order')
+            .single();
+
+          if (orderSetting && orderSetting.value) {
+            try {
+              const orderIds = JSON.parse(orderSetting.value);
+              if (Array.isArray(orderIds) && orderIds.length > 0) {
+                const idMap = new Map();
+                orderIds.forEach((id, idx) => idMap.set(String(id), idx));
+                data.sort((a, b) => {
+                  const idxA = idMap.has(String(a.id)) ? idMap.get(String(a.id)) : 999999;
+                  const idxB = idMap.has(String(b.id)) ? idMap.get(String(b.id)) : 999999;
+                  return idxA - idxB;
+                });
+                return data;
+              }
+            } catch (err) {
+              console.warn('Failed parsing card_custom_order:', err);
+            }
+          }
+
+          // Fallback order by created_at desc
+          return data.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
         }
       }
     } catch (e) {
@@ -410,7 +436,15 @@ const NB = {
     return this.DEFAULT_TESTIMONIALS;
   },
 
-  getEvents() {
+  async getEvents() {
+    try {
+      if (typeof supabaseClient !== 'undefined' && supabaseClient.from) {
+        const { data, error } = await supabaseClient.from('events').select('*').order('id', { ascending: true });
+        if (!error && data && data.length > 0) return data;
+      }
+    } catch (e) {
+      console.warn('Events fallback:', e);
+    }
     return this.DEFAULT_EVENTS;
   },
 
@@ -947,72 +981,6 @@ Is this still available for delivery? Thank you!`;
     </a>`;
   },
 
-  // ======================== ADMIN COMPONENTS (RETAINED FOR LATER WORK) ========================
-
-  adminSidebar(activePage) {
-    const items = [
-      {n:'Dashboard', h:'/admin/dashboard.html', k:'dashboard',
-       icon:'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>'},
-      {n:'Cards', h:'/admin/cards.html', k:'cards',
-       icon:'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>'},
-      {n:'Vouchers', h:'/admin/vouchers.html', k:'vouchers',
-       icon:'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>'},
-      {n:'Settings', h:'/admin/settings.html', k:'settings',
-       icon:'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>'},
-    ];
-    const li = (i) => {
-      const active = activePage===i.k;
-      return `<a href="${i.h}" class="flex items-center space-x-3 px-4 py-3 text-sm font-body rounded-xl mx-2 transition-all duration-300 ${active?'bg-[#0E839E]/15 text-[#1FB5D6] shadow-[0_0_12px_rgba(14,131,158,0.15)]':'text-gray-500 hover:bg-white/[0.03] hover:text-gray-300'}">
-        <svg class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">${i.icon}</svg>
-        <span>${i.n}</span>
-      </a>`;
-    };
-    return `
-    <aside class="fixed left-0 top-0 w-64 h-screen bg-[#060a14]/95 backdrop-blur-2xl border-r border-white/[0.06] z-40 flex-col hidden md:flex">
-      <div class="p-5 border-b border-white/[0.06] flex items-center space-x-3">
-        <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-10 w-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] flex-shrink-0">
-        <div>
-          <span class="font-pixel brand-text-gradient text-[9px] block">NOOBLAX BREAKS</span>
-          <span class="font-pixel text-[7px] text-gray-500 mt-1 block tracking-wider">ADMIN PANEL</span>
-        </div>
-      </div>
-      <nav class="flex-1 py-4 space-y-1">${items.map(li).join('')}</nav>
-      <div class="p-4 border-t border-white/[0.06] space-y-2">
-        <a href="/" class="flex items-center space-x-2 text-gray-500 hover:text-[#F6D06F] font-body text-sm transition-colors px-2">
-          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-          <span>View Site</span>
-        </a>
-        <button id="admin-logout" class="flex items-center space-x-2 text-[#E63946] hover:text-[#EE3F3F] font-pixel text-[7px] transition-colors w-full px-2">
-          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-          <span>LOGOUT</span>
-        </button>
-      </div>
-    </aside>`;
-  },
-
-  adminTopbar(activePage) {
-    return `
-    <div class="md:hidden bg-[#060a14]/95 backdrop-blur-2xl border-b border-white/[0.06] text-white px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-      <div class="flex items-center space-x-2.5">
-        <img src="/assets/LOGO_NB.png" alt="Nooblax Breaks" class="h-7 w-auto object-contain">
-        <span class="font-pixel brand-text-gradient text-[8.5px] tracking-wider">NOOBLAX ADMIN</span>
-      </div>
-      <div class="flex items-center space-x-3">
-        <a href="/" class="text-gray-500 hover:text-[#1FB5D6] transition-colors"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
-        <button id="admin-mobile-menu-btn" class="text-gray-400 hover:text-white transition-colors">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-      </div>
-    </div>
-    <div id="admin-mobile-nav" class="md:hidden hidden bg-[#060a14]/95 backdrop-blur-2xl border-b border-white/[0.06]">
-      <a href="/admin/dashboard.html" class="block px-4 py-3 font-body text-sm transition-colors ${activePage==='dashboard'?'text-[#1FB5D6] bg-[#0E839E]/10':'text-gray-400 hover:text-white hover:bg-white/[0.03]'}">Dashboard</a>
-      <a href="/admin/cards.html" class="block px-4 py-3 font-body text-sm transition-colors ${activePage==='cards'?'text-[#1FB5D6] bg-[#0E839E]/10':'text-gray-400 hover:text-white hover:bg-white/[0.03]'}">Cards</a>
-      <a href="/admin/vouchers.html" class="block px-4 py-3 font-body text-sm transition-colors ${activePage==='vouchers'?'text-[#1FB5D6] bg-[#0E839E]/10':'text-gray-400 hover:text-white hover:bg-white/[0.03]'}">Vouchers</a>
-      <a href="/admin/settings.html" class="block px-4 py-3 font-body text-sm transition-colors ${activePage==='settings'?'text-[#1FB5D6] bg-[#0E839E]/10':'text-gray-400 hover:text-white hover:bg-white/[0.03]'}">Settings</a>
-      <button id="admin-mobile-logout" class="block w-full text-left px-4 py-3 font-pixel text-[7px] text-[#E63946] hover:bg-white/[0.03] transition-colors">LOGOUT</button>
-    </div>`;
-  },
-
   // ======================== PAGE INITIALIZERS ========================
 
   async initPublic(activePage) {
@@ -1073,48 +1041,6 @@ Is this still available for delivery? Thank you!`;
 
     bindMenu();
     return settings;
-  },
-
-  async initAdmin(activePage) {
-    const session = await this.checkAuth();
-    if (!session) { window.location.href = '/admin/'; return null; }
-    const settings = await this.loadSettings();
-    const sb = document.getElementById('admin-sidebar');
-    if (sb) sb.innerHTML = this.adminSidebar(activePage);
-    const tb = document.getElementById('admin-topbar');
-    if (tb) tb.innerHTML = this.adminTopbar(activePage);
-    setTimeout(() => {
-      const doLogout = async (e) => { e.preventDefault(); await supabaseClient.auth.signOut(); window.location.href = '/admin/'; };
-      document.getElementById('admin-logout')?.addEventListener('click', doLogout);
-      document.getElementById('admin-mobile-logout')?.addEventListener('click', doLogout);
-      document.getElementById('admin-mobile-menu-btn')?.addEventListener('click', () => {
-        document.getElementById('admin-mobile-nav')?.classList.toggle('hidden');
-      });
-    }, 0);
-    return { session, settings };
-  },
-
-  // ======================== STORAGE HELPERS ========================
-
-  async uploadCardImage(file) {
-    const fileName = Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9._-]/g, '');
-    const { data, error } = await supabaseClient.storage
-      .from('card-images')
-      .upload(fileName, file, { cacheControl: '3600', upsert: false });
-    if (error) throw error;
-    const { data: { publicUrl } } = supabaseClient.storage
-      .from('card-images')
-      .getPublicUrl(fileName);
-    return publicUrl;
-  },
-
-  async deleteCardImage(url) {
-    if (!url) return;
-    try {
-      const parts = url.split('/card-images/');
-      if (parts.length < 2) return;
-      await supabaseClient.storage.from('card-images').remove([parts[1]]);
-    } catch (e) { console.warn('Image delete failed:', e); }
   },
 
   // ======================== TOAST ========================

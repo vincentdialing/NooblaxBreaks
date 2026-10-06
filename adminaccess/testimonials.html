@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Vouches & Testimonials | Nooblax Admin Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="icon" type="image/png" href="assets/LOGO_NB.png">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-[#0B1120] text-gray-100 font-sans min-h-screen">
+
+  <div id="admin-topbar-container"></div>
+  <div id="admin-sidebar-container"></div>
+
+  <main class="md:ml-64 p-3.5 sm:p-6 lg:p-10 max-w-7xl">
+    
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Collector Vouches & Reviews</h1>
+        <p class="text-xs sm:text-sm text-gray-400 mt-1">Manage buyer feedback, ratings, and social proof shown on the public site.</p>
+      </div>
+      <a href="testimonial-form.html" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-5 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white text-sm font-bold shadow-lg shadow-[#0E839E]/30 transition-all">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        <span>Add New Vouch</span>
+      </a>
+    </div>
+
+    <!-- Vouches Table -->
+    <div class="bg-[#0A1020] border border-white/10 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-gray-300">
+          <thead class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-gray-400 bg-white/[0.02] border-b border-white/10">
+            <tr>
+              <th class="p-2.5 sm:p-4 lg:p-5">Buyer</th>
+              <th class="p-4 lg:p-5 hidden md:table-cell">Location</th>
+              <th class="p-2.5 sm:p-4 lg:p-5">Rating</th>
+              <th class="p-2.5 sm:p-4 lg:p-5">Review Text</th>
+              <th class="p-4 lg:p-5 hidden sm:table-cell">Date</th>
+              <th class="p-2.5 sm:p-4 lg:p-5 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="testimonials-table-body" class="divide-y divide-white/5">
+            <tr>
+              <td colspan="6" class="py-8 text-center text-gray-500">Loading vouches from Supabase...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    async function loadTestimonials() {
+      const tbody = document.getElementById('testimonials-table-body');
+      try {
+        const { data, error } = await supabaseClient
+          .from('testimonials')
+          .select('*')
+          .order('id', { ascending: false });
+
+        if (error) throw error;
+
+        if (!data || !data.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-gray-500">No vouches found in Supabase. Click "Add New Vouch" to create one.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = data.map(item => `
+          <tr class="hover:bg-white/[0.02] transition-colors">
+            <td class="p-2.5 sm:p-4 lg:p-5 font-bold text-white">
+              <div class="flex items-center space-x-2">
+                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#0E839E]/20 text-[#1FB5D6] font-bold text-xs flex items-center justify-center flex-shrink-0">
+                  ${Admin.esc(item.name.charAt(0))}
+                </div>
+                <div class="min-w-0">
+                  <span class="truncate block max-w-[100px] xs:max-w-[140px] sm:max-w-none text-xs sm:text-sm">${Admin.esc(item.name)}</span>
+                  <span class="text-[10px] text-gray-500 font-normal md:hidden">${Admin.esc(item.location || '—')}</span>
+                </div>
+              </div>
+            </td>
+            <td class="p-4 lg:p-5 text-xs text-gray-400 hidden md:table-cell">${Admin.esc(item.location || '—')}</td>
+            <td class="p-2.5 sm:p-4 lg:p-5 whitespace-nowrap">
+              <span class="text-amber-400 font-bold text-xs tracking-wider">
+                ${'★'.repeat(item.rating || 5)}${'☆'.repeat(5 - (item.rating || 5))}
+              </span>
+            </td>
+            <td class="p-2.5 sm:p-4 lg:p-5 text-xs text-gray-300 max-w-[140px] xs:max-w-xs sm:max-w-md line-clamp-2">${Admin.esc(item.text)}</td>
+            <td class="p-4 lg:p-5 text-xs text-gray-400 whitespace-nowrap hidden sm:table-cell">${Admin.esc(item.date || '—')}</td>
+            <td class="p-2.5 sm:p-4 lg:p-5 text-right whitespace-nowrap">
+              <div class="inline-flex items-center justify-end gap-1.5 sm:gap-2.5">
+                <a href="testimonial-form.html?id=${item.id}" class="text-[11px] sm:text-xs font-bold text-[#1FB5D6] hover:text-white px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-lg sm:rounded-xl bg-[#0E839E]/20 hover:bg-[#0E839E]/40 border border-[#1FB5D6]/30 transition-all shadow-sm">Edit</a>
+                <button onclick="deleteTestimonial(${item.id})" class="text-[11px] sm:text-xs font-bold text-rose-400 hover:text-white px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-lg sm:rounded-xl bg-rose-500/10 hover:bg-rose-500/30 border border-rose-500/20 transition-all shadow-sm cursor-pointer">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        console.error('Error loading testimonials:', err);
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-rose-400">Failed to load: ${Admin.esc(err.message)}</td></tr>`;
+      }
+    }
+
+    async function deleteTestimonial(id) {
+      if (!confirm('Are you sure you want to delete this buyer review?')) return;
+      try {
+        const { error } = await supabaseClient.from('testimonials').delete().eq('id', id);
+        if (error) throw error;
+        Admin.toast('Vouch deleted successfully', 'success');
+        loadTestimonials();
+      } catch (err) {
+        console.error('Delete error:', err);
+        Admin.toast('Failed to delete: ' + err.message, 'error');
+      }
+    }
+
+    (async () => {
+      const session = await Admin.initPage('testimonials');
+      if (!session) return;
+      loadTestimonials();
+    })();
+  </script>
+</body>
+</html>

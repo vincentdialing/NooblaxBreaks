@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Event Editor | Nooblax Admin Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="icon" type="image/png" href="assets/LOGO_NB.png">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-[#0B1120] text-gray-100 font-sans min-h-screen">
+
+  <div id="admin-topbar-container"></div>
+  <div id="admin-sidebar-container"></div>
+
+  <main class="md:ml-64 p-3.5 sm:p-6 lg:p-10 max-w-4xl">
+    
+    <div class="mb-6 sm:mb-8">
+      <a href="events.html" class="inline-flex items-center space-x-1.5 text-xs font-bold text-[#1FB5D6] hover:underline mb-2">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Back to Events</span>
+      </a>
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white" id="event-form-heading">Add New Event</h1>
+    </div>
+
+    <div class="bg-[#0A1020] border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-8 lg:p-10 shadow-2xl">
+      <form id="event-editor-form" class="space-y-6">
+        
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Event Title *</label>
+          <input type="text" id="event-title" required placeholder="e.g. Cebu TCG Tournament 2026"
+                 class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Venue / Mall / Location *</label>
+            <input type="text" id="event-location" required placeholder="e.g. SM Seaside City, Cebu"
+                   class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Event Date (e.g. Month Year or Specific Date) *</label>
+            <input type="text" id="event-date" required placeholder="e.g. December 2026"
+                   class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
+          </div>
+        </div>
+
+        <!-- Event Image Upload & Preview -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Event Photograph</label>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+            <div id="event-preview-box" class="w-36 h-24 rounded-xl bg-[#050914] border border-dashed border-white/20 flex items-center justify-center overflow-hidden flex-shrink-0">
+              <span class="text-xs text-gray-500 text-center px-2">No Photo</span>
+            </div>
+            <div class="space-y-3 flex-1 w-full">
+              <input type="file" id="event-file" accept="image/*" class="text-xs text-gray-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#0E839E]/20 file:text-[#1FB5D6] hover:file:bg-[#0E839E]/30 file:cursor-pointer cursor-pointer">
+              <div>
+                <span class="text-xs text-gray-500 block mb-1">Or direct image URL / link:</span>
+                <input type="url" id="event-image-url" placeholder="https://..." class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-[#1FB5D6]">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Description / Highlights</label>
+          <textarea id="event-desc" rows="3" placeholder="Notes on participation, number of players, tournament results, giveaways..."
+                    class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]"></textarea>
+        </div>
+
+        <div class="pt-6 border-t border-white/10 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:space-x-4">
+          <a href="events.html" class="w-full sm:w-auto text-center px-5 py-3 rounded-xl border border-white/10 text-gray-400 hover:text-white text-sm font-semibold transition-all">Cancel</a>
+          <button type="submit" id="save-event-btn" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white text-sm font-bold shadow-lg shadow-[#0E839E]/30 transition-all cursor-pointer">
+            Save Event
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventId = urlParams.get('id');
+
+    (async () => {
+      const session = await Admin.initPage('events');
+      if (!session) return;
+
+      const fileInput = document.getElementById('event-file');
+      const urlInput = document.getElementById('event-image-url');
+      const previewBox = document.getElementById('event-preview-box');
+
+      function updatePreview(src) {
+        if (src) {
+          previewBox.innerHTML = `<img src="${src}" class="w-full h-full object-cover">`;
+        } else {
+          previewBox.innerHTML = `<span class="text-xs text-gray-500 text-center px-2">No Photo</span>`;
+        }
+      }
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (re) => updatePreview(re.target.result);
+          reader.readAsDataURL(file);
+        }
+      });
+
+      urlInput.addEventListener('input', (e) => {
+        if (!fileInput.files.length) updatePreview(e.target.value);
+      });
+
+      if (eventId) {
+        document.getElementById('event-form-heading').innerText = 'Edit Event #' + eventId;
+        try {
+          const { data, error } = await supabaseClient.from('events').select('*').eq('id', eventId).single();
+          if (error) throw error;
+          if (data) {
+            document.getElementById('event-title').value = data.title || '';
+            document.getElementById('event-location').value = data.location || '';
+            document.getElementById('event-date').value = data.date || '';
+            document.getElementById('event-image-url').value = data.image_url || '';
+            document.getElementById('event-desc').value = data.description || '';
+            updatePreview(data.image_url);
+          }
+        } catch (err) {
+          console.error('Fetch error:', err);
+          Admin.toast('Failed to load: ' + err.message, 'error');
+        }
+      }
+
+      const form = document.getElementById('event-editor-form');
+      const saveBtn = document.getElementById('save-event-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        saveBtn.disabled = true;
+        saveBtn.innerText = 'Saving...';
+
+        try {
+          let imageUrl = urlInput.value.trim();
+
+          if (fileInput.files.length > 0) {
+            saveBtn.innerText = 'Uploading photo...';
+            const uploadedUrl = await Admin.uploadImage(fileInput.files[0], 'events');
+            if (uploadedUrl) imageUrl = uploadedUrl;
+          }
+
+          const payload = {
+            title: document.getElementById('event-title').value.trim(),
+            location: document.getElementById('event-location').value.trim(),
+            date: document.getElementById('event-date').value.trim(),
+            image_url: imageUrl,
+            description: document.getElementById('event-desc').value.trim()
+          };
+
+          if (eventId) {
+            const { error } = await supabaseClient.from('events').update(payload).eq('id', eventId);
+            if (error) throw error;
+            Admin.toast('Event updated successfully!', 'success');
+          } else {
+            const { error } = await supabaseClient.from('events').insert(payload);
+            if (error) throw error;
+            Admin.toast('Event created successfully!', 'success');
+          }
+
+          setTimeout(() => {
+            window.location.href = 'events.html';
+          }, 800);
+        } catch (err) {
+          console.error('Save error:', err);
+          Admin.toast('Failed to save: ' + err.message, 'error');
+          saveBtn.disabled = false;
+          saveBtn.innerText = 'Save Event';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

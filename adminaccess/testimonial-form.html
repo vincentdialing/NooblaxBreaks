@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Vouch Editor | Nooblax Admin Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="icon" type="image/png" href="assets/LOGO_NB.png">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-[#0B1120] text-gray-100 font-sans min-h-screen">
+
+  <div id="admin-topbar-container"></div>
+  <div id="admin-sidebar-container"></div>
+
+  <main class="md:ml-64 p-3.5 sm:p-6 lg:p-10 max-w-4xl">
+    
+    <div class="mb-6 sm:mb-8">
+      <a href="testimonials.html" class="inline-flex items-center space-x-1.5 text-xs font-bold text-[#1FB5D6] hover:underline mb-2">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Back to Vouches</span>
+      </a>
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white" id="vouch-form-heading">Add New Buyer Vouch</h1>
+    </div>
+
+    <div class="bg-[#0A1020] border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-8 lg:p-10 shadow-2xl">
+      <form id="vouch-editor-form" class="space-y-6">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Buyer Name *</label>
+            <input type="text" id="vouch-name" required placeholder="e.g. Mark D."
+                   class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Location / City</label>
+            <input type="text" id="vouch-location" placeholder="e.g. Cebu City"
+                   class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Rating Stars</label>
+            <select id="vouch-rating" class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 pr-10 text-white text-sm focus:outline-none focus:border-[#1FB5D6] cursor-pointer appearance-none">
+              <option value="5" selected>★★★★★ (5 Stars)</option>
+              <option value="4">★★★★☆ (4 Stars)</option>
+              <option value="3">★★★☆☆ (3 Stars)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Transaction Date</label>
+            <input type="date" id="vouch-date"
+                   class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Review / Testimonial Text *</label>
+          <textarea id="vouch-text" required rows="4" placeholder="Buyer feedback on packaging, speed, slab condition, and overall trust..."
+                    class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]"></textarea>
+        </div>
+
+        <div class="pt-6 border-t border-white/10 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:space-x-4">
+          <a href="testimonials.html" class="w-full sm:w-auto text-center px-5 py-3 rounded-xl border border-white/10 text-gray-400 hover:text-white text-sm font-semibold transition-all">Cancel</a>
+          <button type="submit" id="save-vouch-btn" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white text-sm font-bold shadow-lg shadow-[#0E839E]/30 transition-all cursor-pointer">
+            Save Vouch
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const vouchId = urlParams.get('id');
+
+    (async () => {
+      const session = await Admin.initPage('testimonials');
+      if (!session) return;
+
+      // Default date to today
+      document.getElementById('vouch-date').value = new Date().toISOString().split('T')[0];
+
+      if (vouchId) {
+        document.getElementById('vouch-form-heading').innerText = 'Edit Buyer Vouch #' + vouchId;
+        try {
+          const { data, error } = await supabaseClient.from('testimonials').select('*').eq('id', vouchId).single();
+          if (error) throw error;
+          if (data) {
+            document.getElementById('vouch-name').value = data.name || '';
+            document.getElementById('vouch-location').value = data.location || '';
+            document.getElementById('vouch-rating').value = data.rating || 5;
+            document.getElementById('vouch-date').value = data.date || '';
+            document.getElementById('vouch-text').value = data.text || '';
+          }
+        } catch (err) {
+          console.error('Fetch error:', err);
+          Admin.toast('Failed to load details: ' + err.message, 'error');
+        }
+      }
+
+      const form = document.getElementById('vouch-editor-form');
+      const saveBtn = document.getElementById('save-vouch-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        saveBtn.disabled = true;
+        saveBtn.innerText = 'Saving...';
+
+        try {
+          const payload = {
+            name: document.getElementById('vouch-name').value.trim(),
+            location: document.getElementById('vouch-location').value.trim(),
+            rating: parseInt(document.getElementById('vouch-rating').value, 10),
+            date: document.getElementById('vouch-date').value,
+            text: document.getElementById('vouch-text').value.trim(),
+            verified: true
+          };
+
+          if (vouchId) {
+            const { error } = await supabaseClient.from('testimonials').update(payload).eq('id', vouchId);
+            if (error) throw error;
+            Admin.toast('Vouch updated successfully!', 'success');
+          } else {
+            const { error } = await supabaseClient.from('testimonials').insert(payload);
+            if (error) throw error;
+            Admin.toast('Vouch created successfully!', 'success');
+          }
+
+          setTimeout(() => {
+            window.location.href = 'testimonials.html';
+          }, 800);
+        } catch (err) {
+          console.error('Save error:', err);
+          Admin.toast('Failed to save: ' + err.message, 'error');
+          saveBtn.disabled = false;
+          saveBtn.innerText = 'Save Vouch';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
