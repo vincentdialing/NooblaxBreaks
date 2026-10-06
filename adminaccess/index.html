@@ -42,7 +42,7 @@
       </div>
 
       <!-- Login Form -->
-      <form id="admin-login-form" class="space-y-5">
+      <form id="admin-login-form" class="space-y-5" onsubmit="return false;">
         <div>
           <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">Email Address</label>
           <input type="email" id="login-email" required placeholder="admin@example.com" 
@@ -147,37 +147,97 @@
         }
       });
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+      async function doLogin(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value;
+
+        if (!email || !password) {
+          errorMsg.innerHTML = '<span class="font-semibold text-red-200">Kulang og Impormasyon:</span> Palihug isulod ang email ug password.';
+          errorBox.classList.remove('hidden');
+          return;
+        }
 
         errorBox.classList.add('hidden');
         submitBtn.disabled = true;
         submitBtn.innerHTML = 'Signing in...';
 
-        try {
-          if (!supabaseClient) throw new Error('Supabase configuration missing in js/config.js');
+        // 8-second safety timeout so it NEVER stays stuck on "Signing in..."
+        let didFinish = false;
+        const timeoutTimer = setTimeout(() => {
+          if (didFinish) return;
+          didFinish = true;
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span>Sign In to Dashboard</span><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`;
+          errorMsg.innerHTML = `<span class="font-semibold text-red-200">Timeout (8s):</span> Dili makakonektar sa Supabase.<br><span class="text-gray-300 mt-1 block">Tungod kay naggamit ka og Brave Browser, palihug i-click ang <strong>orange lion icon</strong> sa imong address bar unya i-turn <strong>OFF</strong> ang Brave Shields alang niining site.</span>`;
+          errorBox.classList.remove('hidden');
+        }, 8000);
 
-          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-          if (error) throw error;
+        try {
+          if (!supabaseClient) throw new Error('Supabase client failed to load. Please refresh.');
+
+          let loginError = null;
+
+          // Attempt 1: Direct fetch to Supabase Auth endpoint (immune to WebLocks deadlocks)
+          try {
+            const fetchRes = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ email, password })
+            });
+            const resJson = await fetchRes.json();
+
+            if (!fetchRes.ok) {
+              const errMsg = resJson.error_description || resJson.msg || resJson.message || 'Invalid login credentials';
+              loginError = new Error(errMsg);
+            } else {
+              // Successfully authenticated! Set session in Supabase client
+              await supabaseClient.auth.setSession({
+                access_token: resJson.access_token,
+                refresh_token: resJson.refresh_token
+              });
+            }
+          } catch (netErr) {
+            console.warn('Direct fetch error, trying SDK:', netErr);
+            // Fallback attempt via SDK
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            if (error) loginError = error;
+          }
+
+          if (didFinish) return; // Already timed out
+          didFinish = true;
+          clearTimeout(timeoutTimer);
+
+          if (loginError) throw loginError;
 
           Admin.toast('Login successful! Redirecting...', 'success');
           setTimeout(() => {
             window.location.href = 'dashboard.html';
-          }, 800);
+          }, 600);
+
         } catch (err) {
+          if (didFinish) return;
+          didFinish = true;
+          clearTimeout(timeoutTimer);
+
           console.error('Login error:', err);
           Admin.toast(err.message || 'Authentication failed', 'error');
 
           let tip = '';
           const msg = (err.message || '').toLowerCase();
-          if (msg.includes('invalid login credentials')) {
+          if (msg.includes('invalid login credentials') || msg.includes('invalid_grant')) {
             tip = 'Palihug susiha ang imong email ug password. Kung bag-o nimo gibuhat ang user sa Supabase, siguroha nga gi-markahan kini og "Confirmed" sa Supabase Authentication > Users tab.';
           } else if (msg.includes('email not confirmed')) {
             tip = 'Wala pa ma-confirm ang email. Adto sa Supabase > Authentication > Users unya i-click ang Confirm Email.';
-          } else if (msg.includes('failed to fetch') || msg.includes('network')) {
-            tip = 'Dili makakonektar sa Supabase API. Kung naggamit ka og Brave Browser o AdBlocker, palihug i-turn off ang Brave Shields o i-whitelist kini nga site.';
+          } else if (msg.includes('failed to fetch') || msg.includes('network') || msg.includes('timeout')) {
+            tip = 'Dili makakonektar sa Supabase API. Kung naggamit ka og Brave Browser (tan-awa ang orange lion icon sa address bar), palihug i-turn OFF ang Brave Shields para sa niini nga site.';
           }
 
           errorMsg.innerHTML = `<span class="font-semibold text-red-200">Login Failed:</span> ${Admin.esc(err.message || 'Authentication failed')}${tip ? `<div class="mt-1 text-gray-300">${tip}</div>` : ''}`;
@@ -186,7 +246,10 @@
           submitBtn.disabled = false;
           submitBtn.innerHTML = `<span>Sign In to Dashboard</span><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`;
         }
-      });
+      }
+
+      form.addEventListener('submit', doLogin);
+      submitBtn.addEventListener('click', doLogin);
     })();
   </script>
 </body>
