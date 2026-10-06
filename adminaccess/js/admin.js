@@ -53,7 +53,28 @@ const Admin = {
   },
 
   async checkAuth() {
-    // 1. Try SDK getSession()
+    // 1. Direct localStorage check FIRST (instant & synchronous)
+    try {
+      const storageKey = `sb-${SUPABASE_URL.split('//')[1].split('.')[0]}-auth-token`;
+      const item = localStorage.getItem(storageKey);
+      if (item) {
+        const session = JSON.parse(item);
+        if (session && session.access_token) {
+          // Sync with supabaseClient in background
+          if (supabaseClient && supabaseClient.auth) {
+            supabaseClient.auth.setSession({
+              access_token: session.access_token,
+              refresh_token: session.refresh_token || ''
+            }).catch(() => {});
+          }
+          return session;
+        }
+      }
+    } catch (e) {
+      console.warn('LocalStorage auth check error:', e);
+    }
+
+    // 2. SDK getSession() fallback
     if (supabaseClient && supabaseClient.auth) {
       try {
         const { data: { session } } = await supabaseClient.auth.getSession();
@@ -62,19 +83,7 @@ const Admin = {
         console.warn('SDK getSession error:', e);
       }
     }
-    // 2. Direct localStorage fallback
-    try {
-      const storageKey = `sb-${SUPABASE_URL.split('//')[1].split('.')[0]}-auth-token`;
-      const item = localStorage.getItem(storageKey);
-      if (item) {
-        const session = JSON.parse(item);
-        if (session && session.access_token) {
-          return session;
-        }
-      }
-    } catch (e) {
-      console.warn('LocalStorage auth check error:', e);
-    }
+
     return null;
   },
 
