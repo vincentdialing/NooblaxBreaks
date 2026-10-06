@@ -54,15 +54,15 @@
           <div class="relative">
             <input type="password" id="login-password" required placeholder="••••••••" 
                    class="w-full bg-[#050914] border border-white/10 rounded-xl pl-4 pr-12 py-3.5 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#1FB5D6] focus:ring-1 focus:ring-[#1FB5D6] transition-all">
-            <button type="button" id="toggle-password-btn" aria-label="Toggle password visibility" title="Show/Hide password"
-                    class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-[#1FB5D6] transition-colors focus:outline-none cursor-pointer">
+            <button type="button" id="toggle-password-btn" onclick="togglePasswordVisibility(event)" aria-label="Toggle password visibility" title="Show/Hide password"
+                    class="absolute inset-y-0 right-0 w-12 h-full flex items-center justify-center text-gray-400 hover:text-[#1FB5D6] transition-colors focus:outline-none cursor-pointer select-none z-20">
               <!-- Eye Open (show password) -->
-              <svg id="eye-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg id="eye-icon" class="w-5 h-5 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
               </svg>
               <!-- Eye Closed / Slash (hide password) -->
-              <svg id="eye-slash-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg id="eye-slash-icon" class="w-5 h-5 hidden pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
               </svg>
             </button>
@@ -91,45 +91,60 @@
     </div>
   </div>
 
+  <!-- Synchronous Password Visibility Helper (never waits for async network calls) -->
+  <script>
+    function togglePasswordVisibility(e) {
+      if (e) {
+        if (typeof e.preventDefault === 'function') e.preventDefault();
+        if (typeof e.stopPropagation === 'function') e.stopPropagation();
+      }
+      const input = document.getElementById('login-password');
+      const eye = document.getElementById('eye-icon');
+      const slash = document.getElementById('eye-slash-icon');
+      if (!input) return false;
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        if (eye) eye.classList.add('hidden');
+        if (slash) slash.classList.remove('hidden');
+      } else {
+        input.type = 'password';
+        if (eye) eye.classList.remove('hidden');
+        if (slash) slash.classList.add('hidden');
+      }
+      return false;
+    }
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/admin.js"></script>
   <script>
     (async () => {
       // Check if already authenticated
-      const session = await Admin.checkAuth();
-      if (session) {
-        window.location.href = 'dashboard.html';
-        return;
+      try {
+        const session = await Admin.checkAuth();
+        if (session) {
+          window.location.href = 'dashboard.html';
+          return;
+        }
+      } catch (authErr) {
+        console.warn('Initial session check error:', authErr);
       }
 
       const form = document.getElementById('admin-login-form');
       const submitBtn = document.getElementById('login-submit-btn');
-      const passwordInput = document.getElementById('login-password');
-      const togglePasswordBtn = document.getElementById('toggle-password-btn');
-      const eyeIcon = document.getElementById('eye-icon');
-      const eyeSlashIcon = document.getElementById('eye-slash-icon');
       const errorBox = document.getElementById('login-error-box');
       const errorMsg = document.getElementById('login-error-msg');
 
-      // Toggle password visibility
-      togglePasswordBtn.addEventListener('click', () => {
-        const isPassword = passwordInput.type === 'password';
-        passwordInput.type = isPassword ? 'text' : 'password';
-        if (isPassword) {
-          eyeIcon.classList.add('hidden');
-          eyeSlashIcon.classList.remove('hidden');
-        } else {
-          eyeIcon.classList.remove('hidden');
-          eyeSlashIcon.classList.add('hidden');
-        }
-      });
-
       // Hide error box on new typing
       ['login-email', 'login-password'].forEach(id => {
-        document.getElementById(id).addEventListener('input', () => {
-          errorBox.classList.add('hidden');
-        });
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', () => {
+            errorBox.classList.add('hidden');
+          });
+        }
       });
 
       form.addEventListener('submit', async (e) => {
@@ -161,6 +176,8 @@
             tip = 'Palihug susiha ang imong email ug password. Kung bag-o nimo gibuhat ang user sa Supabase, siguroha nga gi-markahan kini og "Confirmed" sa Supabase Authentication > Users tab.';
           } else if (msg.includes('email not confirmed')) {
             tip = 'Wala pa ma-confirm ang email. Adto sa Supabase > Authentication > Users unya i-click ang Confirm Email.';
+          } else if (msg.includes('failed to fetch') || msg.includes('network')) {
+            tip = 'Dili makakonektar sa Supabase API. Kung naggamit ka og Brave Browser o AdBlocker, palihug i-turn off ang Brave Shields o i-whitelist kini nga site.';
           }
 
           errorMsg.innerHTML = `<span class="font-semibold text-red-200">Login Failed:</span> ${Admin.esc(err.message || 'Authentication failed')}${tip ? `<div class="mt-1 text-gray-300">${tip}</div>` : ''}`;
