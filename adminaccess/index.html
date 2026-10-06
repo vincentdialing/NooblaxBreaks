@@ -117,41 +117,34 @@
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js"></script>
-  <script src="js/admin.js"></script>
+  <script src="js/config.js?v=2.2"></script>
+  <script src="js/admin.js?v=2.2"></script>
   <script>
-    (async () => {
-      // Check if already authenticated
-      try {
-        const session = await Admin.checkAuth();
-        if (session) {
-          window.location.href = 'dashboard.html';
-          return;
-        }
-      } catch (authErr) {
-        console.warn('Initial session check error:', authErr);
-      }
-
+    (function() {
       const form = document.getElementById('admin-login-form');
       const submitBtn = document.getElementById('login-submit-btn');
       const errorBox = document.getElementById('login-error-box');
       const errorMsg = document.getElementById('login-error-msg');
+      let isSubmitting = false;
 
-      // Hide error box on new typing
+      // Hide error box when typing
       ['login-email', 'login-password'].forEach(id => {
         const el = document.getElementById(id);
         if (el) {
           el.addEventListener('input', () => {
-            errorBox.classList.add('hidden');
+            if (errorBox) errorBox.classList.add('hidden');
           });
         }
       });
 
-      async function doLogin(e) {
+      // Synchronously attach submit listener
+      form.addEventListener('submit', async function(e) {
         if (e) {
           e.preventDefault();
           e.stopPropagation();
         }
+
+        if (isSubmitting) return;
 
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value;
@@ -162,94 +155,115 @@
           return;
         }
 
+        isSubmitting = true;
         errorBox.classList.add('hidden');
         submitBtn.disabled = true;
         submitBtn.innerHTML = 'Signing in...';
 
-        // 8-second safety timeout so it NEVER stays stuck on "Signing in..."
-        let didFinish = false;
-        const timeoutTimer = setTimeout(() => {
-          if (didFinish) return;
-          didFinish = true;
+        const resetBtn = () => {
+          isSubmitting = false;
           submitBtn.disabled = false;
-          submitBtn.innerHTML = `<span>Sign In to Dashboard</span><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`;
-          errorMsg.innerHTML = `<span class="font-semibold text-red-200">Timeout (8s):</span> Dili makakonektar sa Supabase.<br><span class="text-gray-300 mt-1 block">Tungod kay naggamit ka og Brave Browser, palihug i-click ang <strong>orange lion icon</strong> sa imong address bar unya i-turn <strong>OFF</strong> ang Brave Shields alang niining site.</span>`;
-          errorBox.classList.remove('hidden');
-        }, 8000);
+          submitBtn.innerHTML = '<span>Sign In to Dashboard</span><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>';
+        };
+
+        // 6-second AbortController to guarantee fetch NEVER hangs
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
 
         try {
-          if (!supabaseClient) throw new Error('Supabase client failed to load. Please refresh.');
+          // Direct fetch to Supabase Auth endpoint
+          const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+            method: 'POST',
+            signal: controller.signal,
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+          });
+          clearTimeout(timeoutId);
 
-          let loginError = null;
+          const data = await res.json();
 
-          // Attempt 1: Direct fetch to Supabase Auth endpoint (immune to WebLocks deadlocks)
-          try {
-            const fetchRes = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
-              method: 'POST',
-              headers: {
-                'apikey': SUPABASE_ANON_KEY,
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ email, password })
-            });
-            const resJson = await fetchRes.json();
-
-            if (!fetchRes.ok) {
-              const errMsg = resJson.error_description || resJson.msg || resJson.message || 'Invalid login credentials';
-              loginError = new Error(errMsg);
-            } else {
-              // Successfully authenticated! Set session in Supabase client
-              await supabaseClient.auth.setSession({
-                access_token: resJson.access_token,
-                refresh_token: resJson.refresh_token
-              });
-            }
-          } catch (netErr) {
-            console.warn('Direct fetch error, trying SDK:', netErr);
-            // Fallback attempt via SDK
-            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-            if (error) loginError = error;
+          if (!res.ok) {
+            const rawMsg = data.error_description || data.msg || data.message || 'Invalid login credentials';
+            throw new Error(rawMsg);
           }
 
-          if (didFinish) return; // Already timed out
-          didFinish = true;
-          clearTimeout(timeoutTimer);
+          // Successfully authenticated!
+          // 1. Manually persist session into localStorage so subsequent getSession() always works
+          try {
+            const storageKey = `sb-${SUPABASE_URL.split('//')[1].split('.')[0]}-auth-token`;
+            localStorage.setItem(storageKey, JSON.stringify({
+              access_token: data.access_token,
+              refresh_token: data.refresh_token,
+              expires_at: Math.floor(Date.now() / 1000) + (data.expires_in || 3600),
+              expires_in: data.expires_in || 3600,
+              token_type: data.token_type || 'bearer',
+              user: data.user
+            }));
+          } catch (storageErr) {
+            console.warn('Storage error:', storageErr);
+          }
 
-          if (loginError) throw loginError;
+          // 2. Also notify supabaseClient if available
+          if (supabaseClient && supabaseClient.auth) {
+            try {
+              await Promise.race([
+                supabaseClient.auth.setSession({
+                  access_token: data.access_token,
+                  refresh_token: data.refresh_token
+                }),
+                new Promise(r => setTimeout(r, 1000))
+              ]);
+            } catch (ignore) {}
+          }
 
           Admin.toast('Login successful! Redirecting...', 'success');
           setTimeout(() => {
             window.location.href = 'dashboard.html';
-          }, 600);
+          }, 400);
 
         } catch (err) {
-          if (didFinish) return;
-          didFinish = true;
-          clearTimeout(timeoutTimer);
-
+          clearTimeout(timeoutId);
           console.error('Login error:', err);
-          Admin.toast(err.message || 'Authentication failed', 'error');
+          resetBtn();
 
+          let friendlyMsg = err.message || 'Authentication failed';
           let tip = '';
-          const msg = (err.message || '').toLowerCase();
-          if (msg.includes('invalid login credentials') || msg.includes('invalid_grant')) {
-            tip = 'Palihug susiha ang imong email ug password. Kung bag-o nimo gibuhat ang user sa Supabase, siguroha nga gi-markahan kini og "Confirmed" sa Supabase Authentication > Users tab.';
-          } else if (msg.includes('email not confirmed')) {
-            tip = 'Wala pa ma-confirm ang email. Adto sa Supabase > Authentication > Users unya i-click ang Confirm Email.';
-          } else if (msg.includes('failed to fetch') || msg.includes('network') || msg.includes('timeout')) {
-            tip = 'Dili makakonektar sa Supabase API. Kung naggamit ka og Brave Browser (tan-awa ang orange lion icon sa address bar), palihug i-turn OFF ang Brave Shields para sa niini nga site.';
+
+          if (err.name === 'AbortError' || friendlyMsg.toLowerCase().includes('abort')) {
+            friendlyMsg = 'Connection timed out (6 seconds).';
+            tip = 'Dili makakonektar sa Supabase. Kung naggamit ka og Brave Browser, i-click ang orange lion icon sa address bar unya i-turn OFF ang Brave Shields.';
+          } else if (friendlyMsg.toLowerCase().includes('invalid login credentials') || friendlyMsg.toLowerCase().includes('invalid_grant')) {
+            friendlyMsg = 'Invalid email or password.';
+            tip = 'Palihug susiha kon sakto ang email ug password sa Supabase Dashboard > Authentication > Users.';
+          } else if (friendlyMsg.toLowerCase().includes('email not confirmed')) {
+            friendlyMsg = 'Email is not confirmed yet.';
+            tip = 'Adto sa Supabase > Authentication > Users unya i-click ang Confirm Email.';
+          } else if (friendlyMsg.toLowerCase().includes('failed to fetch')) {
+            tip = 'Gi-block sa imong browser ang network request. Palihug i-turn OFF ang Brave Shields o AdBlocker.';
           }
 
-          errorMsg.innerHTML = `<span class="font-semibold text-red-200">Login Failed:</span> ${Admin.esc(err.message || 'Authentication failed')}${tip ? `<div class="mt-1 text-gray-300">${tip}</div>` : ''}`;
+          Admin.toast(friendlyMsg, 'error');
+          errorMsg.innerHTML = `<span class="font-semibold text-red-200">Login Failed:</span> ${Admin.esc(friendlyMsg)}${tip ? `<div class="mt-1.5 text-gray-300">${tip}</div>` : ''}`;
           errorBox.classList.remove('hidden');
-
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = `<span>Sign In to Dashboard</span><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`;
         }
-      }
+      });
 
-      form.addEventListener('submit', doLogin);
-      submitBtn.addEventListener('click', doLogin);
+      // Background check if user is already logged in (never blocks form listeners)
+      setTimeout(async () => {
+        try {
+          if (typeof Admin !== 'undefined' && Admin.checkAuth) {
+            const session = await Admin.checkAuth();
+            if (session) {
+              window.location.href = 'dashboard.html';
+            }
+          }
+        } catch (e) {
+          console.warn('Initial session check:', e);
+        }
+      }, 500);
     })();
   </script>
 </body>
