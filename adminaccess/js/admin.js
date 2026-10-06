@@ -53,14 +53,29 @@ const Admin = {
   },
 
   async checkAuth() {
-    if (!supabaseClient) return null;
-    try {
-      const { data: { session } } = await supabaseClient.auth.getSession();
-      return session;
-    } catch (e) {
-      console.error('Auth error:', e);
-      return null;
+    // 1. Try SDK getSession()
+    if (supabaseClient && supabaseClient.auth) {
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session && session.access_token) return session;
+      } catch (e) {
+        console.warn('SDK getSession error:', e);
+      }
     }
+    // 2. Direct localStorage fallback
+    try {
+      const storageKey = `sb-${SUPABASE_URL.split('//')[1].split('.')[0]}-auth-token`;
+      const item = localStorage.getItem(storageKey);
+      if (item) {
+        const session = JSON.parse(item);
+        if (session && session.access_token) {
+          return session;
+        }
+      }
+    } catch (e) {
+      console.warn('LocalStorage auth check error:', e);
+    }
+    return null;
   },
 
   async requireAuth() {
@@ -73,9 +88,13 @@ const Admin = {
   },
 
   async logout() {
-    if (supabaseClient) {
-      await supabaseClient.auth.signOut();
+    if (supabaseClient && supabaseClient.auth) {
+      try { await supabaseClient.auth.signOut(); } catch(e){}
     }
+    try {
+      const storageKey = `sb-${SUPABASE_URL.split('//')[1].split('.')[0]}-auth-token`;
+      localStorage.removeItem(storageKey);
+    } catch (e) {}
     window.location.href = 'index.html';
   },
 
