@@ -1,8 +1,15 @@
 {
   "cleanUrls": true,
-  "rewrites": [
+  "redirects": [
     {
       "source": "/adminaccess",
+      "destination": "/adminaccess/",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/adminaccess/",
       "destination": "/adminaccess/index.html"
     }
   ]

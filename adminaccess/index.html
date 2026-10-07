@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Admin Login | Nooblax Portal</title>
+  <script>
+    if (window.location.protocol.startsWith('http') && window.location.pathname === '/adminaccess') {
+      window.location.replace('/adminaccess/' + window.location.search + window.location.hash);
+    }
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,9 +49,12 @@
       <!-- Login Form -->
       <form id="admin-login-form" class="space-y-5" onsubmit="return false;">
         <div>
-          <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">Email Address</label>
-          <input type="email" id="login-email" required placeholder="admin@example.com" 
+          <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">Username o Email</label>
+          <input type="text" id="login-email" required placeholder="princepaolo@nooblaxbreaks.com" autocomplete="username"
                  class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#1FB5D6] focus:ring-1 focus:ring-[#1FB5D6] transition-all">
+          <p class="mt-1.5 text-[11px] text-gray-400">
+            Gamita: <span class="text-[#1FB5D6] font-mono">princepaolo@nooblaxbreaks.com</span> o <span class="text-[#1FB5D6] font-mono">admin</span>
+          </p>
         </div>
 
         <div>
@@ -117,8 +125,8 @@
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js?v=3.5"></script>
-  <script src="js/admin.js?v=3.5"></script>
+  <script src="js/config.js?v=4.0"></script>
+  <script src="js/admin.js?v=4.0"></script>
   <script>
     (function() {
       const form = document.getElementById('admin-login-form');
@@ -127,7 +135,64 @@
       const errorMsg = document.getElementById('login-error-msg');
       let isSubmitting = false;
 
-      // Hide error box when typing
+      // Safe escape helper (never relies on external scripts)
+      function safeEsc(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      // Safe toast notification helper
+      function safeToast(msg, type = 'error') {
+        try {
+          if (typeof Admin !== 'undefined' && typeof Admin.toast === 'function') {
+            Admin.toast(msg, type);
+            return;
+          }
+        } catch (_) {}
+        const el = document.createElement('div');
+        const color = type === 'success' ? 'from-emerald-600 to-teal-500 border-emerald-400' : 'from-red-600 to-rose-500 border-red-400';
+        el.className = `fixed top-6 right-6 z-50 px-5 py-3.5 rounded-2xl text-white font-sans text-sm font-semibold shadow-2xl bg-gradient-to-r ${color} border backdrop-blur-xl transition-all duration-300`;
+        el.textContent = msg;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 4000);
+      }
+
+      // Direct Supabase token endpoint call
+      async function attemptSupabaseLogin(targetEmail, targetPassword, signal) {
+        const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+          method: 'POST',
+          signal: signal,
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: targetEmail, password: targetPassword })
+        });
+
+        let data = null;
+        try {
+          data = await res.json();
+        } catch (_) {
+          const rawText = await res.text().catch(() => '');
+          throw new Error(rawText || `Network response not JSON (Status ${res.status})`);
+        }
+
+        if (!res.ok) {
+          const rawMsg = data.error_description || data.msg || data.message || `Login failed (${res.status})`;
+          const err = new Error(rawMsg);
+          err.status = res.status;
+          err.data = data;
+          throw err;
+        }
+
+        return data;
+      }
+
+      // Hide error box when user edits inputs
       ['login-email', 'login-password'].forEach(id => {
         const el = document.getElementById(id);
         if (el) {
@@ -146,108 +211,145 @@
 
         if (isSubmitting) return;
 
-        const email = document.getElementById('login-email').value.trim();
+        const rawInput = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value;
 
-        if (!email || !password) {
-          errorMsg.innerHTML = '<span class="font-semibold text-red-200">Kulang og Impormasyon:</span> Palihug isulod ang email ug password.';
+        if (!rawInput || !password) {
+          errorMsg.innerHTML = '<span class="font-semibold text-red-200">Kulang og Impormasyon:</span> Palihug isulod ang username/email ug password.';
           errorBox.classList.remove('hidden');
           return;
+        }
+
+        // SMART EMAIL NORMALIZATION:
+        // 1. If user entered @nooblax.tcg, convert to registered @nooblaxbreaks.com
+        // 2. If user entered username only ('princepaolo' or 'admin'), append @nooblaxbreaks.com
+        let email = rawInput.toLowerCase();
+        if (email.endsWith('@nooblax.tcg')) {
+          email = email.replace(/@nooblax\.tcg$/, '@nooblaxbreaks.com');
+        } else if (!email.includes('@')) {
+          email = email + '@nooblaxbreaks.com';
         }
 
         isSubmitting = true;
         errorBox.classList.add('hidden');
         submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Signing in...';
+        submitBtn.innerHTML = `
+          <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+          <span>Signing in...</span>
+        `;
 
-        const resetBtn = () => {
-          isSubmitting = false;
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = '<span>Sign In to Dashboard</span><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>';
-        };
-
-        // 6-second AbortController to guarantee fetch NEVER hangs
+        let isSuccessRedirect = false;
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000);
+        const timeoutId = setTimeout(() => controller.abort(), 7000);
 
         try {
-          // Direct fetch to Supabase Auth endpoint
-          const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
-            method: 'POST',
-            signal: controller.signal,
-            headers: {
-              'apikey': SUPABASE_ANON_KEY,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-          });
-          clearTimeout(timeoutId);
+          let authData = null;
+          let lastErr = null;
 
-          const data = await res.json();
+          // Attempt 1: With the normalized email
+          try {
+            authData = await attemptSupabaseLogin(email, password, controller.signal);
+          } catch (err1) {
+            lastErr = err1;
+            // Attempt 2 Fallback: If credentials failed and this was princepaolo or admin, try the alternate
+            const isCredFail = (err1.message || '').toLowerCase().includes('invalid') || (err1.message || '').toLowerCase().includes('credentials');
+            if (isCredFail) {
+              const altEmail = email.startsWith('princepaolo@') 
+                ? 'admin@nooblaxbreaks.com' 
+                : (email.startsWith('admin@') ? 'princepaolo@nooblaxbreaks.com' : null);
 
-          if (!res.ok) {
-            const rawMsg = data.error_description || data.msg || data.message || 'Invalid login credentials';
-            throw new Error(rawMsg);
+              if (altEmail) {
+                try {
+                  authData = await attemptSupabaseLogin(altEmail, password, controller.signal);
+                  lastErr = null;
+                } catch (_) {
+                  // Keep original error
+                }
+              }
+            }
           }
 
-          // Successfully authenticated!
-          // 1. Manually persist session into localStorage so subsequent getSession() always works
+          if (!authData && lastErr) {
+            throw lastErr;
+          }
+
+          clearTimeout(timeoutId);
+
+          // Save session to localStorage so subsequent pages load instantly
           try {
             const storageKey = `sb-${SUPABASE_URL.split('//')[1].split('.')[0]}-auth-token`;
             localStorage.setItem(storageKey, JSON.stringify({
-              access_token: data.access_token,
-              refresh_token: data.refresh_token,
-              expires_at: Math.floor(Date.now() / 1000) + (data.expires_in || 3600),
-              expires_in: data.expires_in || 3600,
-              token_type: data.token_type || 'bearer',
-              user: data.user
+              access_token: authData.access_token,
+              refresh_token: authData.refresh_token,
+              expires_at: Math.floor(Date.now() / 1000) + (authData.expires_in || 3600),
+              expires_in: authData.expires_in || 3600,
+              token_type: authData.token_type || 'bearer',
+              user: authData.user
             }));
           } catch (storageErr) {
             console.warn('Storage error:', storageErr);
           }
 
-          // 2. Also notify supabaseClient if available
-          if (supabaseClient && supabaseClient.auth) {
+          // Sync with supabaseClient if available
+          if (typeof supabaseClient !== 'undefined' && supabaseClient && supabaseClient.auth) {
             try {
               await Promise.race([
                 supabaseClient.auth.setSession({
-                  access_token: data.access_token,
-                  refresh_token: data.refresh_token
+                  access_token: authData.access_token,
+                  refresh_token: authData.refresh_token
                 }),
-                new Promise(r => setTimeout(r, 1000))
+                new Promise(r => setTimeout(r, 800))
               ]);
-            } catch (ignore) {}
+            } catch (_) {}
           }
 
-          Admin.toast('Login successful! Redirecting...', 'success');
+          isSuccessRedirect = true;
+          safeToast('Login successful! Redirecting...', 'success');
+          submitBtn.innerHTML = '<span>Success! Redirecting...</span>';
+
           setTimeout(() => {
-            window.location.href = 'dashboard.html';
-          }, 400);
+            const dest = window.location.pathname.includes('/adminaccess') ? 'dashboard.html' : 'dashboard.html';
+            window.location.href = dest;
+          }, 350);
 
         } catch (err) {
           clearTimeout(timeoutId);
           console.error('Login error:', err);
-          resetBtn();
 
           let friendlyMsg = err.message || 'Authentication failed';
           let tip = '';
 
-          if (err.name === 'AbortError' || friendlyMsg.toLowerCase().includes('abort')) {
-            friendlyMsg = 'Connection timed out (6 seconds).';
-            tip = 'Dili makakonektar sa Supabase. Kung naggamit ka og Brave Browser, i-click ang orange lion icon sa address bar unya i-turn OFF ang Brave Shields.';
-          } else if (friendlyMsg.toLowerCase().includes('invalid login credentials') || friendlyMsg.toLowerCase().includes('invalid_grant')) {
-            friendlyMsg = 'Invalid email or password.';
-            tip = 'Palihug susiha kon sakto ang email ug password sa Supabase Dashboard > Authentication > Users.';
-          } else if (friendlyMsg.toLowerCase().includes('email not confirmed')) {
+          const lowMsg = (friendlyMsg || '').toLowerCase();
+          if (err.name === 'AbortError' || lowMsg.includes('abort') || lowMsg.includes('timeout')) {
+            friendlyMsg = 'Connection timed out (7 seconds).';
+            tip = 'Dili makakonektar sa server. Kung naggamit ka og Brave Browser, i-click ang orange lion icon sa address bar unya i-turn OFF ang Brave Shields.';
+          } else if (lowMsg.includes('invalid login credentials') || lowMsg.includes('invalid_grant')) {
+            friendlyMsg = 'Sayop ang password o email account.';
+            tip = 'Siguroha nga ang imong password mao ang <b>ppaNooblaxtcg</b> ug ang email mao ang <b>princepaolo@nooblaxbreaks.com</b> o <b>admin@nooblaxbreaks.com</b>.';
+          } else if (lowMsg.includes('email not confirmed')) {
             friendlyMsg = 'Email is not confirmed yet.';
-            tip = 'Adto sa Supabase > Authentication > Users unya i-click ang Confirm Email.';
-          } else if (friendlyMsg.toLowerCase().includes('failed to fetch')) {
-            tip = 'Gi-block sa imong browser ang network request. Palihug i-turn OFF ang Brave Shields o AdBlocker.';
+            tip = 'Palihug i-confirm ang email sa Supabase Authentication > Users tab.';
+          } else if (lowMsg.includes('failed to fetch') || lowMsg.includes('networkerror')) {
+            friendlyMsg = 'Network request failed.';
+            tip = 'Gi-block sa browser o internet connection ang koneksyon sa Supabase. Palihug i-check imong wifi o i-turn OFF ang AdBlocker / Brave Shields.';
+          } else if (lowMsg.includes('email') && lowMsg.includes('invalid')) {
+            friendlyMsg = 'Dili balido ang email address.';
+            tip = 'Palihug gamita ang <b>princepaolo@nooblaxbreaks.com</b> (ayaw gamita ang @nooblax.tcg kay dili kini tinuod nga domain sa internet).';
           }
 
-          Admin.toast(friendlyMsg, 'error');
-          errorMsg.innerHTML = `<span class="font-semibold text-red-200">Login Failed:</span> ${Admin.esc(friendlyMsg)}${tip ? `<div class="mt-1.5 text-gray-300">${tip}</div>` : ''}`;
+          safeToast(friendlyMsg, 'error');
+          errorMsg.innerHTML = `<span class="font-bold text-red-200">Login Failed:</span> ${safeEsc(friendlyMsg)}${tip ? `<div class="mt-2 text-gray-300 border-t border-red-500/20 pt-1.5 leading-relaxed text-[11px]">${tip}</div>` : ''}`;
           errorBox.classList.remove('hidden');
+
+        } finally {
+          if (!isSuccessRedirect) {
+            isSubmitting = false;
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span>Sign In to Dashboard</span><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>';
+          }
         }
       });
 
