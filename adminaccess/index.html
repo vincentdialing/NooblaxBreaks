@@ -49,12 +49,9 @@
       <!-- Login Form -->
       <form id="admin-login-form" class="space-y-5" onsubmit="return false;">
         <div>
-          <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">Username o Email</label>
-          <input type="text" id="login-email" required placeholder="princepaolo@nooblaxbreaks.com" autocomplete="username"
+          <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">Email Address</label>
+          <input type="text" id="login-email" required placeholder="admin@example.com" autocomplete="username"
                  class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#1FB5D6] focus:ring-1 focus:ring-[#1FB5D6] transition-all">
-          <p class="mt-1.5 text-[11px] text-gray-400">
-            Gamita: <span class="text-[#1FB5D6] font-mono">princepaolo@nooblaxbreaks.com</span> o <span class="text-[#1FB5D6] font-mono">admin</span>
-          </p>
         </div>
 
         <div>
@@ -319,29 +316,19 @@
           clearTimeout(timeoutId);
           console.error('Login error:', err);
 
-          let friendlyMsg = err.message || 'Authentication failed';
-          let tip = '';
+          let friendlyMsg = 'Sayop ang email o password. Palihug susiha ug sulayi pag-usab.';
+          const lowMsg = ((err && err.message) || '').toLowerCase();
 
-          const lowMsg = (friendlyMsg || '').toLowerCase();
           if (err.name === 'AbortError' || lowMsg.includes('abort') || lowMsg.includes('timeout')) {
-            friendlyMsg = 'Connection timed out (7 seconds).';
-            tip = 'Dili makakonektar sa server. Kung naggamit ka og Brave Browser, i-click ang orange lion icon sa address bar unya i-turn OFF ang Brave Shields.';
-          } else if (lowMsg.includes('invalid login credentials') || lowMsg.includes('invalid_grant')) {
-            friendlyMsg = 'Sayop ang password o email account.';
-            tip = 'Siguroha nga ang imong password mao ang <b>ppaNooblaxtcg</b> ug ang email mao ang <b>princepaolo@nooblaxbreaks.com</b> o <b>admin@nooblaxbreaks.com</b>.';
-          } else if (lowMsg.includes('email not confirmed')) {
-            friendlyMsg = 'Email is not confirmed yet.';
-            tip = 'Palihug i-confirm ang email sa Supabase Authentication > Users tab.';
+            friendlyMsg = 'Connection timed out. Palihug susiha ang imong koneksyon sa internet.';
+          } else if (lowMsg.includes('invalid login credentials') || lowMsg.includes('invalid_grant') || lowMsg.includes('invalid') || lowMsg.includes('credentials')) {
+            friendlyMsg = 'Sayop ang email o password. Palihug susiha ug sulayi pag-usab.';
           } else if (lowMsg.includes('failed to fetch') || lowMsg.includes('networkerror')) {
-            friendlyMsg = 'Network request failed.';
-            tip = 'Gi-block sa browser o internet connection ang koneksyon sa Supabase. Palihug i-check imong wifi o i-turn OFF ang AdBlocker / Brave Shields.';
-          } else if (lowMsg.includes('email') && lowMsg.includes('invalid')) {
-            friendlyMsg = 'Dili balido ang email address.';
-            tip = 'Palihug gamita ang <b>princepaolo@nooblaxbreaks.com</b> (ayaw gamita ang @nooblax.tcg kay dili kini tinuod nga domain sa internet).';
+            friendlyMsg = 'Network connection error. Palihug susiha ang imong koneksyon.';
           }
 
           safeToast(friendlyMsg, 'error');
-          errorMsg.innerHTML = `<span class="font-bold text-red-200">Login Failed:</span> ${safeEsc(friendlyMsg)}${tip ? `<div class="mt-2 text-gray-300 border-t border-red-500/20 pt-1.5 leading-relaxed text-[11px]">${tip}</div>` : ''}`;
+          errorMsg.innerHTML = `<span class="font-bold text-red-200">Sayop sa Pag-login:</span> ${safeEsc(friendlyMsg)}`;
           errorBox.classList.remove('hidden');
 
         } finally {
