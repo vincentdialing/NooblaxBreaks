@@ -671,21 +671,21 @@ Is this still available for delivery? Thank you!`;
     if (p.includes('tiktok')) {
       iconSvg = this.icons.tiktok;
       badgeText = ch.badge || 'TIKTOK';
-      badgeClass = 'text-[#25F4EE] bg-[#25F4EE]/10 border border-[#25F4EE]/30';
+      badgeClass = 'text-[#25F4EE] bg-[#25F4EE]/15 border border-[#25F4EE]/35';
       cardClass = 'bg-[#070913] hover:bg-[#0c1022] border-white/10 hover:border-[#25F4EE]/50 hover:shadow-[0_4px_24px_rgba(37,244,238,0.15)]';
       iconBg = 'bg-[#25F4EE]/10 text-[#25F4EE] border border-[#25F4EE]/30';
       btnText = 'Open TikTok';
     } else if (p.includes('instagram')) {
       iconSvg = this.icons.instagram;
       badgeText = ch.badge || 'INSTAGRAM';
-      badgeClass = 'text-[#FD1D1D] bg-[#FD1D1D]/10 border border-[#FD1D1D]/30';
+      badgeClass = 'text-[#FF4B72] bg-[#FF4B72]/15 border border-[#FF4B72]/35';
       cardClass = 'bg-[#0E0B19] hover:bg-[#19112C] border-white/10 hover:border-[#E1306C]/50 hover:shadow-[0_4px_24px_rgba(225,48,108,0.15)]';
       iconBg = 'bg-gradient-to-tr from-[#FD1D1D]/20 to-[#833AB4]/20 text-[#FD1D1D] border border-[#E1306C]/30';
       btnText = 'Send DM';
     } else if (p.includes('facebook') || p.includes('messenger')) {
       iconSvg = this.icons.messenger;
       badgeText = ch.badge || 'MESSENGER';
-      badgeClass = 'text-[#0084FF] bg-[#0084FF]/10 border border-[#0084FF]/30';
+      badgeClass = 'text-[#0084FF] bg-[#0084FF]/15 border border-[#0084FF]/35';
       cardClass = 'bg-[#060D1F] hover:bg-[#0A1636] border-white/10 hover:border-[#0084FF]/50 hover:shadow-[0_4px_24px_rgba(0,132,255,0.15)]';
       iconBg = 'bg-[#0084FF]/15 text-[#0084FF] border border-[#0084FF]/30';
       btnText = 'Chat Now';
@@ -694,39 +694,39 @@ Is this still available for delivery? Thank you!`;
       }
     } else if (p.includes('viber')) {
       badgeText = ch.badge || 'VIBER';
-      badgeClass = 'text-[#7360F2] bg-[#7360F2]/10 border border-[#7360F2]/30';
+      badgeClass = 'text-[#7360F2] bg-[#7360F2]/15 border border-[#7360F2]/35';
       cardClass = 'bg-[#090818] hover:bg-[#12102E] border-white/10 hover:border-[#7360F2]/50';
       iconBg = 'bg-[#7360F2]/15 text-[#7360F2] border border-[#7360F2]/30';
     } else if (p.includes('telegram')) {
       badgeText = ch.badge || 'TELEGRAM';
-      badgeClass = 'text-[#229ED9] bg-[#229ED9]/10 border border-[#229ED9]/30';
+      badgeClass = 'text-[#229ED9] bg-[#229ED9]/15 border border-[#229ED9]/35';
       cardClass = 'bg-[#050D18] hover:bg-[#0A182E] border-white/10 hover:border-[#229ED9]/50';
       iconBg = 'bg-[#229ED9]/15 text-[#229ED9] border border-[#229ED9]/30';
     } else if (p.includes('whatsapp')) {
       badgeText = ch.badge || 'WHATSAPP';
-      badgeClass = 'text-[#25D366] bg-[#25D366]/10 border border-[#25D366]/30';
+      badgeClass = 'text-[#25D366] bg-[#25D366]/15 border border-[#25D366]/35';
       cardClass = 'bg-[#06140D] hover:bg-[#0B2418] border-white/10 hover:border-[#25D366]/50';
       iconBg = 'bg-[#25D366]/15 text-[#25D366] border border-[#25D366]/30';
     }
 
     return `
       <a href="${this.esc(targetUrl)}" target="_blank" rel="noopener noreferrer"
-         class="group flex items-center justify-between p-2.5 sm:p-3 rounded-2xl ${cardClass} border transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.99]">
-        <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0 flex-1">
-          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ${iconBg} flex items-center justify-center flex-shrink-0 shadow-sm">
+         class="group flex items-center justify-between p-3 rounded-2xl ${cardClass} border transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.99]">
+        <div class="flex items-center space-x-3 min-w-0 flex-1">
+          <div class="w-10 h-10 rounded-xl ${iconBg} flex items-center justify-center flex-shrink-0 shadow-sm">
             ${iconSvg}
           </div>
-          <div class="min-w-0 flex-1">
-            <div class="flex items-center space-x-1.5 flex-wrap">
-              <span class="font-bold text-white text-xs sm:text-sm truncate group-hover:text-[#1FB5D6] transition-colors">${this.esc(title)}</span>
-              <span class="px-1.5 py-0.2 rounded text-[7px] sm:text-[7.5px] font-pixel ${badgeClass} uppercase tracking-wider">${this.esc(badgeText)}</span>
+          <div class="min-w-0 flex-1 flex flex-col justify-center">
+            <div class="flex items-center space-x-2 min-w-0">
+              <span class="font-bold text-white text-xs sm:text-sm truncate group-hover:text-[#1FB5D6] transition-colors leading-tight">${this.esc(title)}</span>
+              <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-[8.5px] sm:text-[9px] font-bold ${badgeClass} uppercase tracking-wider leading-none shadow-sm whitespace-nowrap">${this.esc(badgeText)}</span>
             </div>
-            <p class="text-[10px] sm:text-[11px] text-gray-400 truncate mt-0.5">${this.esc(ch.handle || ch.description || targetUrl)}</p>
+            <p class="text-[11px] text-gray-400 truncate mt-1 leading-tight">${this.esc(ch.handle || ch.description || targetUrl)}</p>
           </div>
         </div>
-        <div class="flex items-center space-x-1 text-xs font-bold text-[#1FB5D6] group-hover:text-white flex-shrink-0 ml-2 pl-2 border-l border-white/5">
-          <span class="text-[10px] sm:text-[11px] font-semibold">${btnText}</span>
-          <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="flex items-center space-x-1 text-[#1FB5D6] group-hover:text-white flex-shrink-0 ml-2.5 transition-colors">
+          <span class="text-[11px] sm:text-xs font-semibold whitespace-nowrap">${btnText}</span>
+          <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
           </svg>
         </div>
