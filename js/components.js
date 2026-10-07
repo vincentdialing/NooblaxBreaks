@@ -1614,6 +1614,7 @@ Is this still available for delivery? Thank you!`;
 
   footer(settings) {
     const rawName = (settings?.site_name||'NOOBLAX BREAKS').toUpperCase();
+    const footerCopy = settings?.hero_subtitle || this.DEFAULT_SETTINGS.hero_subtitle;
     return `
     <footer class="bg-[#060a14] mt-20 py-16 border-t border-white/[0.06]">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1626,7 +1627,7 @@ Is this still available for delivery? Thank you!`;
               <span class="font-pixel brand-logo-text brand-text-gradient text-[10px] sm:text-xs tracking-wider">${rawName}</span>
             </div>
             <p class="font-body text-sm text-gray-400 max-w-md leading-relaxed mb-4">
-              Your premier Pokémon TCG showcase in the Philippines. Featuring authenticated raw chase singles, Special Art Rares (SAR), and PSA 10 slabs. Transactions and inquiries handled directly through direct messages.
+              ${this.esc(footerCopy)}
             </p>
             <div class="flex items-center space-x-3 text-xs text-gray-500">
               <span class="flex items-center space-x-1">
