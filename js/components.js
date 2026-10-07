@@ -36,35 +36,43 @@ const NB = {
     tiktok_url: 'https://www.tiktok.com/@nooblaxbreaks',
     contact_channels: JSON.stringify([
       {
-        id: 'tt_main',
+        id: 'tiktok_main',
         platform: 'tiktok',
+        title: 'TikTok (Main Showcase)',
         name: 'TikTok (Main Showcase)',
         handle: '@nooblaxbreaks',
         url: 'https://www.tiktok.com/@nooblaxbreaks',
+        badge: 'Main Account',
         description: 'Watch daily singles showcase & rare card pulls'
       },
       {
-        id: 'tt_live',
+        id: 'tiktok_live',
         platform: 'tiktok',
-        name: 'TikTok (Live Stream Breaks)',
+        title: 'TikTok (Live Breaks)',
+        name: 'TikTok (Live Breaks)',
         handle: '@nooblaxbreaks_live',
         url: 'https://www.tiktok.com/@nooblaxbreaks_live',
+        badge: 'Live Stream',
         description: 'Join live box breaks, pack rips, and claims'
       },
       {
-        id: 'ig_main',
+        id: 'instagram',
         platform: 'instagram',
-        name: 'Instagram (Official DM)',
+        title: 'Instagram Direct',
+        name: 'Instagram Direct',
         handle: '@nooblaxbreaks',
         url: 'https://www.instagram.com/nooblaxbreaks',
+        badge: 'DMs Open',
         description: 'Direct message for VIP reservations & slabs'
       },
       {
-        id: 'fb_main',
+        id: 'facebook',
         platform: 'facebook',
+        title: 'Facebook Messenger',
         name: 'Facebook Messenger',
-        handle: 'Nooblax Breaks',
+        handle: 'Nooblax Breaks Page',
         url: 'https://www.facebook.com/profile.php?id=61593883622380',
+        badge: 'Fastest Reply',
         description: 'Fast chat support on our official Facebook Page'
       }
     ]),
@@ -583,12 +591,12 @@ Is this still available for delivery? Thank you!`;
 
   getContactChannels(settings) {
     const s = settings || window._siteSettings || this.DEFAULT_SETTINGS;
+    let list = [];
     if (s && s.contact_channels) {
       try {
         const parsed = typeof s.contact_channels === 'string' ? JSON.parse(s.contact_channels) : s.contact_channels;
         if (Array.isArray(parsed) && parsed.length > 0) {
-          const valid = parsed.filter(ch => ch && ch.url && String(ch.url).trim() !== '');
-          if (valid.length > 0) return valid;
+          list = parsed.filter(ch => ch && ch.url && String(ch.url).trim() !== '');
         }
       } catch (e) {
         console.warn('Failed parsing contact_channels:', e);
@@ -596,50 +604,64 @@ Is this still available for delivery? Thank you!`;
     }
 
     // Fallback: build from individual social URLs
-    const channels = [];
-    if (s.tiktok_url) {
-      channels.push({
-        id: 'tt_main',
-        platform: 'tiktok',
-        name: 'TikTok (Main Showcase)',
-        handle: '@nooblaxbreaks',
-        url: s.tiktok_url,
-        description: 'Watch daily singles showcase & rare card pulls'
-      });
-    }
-    if (s.instagram_url) {
-      channels.push({
-        id: 'ig_main',
-        platform: 'instagram',
-        name: 'Instagram (Official DM)',
-        handle: '@nooblaxbreaks',
-        url: s.instagram_url,
-        description: 'Direct message for VIP reservations & slabs'
-      });
-    }
-    if (s.fb_messenger_url) {
-      channels.push({
-        id: 'fb_main',
-        platform: 'facebook',
-        name: 'Facebook Messenger',
-        handle: 'Nooblax Breaks',
-        url: s.fb_messenger_url,
-        description: 'Fast chat support on our official Facebook Page'
-      });
+    if (list.length === 0) {
+      if (s.tiktok_url) {
+        list.push({
+          id: 'tiktok_main',
+          platform: 'tiktok',
+          title: 'TikTok (Main Showcase)',
+          name: 'TikTok (Main Showcase)',
+          handle: '@nooblaxbreaks',
+          url: s.tiktok_url,
+          badge: 'Main Account',
+          description: 'Watch daily singles showcase & rare card pulls'
+        });
+      }
+      if (s.instagram_url) {
+        list.push({
+          id: 'instagram',
+          platform: 'instagram',
+          title: 'Instagram Direct',
+          name: 'Instagram Direct',
+          handle: '@nooblaxbreaks',
+          url: s.instagram_url,
+          badge: 'DMs Open',
+          description: 'Direct message for VIP reservations & slabs'
+        });
+      }
+      if (s.fb_messenger_url) {
+        list.push({
+          id: 'facebook',
+          platform: 'facebook',
+          title: 'Facebook Messenger',
+          name: 'Facebook Messenger',
+          handle: 'Nooblax Breaks Page',
+          url: s.fb_messenger_url,
+          badge: 'Fastest Reply',
+          description: 'Fast chat support on our official Facebook Page'
+        });
+      }
     }
 
-    try {
-      const def = JSON.parse(this.DEFAULT_SETTINGS.contact_channels);
-      return channels.length > 0 ? channels : def;
-    } catch (_) {
-      return channels;
+    if (list.length === 0) {
+      try {
+        list = JSON.parse(this.DEFAULT_SETTINGS.contact_channels);
+      } catch (_) {}
     }
+
+    return list.map(ch => ({
+      ...ch,
+      title: ch.title || ch.name || 'Official Account',
+      name: ch.title || ch.name || 'Official Account',
+      badge: ch.badge || ((ch.platform||'').includes('tiktok') ? 'TikTok' : (ch.platform||'').includes('instagram') ? 'Instagram' : 'Official')
+    }));
   },
 
   renderChannelItem(ch, card, settings) {
     const p = (ch.platform || 'custom').toLowerCase();
+    const title = ch.title || ch.name || 'Official Channel';
     let iconSvg = this.icons.chat;
-    let badgeText = 'CHAT';
+    let badgeText = ch.badge || 'CHAT';
     let badgeClass = 'text-[#1FB5D6] bg-[#1FB5D6]/10 border border-[#1FB5D6]/30';
     let cardClass = 'bg-[#060D1E] hover:bg-[#091530] border-white/10 hover:border-[#1FB5D6]/50 hover:shadow-[0_4px_20px_rgba(31,181,214,0.15)]';
     let iconBg = 'bg-[#1FB5D6]/10 text-[#1FB5D6] border border-[#1FB5D6]/20';
@@ -648,21 +670,21 @@ Is this still available for delivery? Thank you!`;
 
     if (p.includes('tiktok')) {
       iconSvg = this.icons.tiktok;
-      badgeText = 'TIKTOK';
+      badgeText = ch.badge || 'TIKTOK';
       badgeClass = 'text-[#25F4EE] bg-[#25F4EE]/10 border border-[#25F4EE]/30';
       cardClass = 'bg-[#070913] hover:bg-[#0c1022] border-white/10 hover:border-[#25F4EE]/50 hover:shadow-[0_4px_24px_rgba(37,244,238,0.15)]';
       iconBg = 'bg-[#25F4EE]/10 text-[#25F4EE] border border-[#25F4EE]/30';
       btnText = 'Open TikTok';
     } else if (p.includes('instagram')) {
       iconSvg = this.icons.instagram;
-      badgeText = 'INSTAGRAM';
+      badgeText = ch.badge || 'INSTAGRAM';
       badgeClass = 'text-[#FD1D1D] bg-[#FD1D1D]/10 border border-[#FD1D1D]/30';
       cardClass = 'bg-[#0E0B19] hover:bg-[#19112C] border-white/10 hover:border-[#E1306C]/50 hover:shadow-[0_4px_24px_rgba(225,48,108,0.15)]';
       iconBg = 'bg-gradient-to-tr from-[#FD1D1D]/20 to-[#833AB4]/20 text-[#FD1D1D] border border-[#E1306C]/30';
       btnText = 'Send DM';
     } else if (p.includes('facebook') || p.includes('messenger')) {
       iconSvg = this.icons.messenger;
-      badgeText = 'MESSENGER';
+      badgeText = ch.badge || 'MESSENGER';
       badgeClass = 'text-[#0084FF] bg-[#0084FF]/10 border border-[#0084FF]/30';
       cardClass = 'bg-[#060D1F] hover:bg-[#0A1636] border-white/10 hover:border-[#0084FF]/50 hover:shadow-[0_4px_24px_rgba(0,132,255,0.15)]';
       iconBg = 'bg-[#0084FF]/15 text-[#0084FF] border border-[#0084FF]/30';
@@ -671,17 +693,17 @@ Is this still available for delivery? Thank you!`;
         targetUrl = this.messengerInquiryUrl(card, settings);
       }
     } else if (p.includes('viber')) {
-      badgeText = 'VIBER';
+      badgeText = ch.badge || 'VIBER';
       badgeClass = 'text-[#7360F2] bg-[#7360F2]/10 border border-[#7360F2]/30';
       cardClass = 'bg-[#090818] hover:bg-[#12102E] border-white/10 hover:border-[#7360F2]/50';
       iconBg = 'bg-[#7360F2]/15 text-[#7360F2] border border-[#7360F2]/30';
     } else if (p.includes('telegram')) {
-      badgeText = 'TELEGRAM';
+      badgeText = ch.badge || 'TELEGRAM';
       badgeClass = 'text-[#229ED9] bg-[#229ED9]/10 border border-[#229ED9]/30';
       cardClass = 'bg-[#050D18] hover:bg-[#0A182E] border-white/10 hover:border-[#229ED9]/50';
       iconBg = 'bg-[#229ED9]/15 text-[#229ED9] border border-[#229ED9]/30';
     } else if (p.includes('whatsapp')) {
-      badgeText = 'WHATSAPP';
+      badgeText = ch.badge || 'WHATSAPP';
       badgeClass = 'text-[#25D366] bg-[#25D366]/10 border border-[#25D366]/30';
       cardClass = 'bg-[#06140D] hover:bg-[#0B2418] border-white/10 hover:border-[#25D366]/50';
       iconBg = 'bg-[#25D366]/15 text-[#25D366] border border-[#25D366]/30';
@@ -689,22 +711,22 @@ Is this still available for delivery? Thank you!`;
 
     return `
       <a href="${this.esc(targetUrl)}" target="_blank" rel="noopener noreferrer"
-         class="group flex items-center justify-between p-3 sm:p-3.5 rounded-2xl ${cardClass} border transition-all duration-200 hover:-translate-y-0.5">
-        <div class="flex items-center space-x-3 sm:space-x-3.5 min-w-0 flex-1">
-          <div class="w-10 h-10 rounded-xl ${iconBg} flex items-center justify-center flex-shrink-0 shadow-sm">
+         class="group flex items-center justify-between p-2.5 sm:p-3 rounded-2xl ${cardClass} border transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.99]">
+        <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0 flex-1">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ${iconBg} flex items-center justify-center flex-shrink-0 shadow-sm">
             ${iconSvg}
           </div>
           <div class="min-w-0 flex-1">
-            <div class="flex items-center space-x-2">
-              <span class="font-bold text-white text-xs sm:text-sm truncate group-hover:text-[#1FB5D6] transition-colors">${this.esc(ch.name || 'Official Account')}</span>
-              <span class="px-1.5 py-0.5 rounded text-[7.5px] font-pixel ${badgeClass} uppercase tracking-wider">${badgeText}</span>
+            <div class="flex items-center space-x-1.5 flex-wrap">
+              <span class="font-bold text-white text-xs sm:text-sm truncate group-hover:text-[#1FB5D6] transition-colors">${this.esc(title)}</span>
+              <span class="px-1.5 py-0.2 rounded text-[7px] sm:text-[7.5px] font-pixel ${badgeClass} uppercase tracking-wider">${this.esc(badgeText)}</span>
             </div>
-            <p class="text-[11px] text-gray-400 truncate mt-0.5">${this.esc(ch.handle || ch.description || targetUrl)}</p>
+            <p class="text-[10px] sm:text-[11px] text-gray-400 truncate mt-0.5">${this.esc(ch.handle || ch.description || targetUrl)}</p>
           </div>
         </div>
-        <div class="flex items-center space-x-1 text-xs font-bold text-[#1FB5D6] group-hover:text-white flex-shrink-0 ml-3 pl-2 border-l border-white/5">
-          <span class="hidden xs:inline text-[11px]">${btnText}</span>
-          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="flex items-center space-x-1 text-xs font-bold text-[#1FB5D6] group-hover:text-white flex-shrink-0 ml-2 pl-2 border-l border-white/5">
+          <span class="text-[10px] sm:text-[11px] font-semibold">${btnText}</span>
+          <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
           </svg>
         </div>
@@ -726,72 +748,98 @@ Is this still available for delivery? Thank you!`;
     const channels = this.getContactChannels(settings);
     const inquiryText = this.getInquiryText(card);
 
+    // Count platforms for instant hint badges in header
+    const tiktokCount = channels.filter(c => (c.platform || '').includes('tiktok')).length;
+    const hasIg = channels.some(c => (c.platform || '').includes('instagram'));
+    const hasFb = channels.some(c => (c.platform || '').includes('facebook') || (c.platform || '').includes('messenger'));
+
     // Remove old modal instance if any
     const existing = document.getElementById('nb-inquiry-modal-backdrop');
     if (existing) existing.remove();
 
     const modalHtml = `
-      <div id="nb-inquiry-modal-backdrop" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-[#030712]/80 backdrop-blur-md opacity-0 transition-opacity duration-200">
-        <div id="nb-inquiry-modal-panel" class="relative w-full max-w-lg bg-[#0A1020]/95 border border-white/10 rounded-3xl p-5 sm:p-7 shadow-2xl shadow-black/90 flex flex-col max-h-[92vh] overflow-hidden transform scale-95 transition-all duration-200">
+      <div id="nb-inquiry-modal-backdrop" class="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-[#030712]/85 backdrop-blur-md opacity-0 transition-opacity duration-200">
+        <div id="nb-inquiry-modal-panel" class="relative w-full max-w-lg bg-[#0A1020]/95 border border-white/10 rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 shadow-2xl shadow-black/90 flex flex-col max-h-[94vh] overflow-hidden transform scale-95 transition-all duration-200">
           
           <!-- Modal Header -->
-          <div class="flex items-center justify-between pb-4 border-b border-white/10 flex-shrink-0">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#0E839E]/30 to-[#1FB5D6]/20 border border-[#1FB5D6]/40 flex items-center justify-center shadow-lg shadow-[#0E839E]/20 flex-shrink-0">
-                <svg class="w-5 h-5 text-[#1FB5D6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                </svg>
+          <div class="pb-3 border-b border-white/10 flex-shrink-0">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2.5">
+                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#0E839E]/30 to-[#1FB5D6]/20 border border-[#1FB5D6]/40 flex items-center justify-center shadow-md shadow-[#0E839E]/20 flex-shrink-0">
+                  <svg class="w-4 h-4 text-[#1FB5D6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-pixel text-[9px] sm:text-[10.5px] text-white tracking-wider">OFFICIAL INQUIRY CHANNELS</h3>
+                  <p class="text-[10px] sm:text-[11px] text-gray-400">Choose where you would like to reach us:</p>
+                </div>
               </div>
-              <div>
-                <h3 class="font-pixel text-[10px] sm:text-[11px] text-white tracking-wider">OFFICIAL INQUIRY CHANNELS</h3>
-                <p class="text-[11px] text-gray-400 mt-0.5">Select where you would like to reach Nooblax Breaks:</p>
-              </div>
+              <button type="button" onclick="NB.closeInquiryModal()" aria-label="Close modal"
+                      class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
             </div>
-            <button type="button" onclick="NB.closeInquiryModal()" aria-label="Close modal"
-                    class="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all cursor-pointer">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
+
+            <!-- Instant Social Media Hint Badges (Clear at single open!) -->
+            <div class="mt-2.5 pt-2 border-t border-white/5 flex items-center flex-wrap gap-1.5">
+              <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mr-0.5">Reach us on:</span>
+              <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#25F4EE]/10 border border-[#25F4EE]/30 text-[#25F4EE] text-[9.5px] font-bold shadow-sm">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64c.298 0 .591.045.87.13V9.4a6.33 6.33 0 00-.87-.06A6.34 6.34 0 003.15 15.7 6.34 6.34 0 009.5 22.03a6.34 6.34 0 006.34-6.33V9.22a8.16 8.16 0 004.9 1.62v-3.45a4.85 4.85 0 01-1.15-.7z"/></svg>
+                <span>TikTok ${tiktokCount > 1 ? `(${tiktokCount} accounts)` : ''}</span>
+              </span>
+              ${hasIg ? `
+              <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#FD1D1D]/10 border border-[#FD1D1D]/30 text-[#FD1D1D] text-[9.5px] font-bold shadow-sm">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <span>Instagram</span>
+              </span>` : ''}
+              ${hasFb ? `
+              <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#0084FF]/10 border border-[#0084FF]/30 text-[#0084FF] text-[9.5px] font-bold shadow-sm">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                <span>Messenger</span>
+              </span>` : ''}
+            </div>
           </div>
 
           <!-- Modal Scroll Area -->
-          <div class="py-4 space-y-4 overflow-y-auto pr-1 flex-1">
+          <div class="py-3 space-y-3 overflow-y-auto pr-0.5 flex-1">
             
             ${card ? `
-            <!-- Card Snapshot Box -->
-            <div class="p-3.5 sm:p-4 rounded-2xl bg-[#060B18] border border-white/10 relative overflow-hidden">
-              <div class="flex items-center space-x-3.5">
+            <!-- Mini Card Context Bar (Fixed compact size so it never pushes channels off screen!) -->
+            <div class="p-2 sm:p-2.5 rounded-xl bg-[#060B18] border border-white/10 flex items-center justify-between gap-2.5 flex-shrink-0 shadow-sm">
+              <div class="flex items-center space-x-2.5 min-w-0 flex-1">
                 <img src="${card.image_url || '/assets/placeholder.svg'}" alt="${this.esc(card.name)}" 
-                     class="w-13 h-18 sm:w-16 sm:h-22 object-cover rounded-xl border border-white/10 bg-[#050914] flex-shrink-0 shadow-md">
+                     style="width: 42px; height: 58px; min-width: 42px; max-width: 42px;"
+                     class="object-cover rounded-lg border border-white/10 bg-[#050914] flex-shrink-0 shadow-sm">
                 <div class="min-w-0 flex-1">
-                  <div class="flex items-center space-x-1.5 mb-1">
-                    <span class="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-[9px] text-gray-300 font-semibold">${this.esc(card.condition || 'RAW NM')}</span>
-                    <span class="px-2 py-0.5 rounded-md bg-[#1FB5D6]/10 border border-[#1FB5D6]/30 text-[9px] text-[#1FB5D6] font-semibold">${this.esc(card.rarity || 'Single')}</span>
+                  <div class="flex items-center space-x-1.5 mb-0.5">
+                    <span class="px-1.5 py-0.2 rounded bg-white/5 border border-white/10 text-[8px] text-gray-300 font-semibold uppercase">${this.esc(card.condition || 'RAW NM')}</span>
+                    <span class="font-pixel text-[9.5px] text-[#1FB5D6] font-bold">${this.price(card.price)}</span>
                   </div>
-                  <h4 class="font-bold text-white text-xs sm:text-sm truncate">${this.esc(card.name)}</h4>
-                  <p class="text-[10px] text-gray-400 truncate mt-0.5">${this.esc(card.set_name || 'Pokémon TCG')}</p>
-                  <p class="font-pixel text-[11px] sm:text-xs text-[#1FB5D6] mt-1.5 font-bold">${this.price(card.price)}</p>
+                  <h4 class="font-bold text-white text-xs truncate leading-tight">${this.esc(card.name)}</h4>
+                  <p class="text-[9px] text-gray-400 truncate">${this.esc(card.set_name || 'Pokémon TCG')}</p>
                 </div>
               </div>
 
-              <!-- 1-Tap Copy Inquiry Info Button -->
-              <div class="mt-3 pt-3 border-t border-white/[0.08] flex items-center justify-between gap-2">
-                <span class="text-[11px] text-gray-400 truncate">Card info ready to paste:</span>
-                <button type="button" id="nb-copy-card-info-btn" onclick="NB.copyInquiryText('${this.esc(inquiryText).replace(/'/g, "\\'")}')"
-                        class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#0E839E]/20 to-[#1FB5D6]/20 hover:from-[#0E839E]/40 hover:to-[#1FB5D6]/40 border border-[#1FB5D6]/40 text-[#1FB5D6] hover:text-white text-xs font-semibold flex items-center space-x-1.5 transition-all cursor-pointer flex-shrink-0 shadow-sm">
-                  <svg class="w-3.5 h-3.5 text-[#1FB5D6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
-                  </svg>
-                  <span id="nb-copy-btn-label">Copy Card Details</span>
-                </button>
-              </div>
+              <!-- 1-Tap Copy Info Button -->
+              <button type="button" id="nb-copy-card-info-btn" onclick="NB.copyInquiryText('${this.esc(inquiryText).replace(/'/g, "\\'")}')"
+                      class="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-[#0E839E]/20 to-[#1FB5D6]/20 hover:from-[#0E839E]/40 hover:to-[#1FB5D6]/40 border border-[#1FB5D6]/40 text-[#1FB5D6] hover:text-white text-[10px] font-bold flex items-center space-x-1 transition-all cursor-pointer flex-shrink-0 shadow-sm whitespace-nowrap">
+                <svg class="w-3 h-3 text-[#1FB5D6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+                </svg>
+                <span id="nb-copy-btn-label">Copy Card</span>
+              </button>
             </div>
             ` : ''}
 
             <!-- Contact Channels List -->
             <div class="space-y-2">
-              <div class="flex items-center justify-between text-xs font-bold text-gray-300 uppercase tracking-wider px-0.5">
-                <span>Select Channel (${channels.length})</span>
-                <span class="text-[10px] text-gray-500 font-normal normal-case">Direct inquiry</span>
+              <div class="flex items-center justify-between text-[11px] font-bold text-gray-300 uppercase tracking-wider px-0.5">
+                <span class="flex items-center space-x-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>Select Channel (${channels.length})</span>
+                </span>
+                <span class="text-[10px] text-gray-500 font-normal normal-case">Direct message</span>
               </div>
               <div class="space-y-2">
                 ${channels.map(ch => this.renderChannelItem(ch, card, settings)).join('')}
@@ -801,9 +849,9 @@ Is this still available for delivery? Thank you!`;
           </div>
 
           <!-- Modal Footer Tip -->
-          <div class="pt-3 border-t border-white/10 text-center flex-shrink-0">
-            <p class="text-[11px] text-gray-400">
-              💡 <span class="text-gray-300">Tip:</span> If messaging on TikTok or Instagram, click <strong class="text-white">Copy Card Details</strong> above to easily paste card info into your DM!
+          <div class="pt-2.5 border-t border-white/10 text-center flex-shrink-0">
+            <p class="text-[10.5px] text-gray-400">
+              💡 <span class="text-gray-300">Tip:</span> If inquiring on TikTok or Instagram, click <strong class="text-white">Copy Card</strong> above to easily paste card details into your DM!
             </p>
           </div>
 
