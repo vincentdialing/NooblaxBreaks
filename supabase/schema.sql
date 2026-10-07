@@ -112,12 +112,16 @@ DROP POLICY IF EXISTS "Authenticated can insert settings" ON settings;
 DROP POLICY IF EXISTS "Authenticated can update settings" ON settings;
 DROP POLICY IF EXISTS "Authenticated can delete settings" ON settings;
 
--- Public READ-ONLY access (Visitors can view all content without logging in)
+-- Public access (Visitors can view content and submit reviews)
 CREATE POLICY "Public can view cards"        ON cards        FOR SELECT USING (true);
 CREATE POLICY "Public can view testimonials" ON testimonials FOR SELECT USING (true);
 CREATE POLICY "Public can view events"       ON events       FOR SELECT USING (true);
 CREATE POLICY "Public can view vouchers"     ON vouchers     FOR SELECT USING (true);
 CREATE POLICY "Public can view settings"     ON settings     FOR SELECT USING (true);
+
+-- Allow public visitors to leave reviews / vouches
+DROP POLICY IF EXISTS "Public can insert testimonials" ON testimonials;
+CREATE POLICY "Public can insert testimonials" ON testimonials FOR INSERT TO anon, authenticated WITH CHECK (true);
 
 -- Authenticated WRITE access (Only logged-in admin can insert/update/delete)
 CREATE POLICY "Authenticated can insert cards"        ON cards        FOR INSERT TO authenticated WITH CHECK (true);

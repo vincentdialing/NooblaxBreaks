@@ -105,6 +105,12 @@
       <p class="font-body text-gray-300 text-sm leading-relaxed">
         Real customer experiences, verified transaction reviews, and active TCG event participation. Shop with complete confidence knowing Nooblax Breaks is trusted by Pokémon collectors nationwide.
       </p>
+      <div class="mt-6 flex items-center justify-center gap-3">
+        <button type="button" onclick="NB.openReviewModal()" class="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white font-pixel text-[8.5px] shadow-lg shadow-[#0E839E]/30 hover:-translate-y-0.5 transition-all cursor-pointer">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          <span>WRITE A REVIEW</span>
+        </button>
+      </div>
     </div>
 
     <!-- Trust Stats Grid -->
@@ -158,9 +164,15 @@
           </span>
           <h2 class="font-pixel text-base sm:text-xl text-white mt-1">COLLECTOR VOUCHES</h2>
         </div>
-        <span class="font-pixel text-[8px] text-gray-400 bg-white/[0.03] border border-white/10 px-3 py-1.5 rounded-xl">
-          VERIFIED TRANSACTIONS
-        </span>
+        <div class="flex items-center space-x-2.5 flex-wrap gap-y-2">
+          <button type="button" onclick="NB.openReviewModal()" class="inline-flex items-center space-x-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white font-pixel text-[8px] sm:text-[8.5px] shadow-lg shadow-[#0E839E]/30 hover:-translate-y-0.5 transition-all cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            <span>+ LEAVE A REVIEW</span>
+          </button>
+          <span class="font-pixel text-[8px] text-gray-400 bg-white/[0.03] border border-white/10 px-3 py-2 rounded-xl">
+            VERIFIED TRANSACTIONS
+          </span>
+        </div>
       </div>
 
       <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

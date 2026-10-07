@@ -52,6 +52,7 @@
               <th class="p-2.5 sm:p-4 lg:p-5">Buyer</th>
               <th class="p-4 lg:p-5 hidden md:table-cell">Location</th>
               <th class="p-2.5 sm:p-4 lg:p-5">Rating</th>
+              <th class="p-2.5 sm:p-4 lg:p-5">Status</th>
               <th class="p-2.5 sm:p-4 lg:p-5">Review Text</th>
               <th class="p-4 lg:p-5 hidden sm:table-cell">Date</th>
               <th class="p-2.5 sm:p-4 lg:p-5 text-right">Actions</th>
@@ -59,7 +60,7 @@
           </thead>
           <tbody id="testimonials-table-body" class="divide-y divide-white/5">
             <tr>
-              <td colspan="6" class="py-8 text-center text-gray-500">Loading vouches from Supabase...</td>
+              <td colspan="7" class="py-8 text-center text-gray-500">Loading vouches from Supabase...</td>
             </tr>
           </tbody>
         </table>
@@ -83,7 +84,7 @@
         if (error) throw error;
 
         if (!data || !data.length) {
-          tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-gray-500">No vouches found in Supabase. Click "Add New Vouch" to create one.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-gray-500">No vouches found in Supabase. Click "Add New Vouch" to create one.</td></tr>';
           return;
         }
 
@@ -106,6 +107,12 @@
                 ${'★'.repeat(item.rating || 5)}${'☆'.repeat(5 - (item.rating || 5))}
               </span>
             </td>
+            <td class="p-2.5 sm:p-4 lg:p-5 whitespace-nowrap">
+              <button type="button" onclick="toggleVerified(${item.id}, ${item.verified !== false})"
+                      class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[10px] font-bold ${item.verified !== false ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/25' : 'bg-amber-500/15 border border-amber-500/30 text-amber-400 hover:bg-amber-500/25'} transition-all cursor-pointer" title="Click to toggle verified status">
+                <span>${item.verified !== false ? '✓ Verified' : '○ Pending'}</span>
+              </button>
+            </td>
             <td class="p-2.5 sm:p-4 lg:p-5 text-xs text-gray-300 max-w-[140px] xs:max-w-xs sm:max-w-md line-clamp-2">${Admin.esc(item.text)}</td>
             <td class="p-4 lg:p-5 text-xs text-gray-400 whitespace-nowrap hidden sm:table-cell">${Admin.esc(item.date || '—')}</td>
             <td class="p-2.5 sm:p-4 lg:p-5 text-right whitespace-nowrap">
@@ -118,7 +125,20 @@
         `).join('');
       } catch (err) {
         console.error('Error loading testimonials:', err);
-        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-rose-400">Failed to load: ${Admin.esc(err.message)}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-rose-400">Failed to load: ${Admin.esc(err.message)}</td></tr>`;
+      }
+    }
+
+    async function toggleVerified(id, currentStatus) {
+      try {
+        const nextStatus = !currentStatus;
+        const { error } = await supabaseClient.from('testimonials').update({ verified: nextStatus }).eq('id', id);
+        if (error) throw error;
+        Admin.toast(nextStatus ? 'Review marked as Verified' : 'Review marked as Pending', 'success');
+        loadTestimonials();
+      } catch (err) {
+        console.error('Toggle error:', err);
+        Admin.toast('Failed to update status: ' + err.message, 'error');
       }
     }
 

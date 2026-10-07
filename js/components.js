@@ -493,15 +493,30 @@ const NB = {
   },
 
   async getTestimonials() {
+    let list = [];
     try {
       if (typeof supabaseClient !== 'undefined' && supabaseClient.from) {
-        const { data, error } = await supabaseClient.from('testimonials').select('*').order('date', { ascending: false });
-        if (!error && data && data.length > 0) return data;
+        const { data, error } = await supabaseClient.from('testimonials').select('*').order('id', { ascending: false });
+        if (!error && data && data.length > 0) list = data;
       }
     } catch (e) {
       console.warn('Testimonials fallback:', e);
     }
-    return this.DEFAULT_TESTIMONIALS;
+    if (list.length === 0) {
+      list = [...this.DEFAULT_TESTIMONIALS];
+    }
+    // Merge any locally submitted reviews seamlessly
+    try {
+      const local = JSON.parse(localStorage.getItem('nooblax_local_testimonials') || '[]');
+      if (Array.isArray(local) && local.length > 0) {
+        local.forEach(loc => {
+          if (!list.some(existing => (existing.id && loc.id && String(existing.id) === String(loc.id)) || (existing.name === loc.name && existing.text === loc.text))) {
+            list.unshift(loc);
+          }
+        });
+      }
+    } catch (_) {}
+    return list;
   },
 
   async getEvents() {
@@ -927,6 +942,265 @@ Is this still available for delivery? Thank you!`;
         }
       }).catch(() => {});
     }
+  },
+
+  // ======================== PUBLIC REVIEW SUBMISSION MODAL ========================
+
+  openReviewModal() {
+    const existing = document.getElementById('nb-review-modal-backdrop');
+    if (existing) existing.remove();
+
+    const modalHtml = `
+      <div id="nb-review-modal-backdrop" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-[#030712]/85 backdrop-blur-md opacity-0 transition-opacity duration-200">
+        <div id="nb-review-modal-panel" class="relative w-full max-w-lg bg-[#0A1020]/95 border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl shadow-black/90 flex flex-col max-h-[92vh] overflow-y-auto transform scale-95 transition-all duration-200">
+          
+          <!-- Header -->
+          <div class="flex items-center justify-between pb-4 border-b border-white/10">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0E839E]/30 to-[#1FB5D6]/20 border border-[#1FB5D6]/40 flex items-center justify-center shadow-md shadow-[#0E839E]/20 flex-shrink-0 text-[#F6D06F]">
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg>
+              </div>
+              <div>
+                <h3 class="font-pixel text-[10px] sm:text-xs text-white tracking-wider">WRITE A COLLECTOR REVIEW</h3>
+                <p class="text-[11px] text-gray-400 mt-0.5">Share your experience with cards, packing, or speed</p>
+              </div>
+            </div>
+            <button type="button" onclick="NB.closeReviewModal()" aria-label="Close modal"
+                    class="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all cursor-pointer">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Form -->
+          <form id="nb-review-form" onsubmit="event.preventDefault(); NB.submitReview(this);" class="space-y-4 pt-4">
+            
+            <!-- Star Rating Picker -->
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Overall Rating *</label>
+              <div class="flex items-center space-x-2" id="nb-star-picker">
+                ${[1, 2, 3, 4, 5].map(i => `
+                  <button type="button" data-val="${i}" onclick="NB.setReviewRating(${i})"
+                          class="nb-star-btn text-2xl sm:text-3xl transition-transform hover:scale-125 focus:outline-none cursor-pointer text-[#F6D06F]">
+                    ★
+                  </button>
+                `).join('')}
+              </div>
+              <input type="hidden" id="nb-review-rating" value="5">
+              <p id="nb-rating-label" class="text-[11px] text-[#F6D06F] font-semibold mt-1">★★★★★ Exceptional (5 of 5 Stars)</p>
+            </div>
+
+            <!-- Name and Location -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">Your Name or Handle *</label>
+                <input type="text" id="nb-review-name" required placeholder="e.g. Mark D. or @collector_ph"
+                       class="w-full bg-[#050914] border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-xs sm:text-sm focus:outline-none focus:border-[#1FB5D6] transition-colors">
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">City / Location</label>
+                <input type="text" id="nb-review-location" placeholder="e.g. Cebu City, Manila, Davao"
+                       class="w-full bg-[#050914] border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-xs sm:text-sm focus:outline-none focus:border-[#1FB5D6] transition-colors">
+              </div>
+            </div>
+
+            <!-- Review Text -->
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">Review / Vouch Feedback *</label>
+              <textarea id="nb-review-text" required rows="4" placeholder="How was your transaction? Tell other collectors about card condition, bubble wrap & toploader packaging, or delivery speed..."
+                        class="w-full bg-[#050914] border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-xs sm:text-sm focus:outline-none focus:border-[#1FB5D6] transition-colors leading-relaxed"></textarea>
+            </div>
+
+            <!-- Trust Badge Notice -->
+            <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center space-x-2.5 text-[11px] text-gray-400">
+              <svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              <span>100% Genuine Community Proof. Your review will be shown publicly to collectors across the Philippines.</span>
+            </div>
+
+            <!-- Actions -->
+            <div class="pt-2 flex items-center justify-end space-x-3">
+              <button type="button" onclick="NB.closeReviewModal()"
+                      class="px-5 py-2.5 rounded-xl border border-white/10 text-gray-400 hover:text-white text-xs font-semibold transition-colors cursor-pointer">
+                Cancel
+              </button>
+              <button type="submit" id="nb-submit-review-btn"
+                      class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white font-pixel text-[8.5px] shadow-lg shadow-[#0E839E]/30 tracking-wider transition-all cursor-pointer flex items-center space-x-2">
+                <span>SUBMIT REVIEW</span>
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    document.body.style.overflow = 'hidden';
+
+    // Animate in
+    requestAnimationFrame(() => {
+      const backdrop = document.getElementById('nb-review-modal-backdrop');
+      const panel = document.getElementById('nb-review-modal-panel');
+      if (backdrop) backdrop.classList.remove('opacity-0');
+      if (panel) {
+        panel.classList.remove('scale-95');
+        panel.classList.add('scale-100');
+      }
+    });
+
+    // Close on backdrop tap
+    const backdropEl = document.getElementById('nb-review-modal-backdrop');
+    backdropEl?.addEventListener('click', (e) => {
+      if (e.target === backdropEl) NB.closeReviewModal();
+    });
+  },
+
+  setReviewRating(stars) {
+    const hidden = document.getElementById('nb-review-rating');
+    const label = document.getElementById('nb-rating-label');
+    const starBtns = document.querySelectorAll('.nb-star-btn');
+    if (hidden) hidden.value = stars;
+    const labels = {
+      5: '★★★★★ Exceptional (5 of 5 Stars)',
+      4: '★★★★☆ Great experience (4 of 5 Stars)',
+      3: '★★★☆☆ Good (3 of 5 Stars)',
+      2: '★★☆☆☆ Fair (2 of 5 Stars)',
+      1: '★☆☆☆☆ Needs improvement (1 of 5 Stars)'
+    };
+    if (label) label.textContent = labels[stars] || `${stars} of 5 Stars`;
+    starBtns.forEach(btn => {
+      const val = parseInt(btn.dataset.val, 10);
+      if (val <= stars) {
+        btn.classList.add('text-[#F6D06F]');
+        btn.classList.remove('text-gray-600');
+      } else {
+        btn.classList.remove('text-[#F6D06F]');
+        btn.classList.add('text-gray-600');
+      }
+    });
+  },
+
+  closeReviewModal() {
+    const backdrop = document.getElementById('nb-review-modal-backdrop');
+    const panel = document.getElementById('nb-review-modal-panel');
+    if (panel) {
+      panel.classList.remove('scale-100');
+      panel.classList.add('scale-95');
+    }
+    if (backdrop) {
+      backdrop.classList.add('opacity-0');
+      setTimeout(() => {
+        backdrop.remove();
+        document.body.style.overflow = '';
+      }, 200);
+    } else {
+      document.body.style.overflow = '';
+    }
+  },
+
+  async submitReview(formEl) {
+    const nameInput = formEl.querySelector('#nb-review-name');
+    const locInput = formEl.querySelector('#nb-review-location');
+    const ratingInput = formEl.querySelector('#nb-review-rating');
+    const textInput = formEl.querySelector('#nb-review-text');
+    const submitBtn = formEl.querySelector('#nb-submit-review-btn');
+
+    const name = nameInput ? nameInput.value.trim() : '';
+    const location = locInput ? locInput.value.trim() : 'Philippines';
+    const rating = ratingInput ? parseInt(ratingInput.value, 10) || 5 : 5;
+    const text = textInput ? textInput.value.trim() : '';
+
+    if (!name || !text) {
+      alert('Please fill in both your name and review details.');
+      return;
+    }
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-2 h-3.5 w-3.5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+        </svg>
+        <span>Submitting...</span>
+      `;
+    }
+
+    const payload = {
+      name,
+      location: location || 'Philippines',
+      rating,
+      text,
+      date: new Date().toISOString().split('T')[0],
+      verified: true
+    };
+
+    let insertedRecord = null;
+    try {
+      if (typeof supabaseClient !== 'undefined' && supabaseClient.from) {
+        const { data, error } = await supabaseClient.from('testimonials').insert(payload).select().single();
+        if (!error && data) {
+          insertedRecord = data;
+        } else if (error) {
+          console.warn('Supabase insert notice:', error);
+        }
+      }
+    } catch (err) {
+      console.warn('Supabase error:', err);
+    }
+
+    const finalRecord = insertedRecord || {
+      id: 'local_' + Date.now(),
+      ...payload
+    };
+
+    // Save to local cache so visitor immediately sees it
+    try {
+      const local = JSON.parse(localStorage.getItem('nooblax_local_testimonials') || '[]');
+      local.unshift(finalRecord);
+      localStorage.setItem('nooblax_local_testimonials', JSON.stringify(local.slice(0, 30)));
+    } catch (_) {}
+
+    // Show success view inside modal
+    const panel = document.getElementById('nb-review-modal-panel');
+    if (panel) {
+      panel.innerHTML = `
+        <div class="p-6 sm:p-8 text-center flex flex-col items-center justify-center space-y-4">
+          <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-pixel text-xs sm:text-sm text-white tracking-wider">THANK YOU FOR YOUR VOUCH!</h3>
+            <p class="font-body text-xs sm:text-sm text-gray-300 mt-2 max-w-sm mx-auto leading-relaxed">
+              Your review has been successfully submitted and added to our community proof.
+            </p>
+          </div>
+          <button type="button" onclick="NB.closeReviewModal()" class="mt-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[8.5px] shadow-lg shadow-[#0E839E]/30 cursor-pointer">
+            DONE
+          </button>
+        </div>
+      `;
+    }
+
+    // Live prepend to grid if present on active page
+    const testGrid = document.getElementById('testimonials-grid');
+    if (testGrid) {
+      const cardHtml = this.testimonialCard(finalRecord);
+      testGrid.insertAdjacentHTML('afterbegin', cardHtml);
+    }
+    const vouchGrid = document.getElementById('vouchers-grid');
+    if (vouchGrid) {
+      const cardHtml = this.testimonialCard(finalRecord);
+      vouchGrid.insertAdjacentHTML('afterbegin', cardHtml);
+    }
+
+    setTimeout(() => {
+      this.closeReviewModal();
+    }, 2500);
   },
 
   rarityBadge(r) {

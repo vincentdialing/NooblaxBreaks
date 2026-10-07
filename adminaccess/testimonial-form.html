@@ -78,6 +78,15 @@
                     class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]"></textarea>
         </div>
 
+        <!-- Verified Status Toggle -->
+        <div class="p-4 rounded-xl bg-[#050914] border border-white/10 flex items-center justify-between">
+          <div>
+            <label for="vouch-verified" class="text-xs font-bold text-white block cursor-pointer">Verified Collector Proof</label>
+            <p class="text-[11px] text-gray-400 mt-0.5">Displays blue verified shield badge next to buyer's name on public showcase</p>
+          </div>
+          <input type="checkbox" id="vouch-verified" checked class="w-5 h-5 rounded accent-[#1FB5D6] cursor-pointer">
+        </div>
+
         <div class="pt-6 border-t border-white/10 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:space-x-4">
           <a href="testimonials.html" class="w-full sm:w-auto text-center px-5 py-3 rounded-xl border border-white/10 text-gray-400 hover:text-white text-sm font-semibold transition-all">Cancel</a>
           <button type="submit" id="save-vouch-btn" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white text-sm font-bold shadow-lg shadow-[#0E839E]/30 transition-all cursor-pointer">
@@ -115,6 +124,7 @@
             document.getElementById('vouch-rating').value = data.rating || 5;
             document.getElementById('vouch-date').value = data.date || '';
             document.getElementById('vouch-text').value = data.text || '';
+            document.getElementById('vouch-verified').checked = data.verified !== false;
           }
         } catch (err) {
           console.error('Fetch error:', err);
@@ -137,7 +147,7 @@
             rating: parseInt(document.getElementById('vouch-rating').value, 10),
             date: document.getElementById('vouch-date').value,
             text: document.getElementById('vouch-text').value.trim(),
-            verified: true
+            verified: Boolean(document.getElementById('vouch-verified').checked)
           };
 
           if (vouchId) {
