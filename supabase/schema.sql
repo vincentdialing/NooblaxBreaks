@@ -184,8 +184,8 @@ INSERT INTO settings (key, value) VALUES
   ('instagram_url',   'https://www.instagram.com/nooblaxbreaks'),
   ('tiktok_url',      'https://www.tiktok.com/@nooblaxbreaks'),
   ('contact_channels','[{"id":"tiktok_main","platform":"tiktok","title":"TikTok (Main Showcase)","handle":"@nooblaxbreaks","url":"https://www.tiktok.com/@nooblaxbreaks","badge":"Main Account"},{"id":"tiktok_live","platform":"tiktok","title":"TikTok (Live Breaks)","handle":"@nooblaxbreaks.live","url":"https://www.tiktok.com/@nooblaxbreaks","badge":"Live Stream"},{"id":"instagram","platform":"instagram","title":"Instagram Direct","handle":"@nooblaxbreaks","url":"https://www.instagram.com/nooblaxbreaks","badge":"DMs Open"},{"id":"facebook","platform":"facebook","title":"Facebook Messenger","handle":"Nooblax Breaks Page","url":"https://www.facebook.com/profile.php?id=61593883622380","badge":"Fastest Reply"}]'),
-  ('hero_tagline',    'RARE GRAILS. GRADED SLABS. NEXT-LEVEL PULLS.'),
-  ('hero_subtitle',   'The premier collector''s showcase for authenticated Pokémon TCG singles, Special Art Rares (SAR), and PSA 10 slabs. Message us directly for live availability & fast nationwide delivery.')
+  ('hero_tagline',    'START SMALL. PULL BIG. GROW TOGETHER.'),
+  ('hero_subtitle',   'Nooblax Breaks is built to be your go-to partner in collecting. Everyone starts as a noob, so we focus on fair rips, smart spending, and an open community where collectors look out for each other and celebrate every hit as one.')
 ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
 
 -- 16 Default Authentic Cards

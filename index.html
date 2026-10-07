@@ -150,16 +150,16 @@
 
           <!-- Main Title -->
           <h1 id="hero-tagline" class="font-pixel text-xl sm:text-2xl md:text-3xl lg:text-[32px] text-white leading-tight sm:leading-snug md:leading-normal mb-6 space-y-2">
-            <span class="block">RARE GRAILS.</span>
+            <span class="block">START SMALL.</span>
             <span class="block text-transparent bg-clip-text bg-gradient-to-r from-[#1FB5D6] via-[#F6D06F] to-[#1FB5D6] drop-shadow-[0_0_16px_rgba(31,181,214,0.4)]">
-              GRADED SLABS.
+              PULL BIG.
             </span>
-            <span class="block">NEXT-LEVEL PULLS.</span>
+            <span class="block">GROW TOGETHER.</span>
           </h1>
 
           <!-- Subtitle -->
           <p id="hero-subtitle" class="font-body text-base sm:text-lg text-gray-300 max-w-xl leading-relaxed mb-8">
-            The premier collector's showcase for authenticated Pokémon TCG singles, Special Art Rares (SAR), and PSA 10 slabs. Message us directly for live availability & fast nationwide delivery.
+            Nooblax Breaks is built to be your go-to partner in collecting. Everyone starts as a noob, so we focus on fair rips, smart spending, and an open community where collectors look out for each other and celebrate every hit as one.
           </p>
 
           <!-- Action Buttons with Themed Vector SVGs -->
@@ -798,11 +798,11 @@
       // 1. Initialize public layout (header, footer, messenger FAB)
       const settings = await NB.initPublic('home');
 
-      // Update hero text only if custom non-default settings were configured in admin
-      if (settings.hero_tagline && settings.hero_tagline !== NB.DEFAULT_SETTINGS.hero_tagline) {
-        document.getElementById('hero-tagline').innerHTML = NB.esc(settings.hero_tagline).replace(/\n/g, '<br>');
+      // Update hero text with proper multi-line formatting and middle gradient highlight
+      if (settings.hero_tagline) {
+        document.getElementById('hero-tagline').innerHTML = NB.formatHeroTagline(settings.hero_tagline);
       }
-      if (settings.hero_subtitle && settings.hero_subtitle !== NB.DEFAULT_SETTINGS.hero_subtitle) {
+      if (settings.hero_subtitle) {
         document.getElementById('hero-subtitle').textContent = settings.hero_subtitle;
       }
       if (settings.fb_messenger_url && document.getElementById('hero-messenger')?.tagName === 'A') {

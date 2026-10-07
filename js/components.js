@@ -76,8 +76,8 @@ const NB = {
         description: 'Official Facebook Page'
       }
     ]),
-    hero_tagline: 'RARE GRAILS. GRADED SLABS. NEXT-LEVEL PULLS.',
-    hero_subtitle: 'The premier collector\'s showcase for authenticated Pokémon TCG singles, Special Art Rares (SAR), and PSA 10 slabs. Message us directly for live availability & fast nationwide delivery.',
+    hero_tagline: 'START SMALL. PULL BIG. GROW TOGETHER.',
+    hero_subtitle: 'Nooblax Breaks is built to be your go-to partner in collecting. Everyone starts as a noob, so we focus on fair rips, smart spending, and an open community where collectors look out for each other and celebrate every hit as one.',
   },
 
   DEFAULT_CARDS: [
@@ -545,6 +545,32 @@ const NB = {
   esc(str) {
     if (!str) return '';
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  },
+
+  formatHeroTagline(rawText) {
+    if (!rawText) return '';
+    let lines = [];
+    if (rawText.includes('\n')) {
+      lines = rawText.split('\n').map(s => s.trim()).filter(Boolean);
+    } else if (rawText.includes('.')) {
+      // Split after each dot (e.g. "START SMALL. PULL BIG. GROW TOGETHER.")
+      const matches = rawText.match(/[^.]+\.?/g);
+      if (matches) {
+        lines = matches.map(s => s.trim()).filter(Boolean);
+      }
+    }
+    if (!lines || lines.length <= 1) {
+      return `<span class="block">${this.esc(rawText.trim())}</span>`;
+    }
+
+    const midIndex = Math.floor(lines.length / 2);
+    return lines.map((line, idx) => {
+      const escaped = this.esc(line);
+      if (idx === midIndex) {
+        return `<span class="block text-transparent bg-clip-text bg-gradient-to-r from-[#1FB5D6] via-[#F6D06F] to-[#1FB5D6] drop-shadow-[0_0_16px_rgba(31,181,214,0.4)]">${escaped}</span>`;
+      }
+      return `<span class="block">${escaped}</span>`;
+    }).join('\n');
   },
 
   price(v) {
