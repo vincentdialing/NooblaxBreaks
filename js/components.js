@@ -68,12 +68,12 @@ const NB = {
       {
         id: 'facebook',
         platform: 'facebook',
-        title: 'Facebook Messenger',
-        name: 'Facebook Messenger',
+        title: 'Facebook Page',
+        name: 'Facebook Page',
         handle: 'Nooblax Breaks Page',
         url: 'https://www.facebook.com/profile.php?id=61593883622380',
-        badge: 'Fastest Reply',
-        description: 'Fast chat support on our official Facebook Page'
+        badge: 'Official Page',
+        description: 'Official Facebook Page'
       }
     ]),
     hero_tagline: 'RARE GRAILS. GRADED SLABS. NEXT-LEVEL PULLS.',
@@ -633,12 +633,12 @@ Is this still available for delivery? Thank you!`;
         list.push({
           id: 'facebook',
           platform: 'facebook',
-          title: 'Facebook Messenger',
-          name: 'Facebook Messenger',
+          title: 'Facebook Page',
+          name: 'Facebook Page',
           handle: 'Nooblax Breaks Page',
           url: s.fb_messenger_url,
-          badge: 'Fastest Reply',
-          description: 'Fast chat support on our official Facebook Page'
+          badge: 'Official Page',
+          description: 'Official Facebook Page'
         });
       }
     }
@@ -682,16 +682,20 @@ Is this still available for delivery? Thank you!`;
       cardClass = 'bg-[#0E0B19] hover:bg-[#19112C] border-white/10 hover:border-[#E1306C]/50 hover:shadow-[0_4px_24px_rgba(225,48,108,0.15)]';
       iconBg = 'bg-gradient-to-tr from-[#FD1D1D]/20 to-[#833AB4]/20 text-[#FD1D1D] border border-[#E1306C]/30';
       btnText = 'Send DM';
-    } else if (p.includes('facebook') || p.includes('messenger')) {
+    } else if (p.includes('messenger')) {
       iconSvg = this.icons.messenger;
       badgeText = ch.badge || 'MESSENGER';
       badgeClass = 'text-[#0084FF] bg-[#0084FF]/15 border border-[#0084FF]/35';
       cardClass = 'bg-[#060D1F] hover:bg-[#0A1636] border-white/10 hover:border-[#0084FF]/50 hover:shadow-[0_4px_24px_rgba(0,132,255,0.15)]';
       iconBg = 'bg-[#0084FF]/15 text-[#0084FF] border border-[#0084FF]/30';
       btnText = 'Chat Now';
-      if (card) {
-        targetUrl = this.messengerInquiryUrl(card, settings);
-      }
+    } else if (p.includes('facebook')) {
+      iconSvg = this.icons.facebook;
+      badgeText = ch.badge || 'PAGE';
+      badgeClass = 'text-[#1877F2] bg-[#1877F2]/15 border border-[#1877F2]/35';
+      cardClass = 'bg-[#060D1F] hover:bg-[#0A1636] border-white/10 hover:border-[#1877F2]/50 hover:shadow-[0_4px_24px_rgba(24,119,242,0.15)]';
+      iconBg = 'bg-[#1877F2]/15 text-[#1877F2] border border-[#1877F2]/30';
+      btnText = 'Open Facebook';
     } else if (p.includes('viber')) {
       badgeText = ch.badge || 'VIBER';
       badgeClass = 'text-[#7360F2] bg-[#7360F2]/15 border border-[#7360F2]/35';
@@ -751,7 +755,8 @@ Is this still available for delivery? Thank you!`;
     // Count platforms for instant hint badges in header
     const tiktokCount = channels.filter(c => (c.platform || '').includes('tiktok')).length;
     const hasIg = channels.some(c => (c.platform || '').includes('instagram'));
-    const hasFb = channels.some(c => (c.platform || '').includes('facebook') || (c.platform || '').includes('messenger'));
+    const hasFb = channels.some(c => (c.platform || '').includes('facebook'));
+    const hasMessenger = channels.some(c => (c.platform || '').includes('messenger'));
 
     // Remove old modal instance if any
     const existing = document.getElementById('nb-inquiry-modal-backdrop');
@@ -794,8 +799,13 @@ Is this still available for delivery? Thank you!`;
                 <span>Instagram</span>
               </span>` : ''}
               ${hasFb ? `
-              <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#0084FF]/10 border border-[#0084FF]/30 text-[#0084FF] text-[9.5px] font-bold shadow-sm">
+              <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#1877F2]/10 border border-[#1877F2]/30 text-[#1877F2] text-[9.5px] font-bold shadow-sm">
                 <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                <span>Facebook</span>
+              </span>` : ''}
+              ${hasMessenger ? `
+              <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#0084FF]/10 border border-[#0084FF]/30 text-[#0084FF] text-[9.5px] font-bold shadow-sm">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.614 4.469 8.654V24l4.088-2.242c1.096.304 2.256.464 3.443.464 6.627 0 12-4.975 12-11.111C24 4.974 18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26 6.559-6.963 3.13 3.259 5.889-3.259-6.56 6.963z"/></svg>
                 <span>Messenger</span>
               </span>` : ''}
             </div>
