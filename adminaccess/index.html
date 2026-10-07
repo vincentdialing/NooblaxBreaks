@@ -212,7 +212,7 @@
         const password = document.getElementById('login-password').value;
 
         if (!rawInput || !password) {
-          errorMsg.innerHTML = '<span class="font-semibold text-red-200">Kulang og Impormasyon:</span> Palihug isulod ang username/email ug password.';
+          errorMsg.innerHTML = '<span class="font-semibold text-red-200">Missing Information:</span> Please enter both email and password.';
           errorBox.classList.remove('hidden');
           return;
         }
@@ -316,19 +316,19 @@
           clearTimeout(timeoutId);
           console.error('Login error:', err);
 
-          let friendlyMsg = 'Sayop ang email o password. Palihug susiha ug sulayi pag-usab.';
+          let friendlyMsg = 'Invalid email or password. Please try again.';
           const lowMsg = ((err && err.message) || '').toLowerCase();
 
           if (err.name === 'AbortError' || lowMsg.includes('abort') || lowMsg.includes('timeout')) {
-            friendlyMsg = 'Connection timed out. Palihug susiha ang imong koneksyon sa internet.';
+            friendlyMsg = 'Connection timed out. Please check your network and try again.';
           } else if (lowMsg.includes('invalid login credentials') || lowMsg.includes('invalid_grant') || lowMsg.includes('invalid') || lowMsg.includes('credentials')) {
-            friendlyMsg = 'Sayop ang email o password. Palihug susiha ug sulayi pag-usab.';
+            friendlyMsg = 'Invalid email or password. Please try again.';
           } else if (lowMsg.includes('failed to fetch') || lowMsg.includes('networkerror')) {
-            friendlyMsg = 'Network connection error. Palihug susiha ang imong koneksyon.';
+            friendlyMsg = 'Network connection error. Please check your internet connection.';
           }
 
           safeToast(friendlyMsg, 'error');
-          errorMsg.innerHTML = `<span class="font-bold text-red-200">Sayop sa Pag-login:</span> ${safeEsc(friendlyMsg)}`;
+          errorMsg.innerHTML = `<span class="font-bold text-red-200">Login Failed:</span> ${safeEsc(friendlyMsg)}`;
           errorBox.classList.remove('hidden');
 
         } finally {
