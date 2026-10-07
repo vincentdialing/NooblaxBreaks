@@ -34,24 +34,28 @@
     
     <div class="mb-6 sm:mb-8">
       <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Public Site Settings</h1>
-      <p class="text-xs sm:text-sm text-gray-400 mt-1">Configure global branding, Facebook Messenger links, and homepage copy in real-time.</p>
+      <p class="text-xs sm:text-sm text-gray-400 mt-1">Configure global branding, official inquiry channels & multiple TikTok accounts, and homepage copy.</p>
     </div>
 
-    <div class="bg-[#0A1020] border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-8 lg:p-10 shadow-2xl">
-      <form id="settings-editor-form" class="space-y-6">
-        
+    <form id="settings-editor-form" class="space-y-6">
+      
+      <!-- Brand & Copy Settings Card -->
+      <div class="bg-[#0A1020] border border-white/10 rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-10 shadow-2xl space-y-6">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+            <svg class="w-5 h-5 text-[#1FB5D6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+            <span>Brand & Showcase Information</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-0.5">Basic storefront names and homepage titles.</p>
+        </div>
+
         <div>
           <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Website Name / Brand Title *</label>
           <input type="text" id="setting-site-name" required placeholder="Nooblax Breaks"
                  class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
           <p class="text-xs text-gray-500 mt-1">Displayed across the top header, browser title, and footer.</p>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Facebook Messenger Link / Page URL *</label>
-          <input type="url" id="setting-messenger-url" required placeholder="https://www.facebook.com/profile.php?id=..."
-                 class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]">
-          <p class="text-xs text-gray-500 mt-1">Used for the floating chat button and automatic card inquiry pre-filled messages.</p>
         </div>
 
         <div>
@@ -65,15 +69,67 @@
           <textarea id="setting-hero-subtitle" rows="3" placeholder="The premier collector's showcase..."
                     class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#1FB5D6]"></textarea>
         </div>
+      </div>
 
-        <div class="pt-6 border-t border-white/10 flex items-center justify-end">
-          <button type="submit" id="save-settings-btn" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white text-sm font-bold shadow-lg shadow-[#0E839E]/30 transition-all cursor-pointer">
-            Save Settings
-          </button>
+      <!-- Official Contact Channels & Multi-Account Card -->
+      <div class="bg-[#0A1020] border border-white/10 rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-10 shadow-2xl space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-white/10">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+              <svg class="w-5 h-5 text-[#1FB5D6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
+              </svg>
+              <span>Official Inquiry Channels & Social Accounts</span>
+            </h2>
+            <p class="text-xs text-gray-400 mt-1 max-w-xl">
+              Manage the contact channels shown when customers click <strong>INQUIRE</strong> anywhere on the site. You can add <strong>multiple TikTok accounts</strong> (main showcase, live breaks, backups), Instagram, Facebook Messenger, and custom links.
+            </p>
+          </div>
+
+          <!-- Quick Add Buttons -->
+          <div class="flex items-center space-x-2 flex-wrap gap-y-2">
+            <button type="button" onclick="addChannel('tiktok')" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-gray-200 hover:text-white transition-all flex items-center space-x-1.5 cursor-pointer">
+              <span class="w-2 h-2 rounded-full bg-[#00F2FE]"></span>
+              <span>+ TikTok</span>
+            </button>
+            <button type="button" onclick="addChannel('instagram')" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-gray-200 hover:text-white transition-all flex items-center space-x-1.5 cursor-pointer">
+              <span class="w-2 h-2 rounded-full bg-[#FD1D1D]"></span>
+              <span>+ Instagram</span>
+            </button>
+            <button type="button" onclick="addChannel('facebook')" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-gray-200 hover:text-white transition-all flex items-center space-x-1.5 cursor-pointer">
+              <span class="w-2 h-2 rounded-full bg-[#0084FF]"></span>
+              <span>+ Facebook</span>
+            </button>
+            <button type="button" onclick="addChannel('custom')" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#0E839E]/20 to-[#1FB5D6]/20 hover:from-[#0E839E]/40 hover:to-[#1FB5D6]/40 border border-[#1FB5D6]/40 text-xs font-semibold text-[#1FB5D6] hover:text-white transition-all flex items-center space-x-1.5 cursor-pointer">
+              <span>+ Custom Link</span>
+            </button>
+          </div>
         </div>
 
-      </form>
-    </div>
+        <!-- Dynamic Channel Items Container -->
+        <div id="channels-container" class="space-y-4">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <div class="pt-2">
+          <button type="button" onclick="addChannel()" class="w-full py-3.5 rounded-2xl border-2 border-dashed border-white/15 hover:border-[#1FB5D6]/50 bg-white/[0.02] hover:bg-[#1FB5D6]/5 text-gray-300 hover:text-white text-xs font-bold tracking-wider flex items-center justify-center space-x-2 transition-all cursor-pointer">
+            <svg class="w-4 h-4 text-[#1FB5D6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span>ADD ANOTHER CONTACT CHANNEL</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Submit Bar -->
+      <div class="bg-[#0A1020] border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-gray-400 text-center sm:text-left">Changes take effect immediately across all public visitor pages and inquiry modals.</p>
+        <button type="submit" id="save-settings-btn" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white text-sm font-bold shadow-lg shadow-[#0E839E]/30 transition-all cursor-pointer flex-shrink-0">
+          Save Settings
+        </button>
+      </div>
+
+    </form>
 
   </main>
 
@@ -81,6 +137,220 @@
   <script src="js/config.js?v=4.0"></script>
   <script src="js/admin.js?v=4.0"></script>
   <script>
+    // Platform brand helper colors & SVG icons
+    const PLATFORM_ICONS = {
+      tiktok: `<svg class="w-5 h-5 text-[#00F2FE]" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64c.298 0 .591.045.87.13V9.4a6.33 6.33 0 00-.87-.06A6.34 6.34 0 003.15 15.7 6.34 6.34 0 009.5 22.03a6.34 6.34 0 006.34-6.33V9.22a8.16 8.16 0 004.9 1.62v-3.45a4.85 4.85 0 01-1.15-.7z"/></svg>`,
+      instagram: `<svg class="w-5 h-5 text-[#FD1D1D]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`,
+      facebook: `<svg class="w-5 h-5 text-[#0084FF]" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,
+      custom: `<svg class="w-5 h-5 text-[#1FB5D6]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>`
+    };
+
+    const DEFAULT_CHANNELS = [
+      {
+        id: 'tiktok_main',
+        platform: 'tiktok',
+        title: 'TikTok (Main Showcase)',
+        handle: '@nooblaxbreaks',
+        url: 'https://www.tiktok.com/@nooblaxbreaks',
+        badge: 'Main Account'
+      },
+      {
+        id: 'tiktok_live',
+        platform: 'tiktok',
+        title: 'TikTok (Live Breaks)',
+        handle: '@nooblaxbreaks.live',
+        url: 'https://www.tiktok.com/@nooblaxbreaks',
+        badge: 'Live Stream'
+      },
+      {
+        id: 'instagram',
+        platform: 'instagram',
+        title: 'Instagram Direct',
+        handle: '@nooblaxbreaks',
+        url: 'https://www.instagram.com/nooblaxbreaks',
+        badge: 'DMs Open'
+      },
+      {
+        id: 'facebook',
+        platform: 'facebook',
+        title: 'Facebook Messenger',
+        handle: 'Nooblax Breaks Page',
+        url: 'https://www.facebook.com/profile.php?id=61593883622380',
+        badge: 'Fastest Reply'
+      }
+    ];
+
+    let currentChannels = [];
+
+    function renderChannels() {
+      const container = document.getElementById('channels-container');
+      if (!container) return;
+
+      if (currentChannels.length === 0) {
+        container.innerHTML = `
+          <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/5 text-center">
+            <p class="text-xs text-gray-400">No inquiry channels added yet. Click any button above to add channels!</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = currentChannels.map((ch, idx) => {
+        const iconSvg = PLATFORM_ICONS[ch.platform] || PLATFORM_ICONS.custom;
+        return `
+          <div class="channel-card bg-[#050914] border border-white/10 rounded-2xl p-4 sm:p-5 relative transition-all hover:border-white/20 shadow-lg" data-index="${idx}">
+            
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-white/5">
+              <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0" id="icon-preview-${idx}">
+                  ${iconSvg}
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="font-bold text-white text-sm">Channel #${idx + 1}</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-gray-400 border border-white/10 uppercase tracking-wider">${Admin.esc(ch.platform)}</span>
+                </div>
+              </div>
+
+              <!-- Action Controls: Up, Down, Delete -->
+              <div class="flex items-center space-x-1.5 self-end sm:self-auto">
+                <button type="button" onclick="moveChannel(${idx}, -1)" ${idx === 0 ? 'disabled' : ''}
+                        class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5 text-gray-300 flex items-center justify-center transition-colors cursor-pointer" title="Move Up">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+                </button>
+                <button type="button" onclick="moveChannel(${idx}, 1)" ${idx === currentChannels.length - 1 ? 'disabled' : ''}
+                        class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5 text-gray-300 flex items-center justify-center transition-colors cursor-pointer" title="Move Down">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <button type="button" onclick="removeChannel(${idx})"
+                        class="w-7 h-7 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 flex items-center justify-center transition-colors ml-1 cursor-pointer" title="Delete Channel">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Form Fields Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-3">
+              
+              <!-- Platform -->
+              <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Platform *</label>
+                <select onchange="updateChannelField(${idx}, 'platform', this.value); refreshChannelIcon(${idx})"
+                        class="w-full bg-[#080E1C] border border-white/10 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-[#1FB5D6]">
+                  <option value="tiktok" ${ch.platform === 'tiktok' ? 'selected' : ''}>TikTok (Video / Live)</option>
+                  <option value="instagram" ${ch.platform === 'instagram' ? 'selected' : ''}>Instagram (DM)</option>
+                  <option value="facebook" ${ch.platform === 'facebook' ? 'selected' : ''}>Facebook Messenger</option>
+                  <option value="custom" ${ch.platform === 'custom' ? 'selected' : ''}>Custom Channel</option>
+                </select>
+              </div>
+
+              <!-- Title / Label -->
+              <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Display Title *</label>
+                <input type="text" value="${Admin.esc(ch.title)}" placeholder="e.g. TikTok (Live Breaks)"
+                       oninput="updateChannelField(${idx}, 'title', this.value)"
+                       class="w-full bg-[#080E1C] border border-white/10 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-[#1FB5D6]" required>
+              </div>
+
+              <!-- Handle / Username -->
+              <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Handle / Subtitle</label>
+                <input type="text" value="${Admin.esc(ch.handle || '')}" placeholder="e.g. @nooblaxbreaks"
+                       oninput="updateChannelField(${idx}, 'handle', this.value)"
+                       class="w-full bg-[#080E1C] border border-white/10 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-[#1FB5D6]">
+              </div>
+
+              <!-- Badge / Highlight -->
+              <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Highlight Badge</label>
+                <input type="text" value="${Admin.esc(ch.badge || '')}" placeholder="e.g. Live Stream / Main"
+                       oninput="updateChannelField(${idx}, 'badge', this.value)"
+                       class="w-full bg-[#080E1C] border border-white/10 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-[#1FB5D6]">
+              </div>
+
+              <!-- Destination Link (Spans all columns) -->
+              <div class="sm:col-span-2 lg:col-span-4">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Destination URL / Account Link *</label>
+                <input type="url" value="${Admin.esc(ch.url)}" placeholder="https://www.tiktok.com/@..."
+                       oninput="updateChannelField(${idx}, 'url', this.value)"
+                       class="w-full bg-[#080E1C] border border-white/10 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-[#1FB5D6]" required>
+              </div>
+
+            </div>
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addChannel(platform = 'tiktok') {
+      const presets = {
+        tiktok: {
+          platform: 'tiktok',
+          title: 'TikTok (' + (currentChannels.filter(c => c.platform === 'tiktok').length === 0 ? 'Main Showcase' : 'Live Breaks') + ')',
+          handle: '@nooblaxbreaks',
+          url: 'https://www.tiktok.com/@nooblaxbreaks',
+          badge: currentChannels.filter(c => c.platform === 'tiktok').length === 0 ? 'Main Account' : 'Live Stream'
+        },
+        instagram: {
+          platform: 'instagram',
+          title: 'Instagram Direct',
+          handle: '@nooblaxbreaks',
+          url: 'https://www.instagram.com/nooblaxbreaks',
+          badge: 'DMs Open'
+        },
+        facebook: {
+          platform: 'facebook',
+          title: 'Facebook Messenger',
+          handle: 'Nooblax Breaks Page',
+          url: 'https://www.facebook.com/profile.php?id=61593883622380',
+          badge: 'Fastest Reply'
+        },
+        custom: {
+          platform: 'custom',
+          title: 'Official Channel',
+          handle: 'Direct Contact',
+          url: 'https://',
+          badge: 'Official'
+        }
+      };
+
+      const preset = presets[platform] || presets.custom;
+      currentChannels.push({
+        id: 'ch_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        ...preset
+      });
+      renderChannels();
+    }
+
+    function removeChannel(idx) {
+      if (confirm('Are you sure you want to remove this channel?')) {
+        currentChannels.splice(idx, 1);
+        renderChannels();
+      }
+    }
+
+    function moveChannel(idx, direction) {
+      const targetIdx = idx + direction;
+      if (targetIdx < 0 || targetIdx >= currentChannels.length) return;
+      const temp = currentChannels[idx];
+      currentChannels[idx] = currentChannels[targetIdx];
+      currentChannels[targetIdx] = temp;
+      renderChannels();
+    }
+
+    function updateChannelField(idx, field, value) {
+      if (currentChannels[idx]) {
+        currentChannels[idx][field] = value;
+      }
+    }
+
+    function refreshChannelIcon(idx) {
+      const preview = document.getElementById(`icon-preview-${idx}`);
+      if (preview && currentChannels[idx]) {
+        preview.innerHTML = PLATFORM_ICONS[currentChannels[idx].platform] || PLATFORM_ICONS.custom;
+      }
+    }
+
     (async () => {
       const session = await Admin.initPage('settings');
       if (!session) return;
@@ -89,16 +359,46 @@
       try {
         const { data, error } = await supabaseClient.from('settings').select('*');
         if (error) throw error;
+        let loadedChannels = null;
+        let messengerUrl = '';
+
         if (data) {
           data.forEach(item => {
             if (item.key === 'site_name') document.getElementById('setting-site-name').value = item.value || '';
-            if (item.key === 'fb_messenger_url') document.getElementById('setting-messenger-url').value = item.value || '';
             if (item.key === 'hero_tagline') document.getElementById('setting-hero-tagline').value = item.value || '';
             if (item.key === 'hero_subtitle') document.getElementById('setting-hero-subtitle').value = item.value || '';
+            if (item.key === 'fb_messenger_url') messengerUrl = item.value || '';
+            if (item.key === 'contact_channels' && item.value) {
+              try {
+                const parsed = JSON.parse(item.value);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                  loadedChannels = parsed;
+                }
+              } catch (e) {
+                console.warn('Failed parsing stored contact_channels:', e);
+              }
+            }
           });
         }
+
+        if (loadedChannels && loadedChannels.length > 0) {
+          currentChannels = loadedChannels;
+        } else {
+          // Preload default channels
+          currentChannels = JSON.parse(JSON.stringify(DEFAULT_CHANNELS));
+          if (messengerUrl) {
+            const fbCh = currentChannels.find(c => c.platform === 'facebook');
+            if (fbCh) fbCh.url = messengerUrl;
+          }
+        }
+
+        renderChannels();
+
       } catch (err) {
         console.error('Settings load error:', err);
+        Admin.toast('Failed loading settings: ' + err.message, 'error');
+        currentChannels = JSON.parse(JSON.stringify(DEFAULT_CHANNELS));
+        renderChannels();
       }
 
       const form = document.getElementById('settings-editor-form');
@@ -110,11 +410,34 @@
         saveBtn.innerText = 'Saving...';
 
         try {
+          // Validate channels
+          for (let i = 0; i < currentChannels.length; i++) {
+            const ch = currentChannels[i];
+            if (!ch.title || !ch.title.trim()) {
+              throw new Error(`Channel #${i + 1} is missing a title.`);
+            }
+            if (!ch.url || !ch.url.trim()) {
+              throw new Error(`Channel #${i + 1} is missing a destination URL.`);
+            }
+          }
+
+          // Compute top-level social fallbacks
+          const fbChannel = currentChannels.find(c => c.platform === 'facebook');
+          const igChannel = currentChannels.find(c => c.platform === 'instagram');
+          const ttChannel = currentChannels.find(c => c.platform === 'tiktok');
+
+          const messengerUrl = fbChannel ? fbChannel.url.trim() : 'https://www.facebook.com/profile.php?id=61593883622380';
+          const igUrl = igChannel ? igChannel.url.trim() : 'https://www.instagram.com/nooblaxbreaks';
+          const ttUrl = ttChannel ? ttChannel.url.trim() : 'https://www.tiktok.com/@nooblaxbreaks';
+
           const updates = [
             { key: 'site_name', value: document.getElementById('setting-site-name').value.trim() },
-            { key: 'fb_messenger_url', value: document.getElementById('setting-messenger-url').value.trim() },
             { key: 'hero_tagline', value: document.getElementById('setting-hero-tagline').value.trim() },
-            { key: 'hero_subtitle', value: document.getElementById('setting-hero-subtitle').value.trim() }
+            { key: 'hero_subtitle', value: document.getElementById('setting-hero-subtitle').value.trim() },
+            { key: 'fb_messenger_url', value: messengerUrl },
+            { key: 'instagram_url', value: igUrl },
+            { key: 'tiktok_url', value: ttUrl },
+            { key: 'contact_channels', value: JSON.stringify(currentChannels) }
           ];
 
           for (const item of updates) {
@@ -122,7 +445,7 @@
             if (error) throw error;
           }
 
-          Admin.toast('Settings saved successfully!', 'success');
+          Admin.toast('Settings & inquiry channels saved successfully!', 'success');
         } catch (err) {
           console.error('Save error:', err);
           Admin.toast('Failed to save settings: ' + err.message, 'error');

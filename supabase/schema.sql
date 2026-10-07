@@ -177,6 +177,9 @@ CREATE TRIGGER cards_updated_at
 INSERT INTO settings (key, value) VALUES
   ('site_name',       'Nooblax Breaks'),
   ('fb_messenger_url','https://www.facebook.com/profile.php?id=61593883622380'),
+  ('instagram_url',   'https://www.instagram.com/nooblaxbreaks'),
+  ('tiktok_url',      'https://www.tiktok.com/@nooblaxbreaks'),
+  ('contact_channels','[{"id":"tiktok_main","platform":"tiktok","title":"TikTok (Main Showcase)","handle":"@nooblaxbreaks","url":"https://www.tiktok.com/@nooblaxbreaks","badge":"Main Account"},{"id":"tiktok_live","platform":"tiktok","title":"TikTok (Live Breaks)","handle":"@nooblaxbreaks.live","url":"https://www.tiktok.com/@nooblaxbreaks","badge":"Live Stream"},{"id":"instagram","platform":"instagram","title":"Instagram Direct","handle":"@nooblaxbreaks","url":"https://www.instagram.com/nooblaxbreaks","badge":"DMs Open"},{"id":"facebook","platform":"facebook","title":"Facebook Messenger","handle":"Nooblax Breaks Page","url":"https://www.facebook.com/profile.php?id=61593883622380","badge":"Fastest Reply"}]'),
   ('hero_tagline',    'RARE GRAILS. GRADED SLABS. NEXT-LEVEL PULLS.'),
   ('hero_subtitle',   'The premier collector''s showcase for authenticated Pokémon TCG singles, Special Art Rares (SAR), and PSA 10 slabs. Message us directly for live availability & fast nationwide delivery.')
 ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
