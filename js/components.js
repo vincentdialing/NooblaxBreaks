@@ -395,6 +395,67 @@ const NB = {
       is_sold: false,
       image_url: '/assets/sealed-box.svg',
       description: 'Official factory sealed premiere booster display for Riftbound TCG. Fast-paced competitive cards and serialized foil inserts.'
+    },
+    // ==================== MULTI-TCG SINGLES ====================
+    {
+      id: 23,
+      name: 'Monkey D. Luffy (Manga Alternate Art)',
+      pokemon_type: 'Single',
+      product_type: 'single',
+      game_category: 'One Piece',
+      set_name: 'Awakening of the New Era (OP-05)',
+      rarity: 'SEC Manga Alt',
+      price: 68000,
+      condition: 'Mint',
+      is_featured: true,
+      is_sold: false,
+      image_url: '/assets/placeholder.svg',
+      description: 'The legendary Gear 5 Sun God Nika Manga panel card. One of the highest tier modern One Piece TCG grails in pack-fresh condition.'
+    },
+    {
+      id: 24,
+      name: 'Roronoa Zoro (Super Pre-Release Winner)',
+      pokemon_type: 'Single',
+      product_type: 'single',
+      game_category: 'One Piece',
+      set_name: 'Super Pre-Release (OP-01)',
+      rarity: 'Leader Alt',
+      price: 18500,
+      condition: 'NM',
+      is_featured: false,
+      is_sold: false,
+      image_url: '/assets/placeholder.svg',
+      description: 'Original Super Pre-Release gold stamped Winner leader card. Sleek textured foiling and sharp edges.'
+    },
+    {
+      id: 25,
+      name: 'Elsa - Spirit of Winter (Enchanted Foil)',
+      pokemon_type: 'Single',
+      product_type: 'single',
+      game_category: 'Lorcana',
+      set_name: 'The First Chapter',
+      rarity: 'Enchanted',
+      price: 52000,
+      condition: 'Mint',
+      is_featured: true,
+      is_sold: false,
+      image_url: '/assets/placeholder.svg',
+      description: 'The holy grail of Disney Lorcana First Chapter. Mesmerizing starlight foil texture and pristine centering.'
+    },
+    {
+      id: 26,
+      name: 'The One Ring (Borderless Foil)',
+      pokemon_type: 'Single',
+      product_type: 'single',
+      game_category: 'Magic The Gathering',
+      set_name: 'The Lord of the Rings: Tales of Middle-earth',
+      rarity: 'Mythic Rare',
+      price: 9500,
+      condition: 'Mint',
+      is_featured: false,
+      is_sold: false,
+      image_url: '/assets/placeholder.svg',
+      description: 'Iconic legendary artifact with borderless panoramic art and pristine foil finish.'
     }
   ],
 
@@ -1694,8 +1755,8 @@ Is this still available for delivery? Thank you!`;
     const messengerUrl = settings?.fb_messenger_url || this.DEFAULT_SETTINGS.fb_messenger_url;
     const nav = [
       {n:'Home',          h:'/',              k:'home'},
-      {n:'Products Available', h:'/cards.html',    k:'cards'},
-      {n:'Vouches',      h:'/vouchers.html', k:'vouchers'},
+      {n:'Products',      h:'/cards.html',    k:'cards'},
+      {n:'Vouches',       h:'/vouchers.html', k:'vouchers'},
     ];
     let brandHtml;
     if (rawName.includes(' ')) {
@@ -1800,7 +1861,7 @@ Is this still available for delivery? Thank you!`;
             <h4 class="font-pixel text-[8px] text-gray-300 uppercase mb-4 tracking-wider">Navigation</h4>
             <div class="flex flex-col space-y-2.5">
               <a href="/" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Home</a>
-              <a href="/cards.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Products Available</a>
+              <a href="/cards.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Products</a>
               <a href="/vouchers.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Vouches</a>
               <a href="javascript:void(0)" onclick="NB.openInquiryModal()" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap cursor-pointer">Contact</a>
             </div>

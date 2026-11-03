@@ -246,7 +246,7 @@
       function updateFieldsVisibility() {
         const pType = productTypeSelect.value;
         const game = gameCategorySelect.value;
-        if (pType === 'sealed') {
+        if (pType === 'sealed' || game !== 'Pokemon') {
           if (cardTypeField) cardTypeField.classList.add('opacity-40');
         } else {
           if (cardTypeField) cardTypeField.classList.remove('opacity-40');

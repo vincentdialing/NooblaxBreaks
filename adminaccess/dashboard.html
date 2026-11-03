@@ -186,7 +186,7 @@
                   ? `<span class="px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[11px]">📦 Sealed • ${Admin.esc(game)}</span>`
                   : (pType === 'slab'
                     ? `<span class="px-2 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/20 text-purple-300 text-[11px]">💎 Slab • ${Admin.esc(card.condition || 'Graded')}</span>`
-                    : `<span class="px-2 py-0.5 rounded-md bg-[#0E839E]/20 border border-[#1FB5D6]/30 text-[#1FB5D6] text-[11px]">🃏 Single • ${Admin.esc(card.pokemon_type || 'Card')}</span>`
+                    : `<span class="px-2 py-0.5 rounded-md bg-[#0E839E]/20 border border-[#1FB5D6]/30 text-[#1FB5D6] text-[11px]">🃏 Single • ${Admin.esc(game)}</span>`
                   )}
               </td>
               <td class="py-3 pr-4 text-xs text-gray-400 hidden sm:table-cell">${Admin.esc(card.set_name || '—')}</td>

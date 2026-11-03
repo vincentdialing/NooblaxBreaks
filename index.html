@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nooblax Breaks | Products Available - Sealed Boxes, Slabs & Singles</title>
+  <title>Nooblax Breaks | Products - Sealed Boxes, Slabs & Singles</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="/assets/fonts/PressStart2P-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -86,7 +86,7 @@
             <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0E839E] via-[#1FB5D6] to-[#0E839E] rounded-full shadow-[0_0_10px_rgba(31,181,214,0.8)]"></span>
           </a>
           <a href="/cards.html" class="relative group py-3 px-2 font-pixel text-[8.5px] lg:text-[9.5px] uppercase tracking-widest transition-all duration-300 text-gray-400 hover:text-[#1FB5D6]">
-            <span>Products Available</span>
+            <span>Products</span>
             <span class="absolute -bottom-1 left-1/2 right-1/2 h-0.5 bg-[#1FB5D6] rounded-full transition-all duration-300 group-hover:left-0 group-hover:right-0 opacity-0 group-hover:opacity-100 shadow-[0_0_6px_rgba(31,181,214,0.6)]"></span>
           </a>
           <a href="/vouchers.html" class="relative group py-3 px-2 font-pixel text-[8.5px] lg:text-[9.5px] uppercase tracking-widest transition-all duration-300 text-gray-400 hover:text-[#1FB5D6]">
@@ -114,7 +114,7 @@
     <div class="md:hidden hidden bg-[#0B1120]/95 backdrop-blur-2xl border-t border-white/[0.06]" id="mobile-menu">
       <div class="py-2 px-2">
         <a href="/" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors text-[#1FB5D6] bg-[#1FB5D6]/10 font-bold">Home</a>
-        <a href="/cards.html" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors text-gray-400 hover:text-[#1FB5D6] hover:bg-white/[0.03]">Products Available</a>
+        <a href="/cards.html" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors text-gray-400 hover:text-[#1FB5D6] hover:bg-white/[0.03]">Products</a>
         <a href="/vouchers.html" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors text-gray-400 hover:text-[#1FB5D6] hover:bg-white/[0.03]">Vouches</a>
         <div class="pt-2 pb-1 border-t border-white/[0.06] mt-2">
           <a href="https://www.facebook.com/profile.php?id=61593883622380" target="_blank" class="block w-full text-center bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[8px] py-3 rounded-xl shadow-[0_4px_16px_rgba(14,131,158,0.3)]">
@@ -296,7 +296,7 @@
           <svg class="w-3 h-3 text-[#F6D06F] fill-current" viewBox="0 0 24 24"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
           <span>CURRENT INVENTORY</span>
         </span>
-        <h2 class="font-pixel text-lg sm:text-xl text-white mt-3 mb-2">PRODUCTS AVAILABLE</h2>
+        <h2 class="font-pixel text-lg sm:text-xl text-white mt-3 mb-2">PRODUCTS</h2>
         <div class="h-1 w-20 bg-gradient-to-r from-[#0E839E] via-[#1FB5D6] to-[#F6D06F] mx-auto rounded-full mb-3"></div>
         <p class="font-body text-sm text-gray-400">
           Browse sealed booster boxes, graded slabs, and raw singles. Click "INQUIRE" on any product to message us directly and reserve instantly.
@@ -864,12 +864,22 @@
 
       function renderGamePills() {
         if (!gameContainer) return;
-        if (activeTab !== 'sealed') {
+        if (activeTab !== 'sealed' && activeTab !== 'singles') {
           gameContainer.classList.add('hidden');
           return;
         }
+
+        const relevantItems = allCards.filter(c => NB.getProductType(c) === activeTab);
+        const rawGames = [...new Set(relevantItems.map(c => NB.getGameCategory(c)).filter(Boolean))];
+        ['Pokemon', 'One Piece', 'Magic The Gathering', 'Lorcana', 'Riftbound'].forEach(g => {
+          if (!rawGames.some(rg => rg.toLowerCase().replace(/[^a-z]/g, '') === g.toLowerCase().replace(/[^a-z]/g, ''))) {
+            rawGames.push(g);
+          }
+        });
+        const currentGames = ['all', ...rawGames];
+
         gameContainer.classList.remove('hidden');
-        gameContainer.innerHTML = availableGames.map(game => {
+        gameContainer.innerHTML = currentGames.map(game => {
           const isAll = game === 'all';
           const label = isAll ? 'ALL GAMES' : game.toUpperCase();
           const activeClass = (isAll && activeGame === 'all') || (activeGame === game)
@@ -895,6 +905,7 @@
       // Tab switcher function
       function switchShowcaseTab(newTab) {
         activeTab = newTab;
+        activeGame = 'all';
         
         tabBtns.forEach(btn => {
           const tab = btn.dataset.tab;
@@ -943,8 +954,8 @@
         // 1. Primary Section filter (Sealed Boxes, Slabs, Singles)
         filtered = filtered.filter(c => NB.getProductType(c) === activeTab);
 
-        // 2. Game Category filter (Sealed Boxes only)
-        if (activeTab === 'sealed' && activeGame && activeGame !== 'all') {
+        // 2. Game Category filter (Sealed Boxes and Singles)
+        if ((activeTab === 'sealed' || activeTab === 'singles') && activeGame && activeGame !== 'all') {
           const normSelectedGame = activeGame.toLowerCase().replace(/[^a-z0-9]/g, '');
           filtered = filtered.filter(c => {
             const cardGame = (NB.getGameCategory(c) || '').toLowerCase().replace(/[^a-z0-9]/g, '');
