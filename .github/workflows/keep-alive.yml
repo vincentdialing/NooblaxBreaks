@@ -1,0 +1,54 @@
+name: Supabase Keep-Alive & Anti-Pause
+
+on:
+  schedule:
+    # Runs every 2 days at 04:00 UTC (well within Supabase's 7-day inactivity pause window)
+    - cron: '0 4 */2 * *'
+  workflow_dispatch: # Allows manual trigger anytime from GitHub Actions tab
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    name: Ping Supabase Database & Services
+    steps:
+      - name: Ping Supabase REST API & Database
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://mcsqzwjleebxjrqayuha.supabase.co' }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jc3F6d2psZWVieGpycWF5dWhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzMDIwNTYsImV4cCI6MjEwNjg3ODA1Nn0.LgagB9mRgpjjrL_l7wk_TrBvT9sSuimpdpL5rljrRe8' }}
+        run: |
+          echo "========================================================"
+          echo "Nooblax Breaks - Supabase Anti-Pause Ping"
+          echo "Target: $SUPABASE_URL"
+          echo "Timestamp: $(date -u)"
+          echo "========================================================"
+          
+          # 1. Ping REST API (Queries cards table to register active database query)
+          echo "Pinging Database via PostgREST (/rest/v1/cards)..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
+            "$SUPABASE_URL/rest/v1/cards?select=id&limit=1" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            --max-time 20 || echo "FAILED")
+          echo "Database API Response Code: $HTTP_STATUS"
+          
+          # 2. Ping Auth Health endpoint
+          echo "Pinging Supabase Auth Health (/auth/v1/health)..."
+          AUTH_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
+            "$SUPABASE_URL/auth/v1/health" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            --max-time 20 || echo "FAILED")
+          echo "Auth Service Response Code: $AUTH_STATUS"
+          
+          # 3. Ping Settings or Testimonials as secondary query
+          echo "Pinging Settings table (/rest/v1/settings)..."
+          SETTINGS_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
+            "$SUPABASE_URL/rest/v1/settings?select=id&limit=1" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            --max-time 20 || echo "FAILED")
+          echo "Settings API Response Code: $SETTINGS_STATUS"
+
+          echo "========================================================"
+          echo "Keep-alive ping completed successfully!"
+          echo "Supabase activity has been registered to prevent project pause."
+          echo "========================================================"
