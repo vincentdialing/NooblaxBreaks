@@ -731,10 +731,26 @@ const NB = {
 
   getProductType(c) {
     if (!c) return 'single';
-    if (c.product_type) return c.product_type;
+    if (c.product_type) {
+      const pt = String(c.product_type).toLowerCase().trim();
+      if (pt === 'slabs' || pt === 'slab') return 'slab';
+      if (pt === 'singles' || pt === 'single') return 'single';
+      if (pt === 'sealed' || pt === 'sealed boxes' || pt === 'sealed_box') return 'sealed';
+      return pt;
+    }
     const cond = (c.condition || '').toUpperCase();
     if (cond.includes('PSA') || cond.includes('BGS') || cond.includes('CGC')) return 'slab';
     return 'single';
+  },
+
+  matchesProductType(c, tabOrType) {
+    if (!tabOrType || tabOrType === 'all') return true;
+    const pType = this.getProductType(c);
+    const target = String(tabOrType).toLowerCase().trim();
+    if (target === 'sealed' || target === 'sealed boxes' || target === 'sealed_box') return pType === 'sealed';
+    if (target === 'slab' || target === 'slabs') return pType === 'slab';
+    if (target === 'single' || target === 'singles') return pType === 'single';
+    return pType === target;
   },
 
   getGameCategory(c) {

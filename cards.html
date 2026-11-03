@@ -557,9 +557,9 @@
       const countSlabsEl = document.getElementById('count-slabs');
       const countSinglesEl = document.getElementById('count-singles');
 
-      if (countSealedEl) countSealedEl.textContent = allCards.filter(c => NB.getProductType(c) === 'sealed').length;
-      if (countSlabsEl) countSlabsEl.textContent = allCards.filter(c => NB.getProductType(c) === 'slab').length;
-      if (countSinglesEl) countSinglesEl.textContent = allCards.filter(c => NB.getProductType(c) === 'single').length;
+      if (countSealedEl) countSealedEl.textContent = allCards.filter(c => NB.matchesProductType(c, 'sealed')).length;
+      if (countSlabsEl) countSlabsEl.textContent = allCards.filter(c => NB.matchesProductType(c, 'slabs')).length;
+      if (countSinglesEl) countSinglesEl.textContent = allCards.filter(c => NB.matchesProductType(c, 'singles')).length;
 
       // Render Game Category Pills (Pokemon, One Piece, Magic the Gathering, Lorcana, Riftbound, etc.)
       function renderGamePills() {
@@ -569,7 +569,7 @@
           return;
         }
 
-        const relevantItems = allCards.filter(c => NB.getProductType(c) === activeTab);
+        const relevantItems = allCards.filter(c => NB.matchesProductType(c, activeTab));
         const rawGames = [...new Set(relevantItems.map(c => NB.getGameCategory(c)).filter(Boolean))];
         ['Pokemon', 'One Piece', 'Magic The Gathering', 'Lorcana', 'Riftbound'].forEach(g => {
           if (!rawGames.some(rg => rg.toLowerCase().replace(/[^a-z]/g, '') === g.toLowerCase().replace(/[^a-z]/g, ''))) {
@@ -691,9 +691,9 @@
         let filtered = [...allCards];
 
         // 1. Filter by Active Section / Tab (Sealed Boxes, Slabs, Singles)
-        filtered = filtered.filter(c => NB.getProductType(c) === activeTab);
+        filtered = filtered.filter(c => NB.matchesProductType(c, activeTab));
 
-        // 2. Filter by Game Category (Sealed Boxes and Singles)
+        // 2. Game Category (Sealed Boxes and Singles)
         if ((activeTab === 'sealed' || activeTab === 'singles') && activeGame && activeGame !== 'all') {
           const normSelectedGame = activeGame.toLowerCase().replace(/[^a-z0-9]/g, '');
           filtered = filtered.filter(c => {
@@ -751,7 +751,7 @@
 
         // Update count label
         const tabNames = { sealed: 'sealed products', slabs: 'graded slabs', singles: 'singles' };
-        const totalInTab = allCards.filter(c => NB.getProductType(c) === activeTab).length;
+        const totalInTab = allCards.filter(c => NB.matchesProductType(c, activeTab)).length;
         countLabel.textContent = `Showing ${filtered.length} of ${totalInTab} ${tabNames[activeTab] || 'products'}`;
 
         if (filtered.length === 0) {

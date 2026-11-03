@@ -853,7 +853,7 @@
       const viewAllText = document.getElementById('view-all-text');
 
       // Populate game categories for Sealed Boxes
-      const sealedItems = allCards.filter(c => NB.getProductType(c) === 'sealed');
+      const sealedItems = allCards.filter(c => NB.matchesProductType(c, 'sealed'));
       const rawGames = [...new Set(sealedItems.map(c => NB.getGameCategory(c)).filter(Boolean))];
       ['Pokemon', 'One Piece', 'Magic The Gathering', 'Lorcana', 'Riftbound'].forEach(g => {
         if (!rawGames.some(rg => rg.toLowerCase().replace(/[^a-z]/g, '') === g.toLowerCase().replace(/[^a-z]/g, ''))) {
@@ -869,7 +869,7 @@
           return;
         }
 
-        const relevantItems = allCards.filter(c => NB.getProductType(c) === activeTab);
+        const relevantItems = allCards.filter(c => NB.matchesProductType(c, activeTab));
         const rawGames = [...new Set(relevantItems.map(c => NB.getGameCategory(c)).filter(Boolean))];
         ['Pokemon', 'One Piece', 'Magic The Gathering', 'Lorcana', 'Riftbound'].forEach(g => {
           if (!rawGames.some(rg => rg.toLowerCase().replace(/[^a-z]/g, '') === g.toLowerCase().replace(/[^a-z]/g, ''))) {
@@ -952,7 +952,7 @@
         let filtered = [...allCards];
 
         // 1. Primary Section filter (Sealed Boxes, Slabs, Singles)
-        filtered = filtered.filter(c => NB.getProductType(c) === activeTab);
+        filtered = filtered.filter(c => NB.matchesProductType(c, activeTab));
 
         // 2. Game Category filter (Sealed Boxes and Singles)
         if ((activeTab === 'sealed' || activeTab === 'singles') && activeGame && activeGame !== 'all') {
