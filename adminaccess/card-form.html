@@ -272,6 +272,12 @@
             document.getElementById('card-name').value = card.name || '';
             const inferredType = card.product_type || (card.condition && (card.condition.includes('PSA') || card.condition.includes('BGS')) ? 'slab' : 'single');
             productTypeSelect.value = inferredType;
+            if (card.game_category && ![...gameCategorySelect.options].some(o => o.value === card.game_category)) {
+              const opt = document.createElement('option');
+              opt.value = card.game_category;
+              opt.textContent = card.game_category;
+              gameCategorySelect.appendChild(opt);
+            }
             gameCategorySelect.value = card.game_category || 'Pokemon';
             document.getElementById('card-type').value = card.pokemon_type || 'Colorless';
             document.getElementById('card-set').value = card.set_name || '';
