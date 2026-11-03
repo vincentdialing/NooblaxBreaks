@@ -93,87 +93,119 @@
     </div>
   </header>
 
-  <main class="fade-in pt-14 pb-20 lg:pt-20 lg:pb-28 max-w-6xl mx-auto px-6 min-h-[60vh]">
+  <main class="fade-in pt-8 pb-20 lg:pt-14 lg:pb-28 max-w-6xl mx-auto px-4 sm:px-6 min-h-[60vh]">
     
-    <!-- Breadcrumb -->
-    <div class="text-xs text-gray-500 mb-8 font-medium flex items-center space-x-2">
-      <a href="/" class="hover:text-[#1FB5D6]">Home</a>
-      <span>/</span>
-      <a href="/cards.html" class="hover:text-[#1FB5D6]">Products</a>
-      <span>/</span>
-      <span id="bc-name" class="text-gray-300">Loading...</span>
-    </div>
+    <!-- Breadcrumb (Clean & Truncated on Mobile) -->
+    <nav aria-label="Breadcrumb" class="text-xs sm:text-sm text-gray-400 mb-6 sm:mb-8 font-medium flex items-center gap-2 overflow-hidden">
+      <a href="/" class="hover:text-[#1FB5D6] transition-colors flex-shrink-0">Home</a>
+      <span class="text-gray-600 flex-shrink-0">/</span>
+      <a href="/cards.html" class="hover:text-[#1FB5D6] transition-colors flex-shrink-0">Products</a>
+      <span class="text-gray-600 flex-shrink-0">/</span>
+      <span id="bc-name" class="text-gray-200 font-semibold truncate max-w-[180px] sm:max-w-md">Loading...</span>
+    </nav>
 
     <div id="card-content" class="hidden">
-      <div class="flex flex-col md:flex-row gap-10 mb-16">
+      <div class="flex flex-col md:flex-row gap-8 lg:gap-12 mb-16">
         
-        <!-- Left: Image with Holo Sheen -->
-        <div class="w-full md:w-2/5 flex-shrink-0">
-          <div class="rounded-3xl overflow-hidden shadow-[0_12px_50px_rgba(14,131,158,0.25)] border-2 border-white/10 relative card-holo group skeleton">
-            <img id="c-image" src="" alt="Card Image" 
+        <!-- Left: Image Showcase with Holo Sheen & Proper Fit -->
+        <div class="w-full md:w-5/12 flex-shrink-0">
+          <div class="rounded-3xl overflow-hidden shadow-[0_16px_50px_rgba(0,0,0,0.6)] border border-white/10 relative bg-gradient-to-b from-[#111928]/90 via-[#0B1120] to-[#060a14] p-4 sm:p-8 flex items-center justify-center card-holo group skeleton min-h-[320px] sm:min-h-[420px]">
+            <img id="c-image" src="" alt="Product Image" 
                  onerror="this.onerror=null;this.src='/assets/placeholder.svg';" 
-                 class="w-full aspect-[3/4] object-cover rounded-3xl">
-            <div id="c-sold-badge" class="hidden absolute inset-0 bg-[#060a14]/80 backdrop-blur-[3px] flex items-center justify-center rounded-3xl pointer-events-none">
-              <div class="bg-[#0B1120]/90 border border-[#E63946]/50 backdrop-blur-xl px-5 py-2.5 rounded-2xl shadow-[0_0_30px_rgba(230,57,70,0.4)] flex items-center space-x-2">
-                <span class="w-2 h-2 rounded-full bg-[#E63946] shadow-[0_0_8px_#E63946] animate-pulse"></span>
+                 class="w-full max-h-[320px] sm:max-h-[420px] object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_14px_30px_rgba(0,0,0,0.7)]">
+            <div id="c-sold-badge" class="hidden absolute inset-0 bg-[#060a14]/85 backdrop-blur-sm flex items-center justify-center rounded-3xl pointer-events-none z-20">
+              <div class="bg-[#0B1120]/95 border border-[#E63946]/60 px-5 py-2.5 rounded-2xl shadow-[0_0_30px_rgba(230,57,70,0.4)] flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#E63946] shadow-[0_0_8px_#E63946] animate-pulse"></span>
                 <span class="font-pixel text-xs text-[#E63946] tracking-wider">SOLD OUT</span>
               </div>
             </div>
           </div>
           
-          <div class="mt-4 flex items-center justify-center space-x-3 text-xs text-gray-500">
+          <div class="mt-4 flex items-center justify-center space-x-3 text-xs text-gray-400">
             <span class="inline-flex items-center space-x-1.5">
-              <svg class="w-3.5 h-3.5 text-emerald-400 stroke-current fill-none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <span>100% Guaranteed Authentic</span>
+              <svg class="w-4 h-4 text-emerald-400 stroke-current fill-none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span class="font-medium text-gray-300">100% Genuine Guaranteed</span>
             </span>
             <span>•</span>
-            <span>Protected Sleeve & Slab</span>
+            <span class="text-gray-400">Protected Packaging</span>
           </div>
         </div>
 
-        <!-- Right: Card Specs & Direct Messenger CTA -->
-        <div class="w-full md:w-3/5 flex flex-col justify-center">
-          <div class="bg-white/[0.04] backdrop-blur-xl rounded-3xl border border-white/[0.06] p-6 md:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <!-- Right: Modern Product Specs & Inquire CTA -->
+        <div class="w-full md:w-7/12 flex flex-col justify-center">
+          <div class="bg-white/[0.04] backdrop-blur-xl rounded-3xl border border-white/[0.08] p-5 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
             
-            <!-- Badges row -->
-            <div id="c-badges-row" class="flex items-center space-x-2.5 mb-4">
-              <span class="glass-badge glass-badge-neutral"><span class="badge-pip"></span><span class="badge-text">LOADING</span></span>
+            <!-- Legible Modern Badges Row -->
+            <div id="c-badges-row" class="flex flex-wrap items-center gap-2 mb-4">
+              <!-- Dynamically populated -->
             </div>
 
-            <!-- Card Title -->
-            <h1 id="c-name" class="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">Card Name</h1>
+            <!-- Product Title -->
+            <h1 id="c-name" class="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">Product Name</h1>
             
-            <!-- Set Name -->
-            <div id="c-set" class="font-pixel text-[9px] text-[#1FB5D6] mb-6">SET NAME</div>
-            
-            <!-- Price Display -->
-            <div class="flex items-baseline gap-4 mb-6">
-              <div id="c-price" class="font-pixel text-2xl md:text-3xl text-[#1FB5D6] drop-shadow-[0_0_14px_rgba(31,181,214,0.6)]">₱0</div>
-              <div class="text-xs text-gray-500">Direct Inquire Online</div>
+            <!-- Set & Franchise Subtitle -->
+            <div class="flex items-center gap-2 mb-5 flex-wrap">
+              <span class="text-xs uppercase tracking-wider text-gray-400 font-semibold">Set:</span>
+              <span id="c-set" class="text-xs sm:text-sm font-semibold text-[#1FB5D6] bg-[#1FB5D6]/10 px-2.5 py-0.5 rounded-lg border border-[#1FB5D6]/20">SET NAME</span>
             </div>
             
-            <div class="w-full h-[1px] bg-white/[0.06] mb-6"></div>
-            
-            <!-- Description -->
-            <div class="text-gray-300 text-sm mb-8 leading-relaxed">
-              <h4 class="font-pixel text-[8px] text-gray-400 uppercase mb-2">Card Details & Condition</h4>
-              <p id="c-desc">Description loading...</p>
+            <!-- Price & Availability Card -->
+            <div class="flex items-baseline justify-between p-4 rounded-2xl bg-white/[0.03] border border-white/[0.06] mb-5">
+              <div>
+                <span class="text-[11px] uppercase tracking-wider text-gray-400 block mb-1">Collector Price</span>
+                <div id="c-price" class="font-pixel text-2xl sm:text-3xl text-[#1FB5D6] drop-shadow-[0_0_14px_rgba(31,181,214,0.5)]">₱0</div>
+              </div>
+              <div id="c-availability">
+                <span class="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]"></span>
+                  Available
+                </span>
+              </div>
             </div>
 
-            <!-- Action Area -->
+            <!-- Structured Product Specs Grid -->
+            <div class="grid grid-cols-2 gap-2.5 sm:gap-3 mb-5">
+              <div class="bg-white/[0.02] border border-white/[0.05] rounded-xl p-3">
+                <span class="text-[10px] uppercase tracking-wider text-gray-400 block mb-0.5">Product Type</span>
+                <span id="spec-type" class="text-xs sm:text-sm font-semibold text-gray-200">Booster Box</span>
+              </div>
+              <div class="bg-white/[0.02] border border-white/[0.05] rounded-xl p-3">
+                <span class="text-[10px] uppercase tracking-wider text-gray-400 block mb-0.5">Franchise</span>
+                <span id="spec-game" class="text-xs sm:text-sm font-semibold text-gray-200">Pokémon</span>
+              </div>
+              <div class="bg-white/[0.02] border border-white/[0.05] rounded-xl p-3">
+                <span class="text-[10px] uppercase tracking-wider text-gray-400 block mb-0.5">Condition</span>
+                <span id="spec-condition" class="text-xs sm:text-sm font-semibold text-emerald-400">Factory Sealed</span>
+              </div>
+              <div class="bg-white/[0.02] border border-white/[0.05] rounded-xl p-3">
+                <span class="text-[10px] uppercase tracking-wider text-gray-400 block mb-0.5">Authenticity</span>
+                <span class="text-xs sm:text-sm font-semibold text-[#1FB5D6]">100% Genuine</span>
+              </div>
+            </div>
+
+            <!-- Item Description -->
+            <div class="mb-6">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-[#1FB5D6]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>Description & Details</span>
+              </h4>
+              <p id="c-desc" class="text-gray-300 text-xs sm:text-sm leading-relaxed bg-white/[0.02] p-4 rounded-2xl border border-white/[0.05]">Description loading...</p>
+            </div>
+
+            <!-- Inquiry CTA Button -->
             <div id="c-action-area" class="space-y-3">
-              <!-- Messenger Button injected dynamically -->
+              <!-- Populated dynamically -->
             </div>
 
-            <!-- Notice -->
-            <div class="mt-4 pt-4 border-t border-white/[0.04] flex flex-col sm:flex-row gap-2 justify-between text-xs text-gray-500">
+            <!-- Perks / Reassurance -->
+            <div class="mt-5 pt-4 border-t border-white/[0.05] flex flex-col sm:flex-row gap-2 justify-between text-xs text-gray-400">
               <span class="inline-flex items-center space-x-1.5">
-                <svg class="w-3.5 h-3.5 text-[#1FB5D6] stroke-current fill-none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                <svg class="w-4 h-4 text-[#1FB5D6] stroke-current fill-none flex-shrink-0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
                 <span>Nationwide Shipping via LBC / J&T</span>
               </span>
               <span class="inline-flex items-center space-x-1.5">
-                <svg class="w-3.5 h-3.5 text-[#F6D06F] stroke-current fill-none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                <span>GCash / Bank Transfer</span>
+                <svg class="w-4 h-4 text-[#F6D06F] stroke-current fill-none flex-shrink-0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>GCash / Maya / Bank Transfer</span>
               </span>
             </div>
 
@@ -194,7 +226,7 @@
             <svg class="w-3 h-3 stroke-current fill-none ml-0.5" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </a>
         </div>
-        <div id="related-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+        <div id="related-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
           <!-- Populated dynamically -->
         </div>
       </div>
@@ -243,43 +275,85 @@
         document.title = `${card.name} | Nooblax Breaks`;
         document.getElementById('bc-name').textContent = card.name;
         document.getElementById('c-name').textContent = card.name;
-        document.getElementById('c-set').textContent = card.set_name || (pType === 'sealed' ? gName : 'COLLECTIBLE');
+        document.getElementById('c-set').textContent = card.set_name || (pType === 'sealed' ? `${gName} Expansion` : 'COLLECTIBLE');
         document.getElementById('c-price').textContent = NB.price(card.price);
         document.getElementById('c-desc').textContent = card.description || 
           (pType === 'sealed' 
             ? 'Official factory sealed box in original manufacturer shrink wrap. 100% authentic and untampered.' 
             : pType === 'slab' 
               ? 'Professionally graded authentic collectible slab in protective sleeve.' 
-              : 'Verified Pokémon TCG card in mint collector condition.');
+              : 'Verified trading card in mint collector condition.');
+        
+        // Structured Specs
+        const typeLabels = { sealed: 'Booster Box / Display', slab: 'Graded Slab', single: 'Single Card' };
+        document.getElementById('spec-type').textContent = typeLabels[pType] || 'Collectible Card';
+        document.getElementById('spec-game').textContent = gName;
+        document.getElementById('spec-condition').textContent = card.condition || (pType === 'sealed' ? 'Factory Sealed' : 'Near Mint');
         
         const imgEl = document.getElementById('c-image');
         imgEl.onload = () => imgEl.parentElement.classList.remove('skeleton');
+        const fallbackImg = pType === 'sealed' ? '/assets/sealed-box.svg' : '/assets/placeholder.svg';
+        imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = fallbackImg; };
         imgEl.src = NB.img(card.image_url);
         
+        // Legible Modern Chips for details page
         const badgesRow = document.getElementById('c-badges-row');
         if (badgesRow) {
           if (pType === 'sealed') {
             badgesRow.innerHTML = `
-              <span class="glass-badge glass-badge-gold"><span class="badge-pip"></span><span class="badge-text">SEALED</span></span>
-              <span class="glass-badge glass-badge-cyan"><span class="badge-pip"></span><span class="badge-text">${NB.esc(gName.toUpperCase())}</span></span>
-              <span class="glass-badge glass-badge-neutral"><span class="badge-pip"></span><span class="badge-text">${NB.esc(card.rarity || 'BOOSTER BOX')}</span></span>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
+                Factory Sealed
+              </span>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1FB5D6]/15 border border-[#1FB5D6]/30 text-[#1FB5D6] text-xs font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#1FB5D6] shadow-[0_0_6px_#1FB5D6]"></span>
+                ${NB.esc(gName)}
+              </span>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-gray-200 text-xs font-semibold">
+                ${NB.esc(card.rarity || 'Booster Display')}
+              </span>
             `;
           } else if (pType === 'slab') {
             badgesRow.innerHTML = `
-              ${NB.conditionBadge(card)}
-              <span class="glass-badge glass-badge-violet"><span class="badge-pip"></span><span class="badge-text">SLAB</span></span>
-              ${NB.rarityBadge(card.rarity)}
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/15 border border-purple-500/30 text-purple-300 text-xs font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_6px_#c084fc]"></span>
+                Graded Slab
+              </span>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1FB5D6]/15 border border-[#1FB5D6]/30 text-[#1FB5D6] text-xs font-semibold">
+                ${NB.esc(card.condition || 'PSA 10')}
+              </span>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-gray-200 text-xs font-semibold">
+                ${NB.esc(gName)}
+              </span>
             `;
           } else {
             badgesRow.innerHTML = `
-              ${NB.conditionBadge(card)}
-              ${NB.rarityBadge(card.rarity)}
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]"></span>
+                ${NB.esc(card.condition || 'Mint')}
+              </span>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-gray-200 text-xs font-semibold">
+                ${NB.esc(card.rarity || 'Single')}
+              </span>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1FB5D6]/15 border border-[#1FB5D6]/30 text-[#1FB5D6] text-xs font-semibold">
+                ${NB.esc(gName)}
+              </span>
             `;
           }
         }
 
+        // Availability state
+        const availEl = document.getElementById('c-availability');
         if (card.is_sold) {
           document.getElementById('c-sold-badge').classList.remove('hidden');
+          if (availEl) {
+            availEl.innerHTML = `
+              <span class="inline-flex items-center gap-1.5 text-xs text-[#E63946] font-semibold bg-[#E63946]/10 border border-[#E63946]/20 px-3 py-1 rounded-full">
+                <span class="w-2 h-2 rounded-full bg-[#E63946] shadow-[0_0_6px_#E63946]"></span>
+                Sold Out
+              </span>
+            `;
+          }
         }
 
         window._currentCard = card;
@@ -289,23 +363,23 @@
         
         if (card.is_sold) {
           actionArea.innerHTML = `
-            <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center">
-              <span class="font-pixel text-[8px] text-[#E63946] block mb-1">THIS CARD HAS BEEN CLAIMED</span>
-              <p class="text-xs text-gray-500 mb-3">Looking for a similar card? Send us a message.</p>
-              <button type="button" onclick="NB.openInquiryModal(window._currentCard)" class="inline-flex items-center space-x-1 bg-white/[0.06] hover:bg-white/[0.1] text-gray-300 font-pixel text-[7px] px-5 py-2.5 rounded-xl border border-white/10 transition-colors cursor-pointer">
-                <span>REQUEST RESTOCK</span>
-                <svg class="w-3 h-3 stroke-current fill-none ml-0.5" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center">
+              <span class="font-pixel text-[9px] text-[#E63946] block mb-1">THIS ITEM HAS BEEN CLAIMED</span>
+              <p class="text-xs text-gray-400 mb-4">Looking for a restock or similar card? Reach out to us.</p>
+              <button type="button" onclick="NB.openInquiryModal(window._currentCard)" class="inline-flex items-center space-x-2 bg-white/[0.08] hover:bg-white/[0.14] text-white font-pixel text-[8px] px-6 py-3 rounded-xl border border-white/10 transition-colors cursor-pointer">
+                <span>REQUEST RESTOCK / SIMILAR</span>
+                <svg class="w-3.5 h-3.5 stroke-current fill-none ml-1" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
               </button>
             </div>
           `;
         } else {
           actionArea.innerHTML = `
-            <button type="button" onclick="NB.openInquiryModal(window._currentCard)" class="w-full text-center bg-gradient-to-r from-[#0E839E] via-[#1FB5D6] to-[#0E839E] text-white font-pixel text-[9px] py-4 rounded-2xl shadow-[0_4px_28px_rgba(14,131,158,0.5)] hover:shadow-[0_8px_40px_rgba(14,131,158,0.7)] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 cursor-pointer">
+            <button type="button" onclick="NB.openInquiryModal(window._currentCard)" class="w-full text-center bg-gradient-to-r from-[#0E839E] via-[#1FB5D6] to-[#0E839E] text-white font-pixel text-[9px] sm:text-[10px] py-4 rounded-2xl shadow-[0_4px_28px_rgba(14,131,158,0.5)] hover:shadow-[0_8px_40px_rgba(14,131,158,0.7)] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center space-x-2.5 cursor-pointer">
               <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
               <span>INQUIRE / BUY NOW</span>
             </button>
             <p class="text-center font-body text-xs text-gray-400 mt-2">
-              Select your preferred channel (TikTok, Instagram, Facebook Messenger) to contact us.
+              Select your preferred channel (TikTok, Instagram, Facebook Messenger) to reserve or order.
             </p>
           `;
         }

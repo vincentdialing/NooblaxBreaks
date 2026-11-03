@@ -1,84 +1,80 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="560" viewBox="0 0 400 560">
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
   <defs>
-    <linearGradient id="sealedBg" x1="0%" y1="0%" x2="100%" y2="100%">
+    <radialGradient id="ambientGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F6D06F" stop-opacity="0.18"/>
+      <stop offset="60%" stop-color="#0E839E" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#0f172a"/>
       <stop offset="50%" stop-color="#0B1120"/>
       <stop offset="100%" stop-color="#060a14"/>
     </linearGradient>
-    <linearGradient id="amberGold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F6D06F"/>
-      <stop offset="50%" stop-color="#E5A93C"/>
-      <stop offset="100%" stop-color="#B87314"/>
+    <linearGradient id="goldSheen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="50%" stop-color="#F6D06F"/>
+      <stop offset="100%" stop-color="#D97706"/>
     </linearGradient>
     <linearGradient id="boxTop" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#1e293b"/>
       <stop offset="100%" stop-color="#0f172a"/>
     </linearGradient>
-    <linearGradient id="boxFront" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="boxLeft" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#0f172a"/>
       <stop offset="100%" stop-color="#020617"/>
     </linearGradient>
-    <linearGradient id="tealGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#25F4EE"/>
-      <stop offset="100%" stop-color="#0E839E"/>
+    <linearGradient id="boxRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#131e33"/>
+      <stop offset="100%" stop-color="#090d18"/>
     </linearGradient>
-    <radialGradient id="sealedGlow" cx="50%" cy="45%" r="55%">
-      <stop offset="0%" stop-color="#F6D06F" stop-opacity="0.22"/>
-      <stop offset="100%" stop-color="#F6D06F" stop-opacity="0"/>
-    </radialGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
   </defs>
 
-  <!-- Curvy Base Card Frame -->
-  <rect width="400" height="560" rx="32" fill="url(#sealedBg)"/>
-  <rect x="1" y="1" width="398" height="558" rx="31" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-  <circle cx="200" cy="240" r="140" fill="url(#sealedGlow)"/>
+  <!-- Background Base -->
+  <rect width="600" height="600" rx="36" fill="url(#bgGrad)"/>
+  <rect x="2" y="2" width="596" height="596" rx="34" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+  <circle cx="300" cy="300" r="260" fill="url(#ambientGlow)"/>
 
-  <!-- Inner Frame -->
-  <rect x="16" y="16" width="368" height="528" rx="24" fill="rgba(255,255,255,0.02)" stroke="rgba(246,208,111,0.2)" stroke-width="1"/>
+  <!-- Inner Vault Frame -->
+  <rect x="24" y="24" width="552" height="552" rx="28" fill="rgba(255,255,255,0.015)" stroke="rgba(246,208,111,0.2)" stroke-width="1.5"/>
 
-  <!-- Top Badges Pill Backgrounds -->
-  <rect x="28" y="28" width="100" height="26" rx="13" fill="rgba(6,10,20,0.85)" stroke="rgba(246,208,111,0.4)" stroke-width="1"/>
-  <text x="78" y="45" font-family="'Press Start 2P', monospace, sans-serif" font-size="7" fill="#F6D06F" text-anchor="middle">SEALED</text>
+  <!-- 3D Isometric Booster Display Vault -->
+  <g transform="translate(300, 290)">
+    <!-- Cast Shadow -->
+    <ellipse cx="0" cy="150" rx="190" ry="46" fill="#000000" opacity="0.65"/>
 
-  <rect x="272" y="28" width="100" height="26" rx="13" fill="rgba(6,10,20,0.85)" stroke="rgba(37,244,238,0.4)" stroke-width="1"/>
-  <text x="322" y="45" font-family="'Press Start 2P', monospace, sans-serif" font-size="7" fill="#25F4EE" text-anchor="middle">BOOSTER</text>
+    <!-- Top Isometric Plane -->
+    <polygon points="0,-130 160,-50 0,30 -160,-50" fill="url(#boxTop)" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
 
-  <!-- Isometric 3D Booster Box Graphic -->
-  <g transform="translate(200, 240)">
-    <!-- Box Shadow -->
-    <ellipse cx="0" cy="90" rx="110" ry="28" fill="#000000" opacity="0.6"/>
+    <!-- Left Isometric Plane -->
+    <polygon points="-160,-50 0,30 0,165 -160,85" fill="url(#boxLeft)" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
 
-    <!-- 3D Box: Top face -->
-    <polygon points="0,-75 95,-30 0,15 -95,-30" fill="url(#boxTop)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    <!-- Right Isometric Plane -->
+    <polygon points="0,30 160,-50 160,85 0,165" fill="url(#boxRight)" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
 
-    <!-- 3D Box: Left face -->
-    <polygon points="-95,-30 0,15 0,105 -95,60" fill="url(#boxFront)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+    <!-- Factory Sealed Security Band (Gold Wrap) -->
+    <polygon points="0,-80 65,-48 0,-15 -65,-48" fill="url(#goldSheen)" opacity="0.88"/>
+    <polygon points="-65,-48 0,-15 0,65 -65,32" fill="url(#goldSheen)" opacity="0.75"/>
+    <polygon points="0,-15 65,-48 65,32 0,65" fill="url(#goldSheen)" opacity="0.92"/>
 
-    <!-- 3D Box: Right face -->
-    <polygon points="0,15 95,-30 95,60 0,105" fill="#0b1329" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+    <!-- Central Security Hologram Medallion -->
+    <circle cx="0" cy="10" r="38" fill="url(#goldSheen)" stroke="#FFFFFF" stroke-width="2" filter="url(#glow)"/>
+    <circle cx="0" cy="10" r="32" fill="#0B1120" stroke="rgba(246,208,111,0.5)" stroke-width="1.5"/>
+    <path d="M-12,18 L0,-12 L12,18 L6,18 L0,3 L-6,18 Z" fill="url(#goldSheen)"/>
+    <circle cx="0" cy="10" r="4" fill="#1FB5D6"/>
 
-    <!-- Holographic Security Ribbon band across the box -->
-    <polygon points="0,-45 40,-26 0, -8 -40,-26" fill="url(#amberGold)" opacity="0.85"/>
-    <polygon points="-40,-26 0,-8 0,38 -40,20" fill="url(#amberGold)" opacity="0.75"/>
-    <polygon points="0,-8 40,-26 40,20 0,38" fill="url(#amberGold)" opacity="0.9"/>
-
-    <!-- Official Factory Hologram Seal Stamp -->
-    <circle cx="0" cy="0" r="22" fill="url(#amberGold)" stroke="#ffffff" stroke-width="1.5"/>
-    <circle cx="0" cy="0" r="18" fill="none" stroke="rgba(0,0,0,0.3)" stroke-dasharray="3,2"/>
-    <text x="0" y="4" font-family="'Press Start 2P', monospace, sans-serif" font-size="7" fill="#0B1120" font-weight="bold" text-anchor="middle">NB</text>
-
-    <!-- Glowing Cyber Grid Accent -->
-    <line x1="-70" y1="35" x2="-20" y2="58" stroke="url(#tealGrad2)" stroke-width="2" stroke-linecap="round"/>
-    <line x1="20" y1="58" x2="70" y2="35" stroke="url(#tealGrad2)" stroke-width="2" stroke-linecap="round"/>
+    <!-- Subtle Cyan Edge Laser Highlights -->
+    <line x1="-120" y1="50" x2="-25" y2="98" stroke="#1FB5D6" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+    <line x1="25" y1="98" x2="120" y2="50" stroke="#1FB5D6" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
   </g>
 
-  <!-- Product Labels -->
-  <text x="200" y="390" font-family="'Space Grotesk', system-ui, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF" text-anchor="middle">AUTHENTIC FACTORY SEALED</text>
-  <text x="200" y="415" font-family="'Press Start 2P', monospace, sans-serif" font-size="8" fill="#1FB5D6" text-anchor="middle">BOOSTER DISPLAY CASE</text>
-
-  <!-- Bottom Details Bar -->
-  <rect x="28" y="460" width="344" height="48" rx="14" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-  <circle cx="48" cy="484" r="5" fill="#34d399"/>
-  <text x="62" y="488" font-family="'Space Grotesk', system-ui, sans-serif" font-size="12" font-weight="600" fill="#E2E8F0">100% Mint Unopened Box</text>
-  <text x="352" y="488" font-family="'Press Start 2P', monospace, sans-serif" font-size="8" fill="#F6D06F" text-anchor="end">TCG VAULT</text>
+  <!-- Clear, Modern, High-Legibility Title Badge -->
+  <g transform="translate(300, 505)">
+    <rect x="-140" y="-18" width="280" height="36" rx="18" fill="rgba(6,10,20,0.85)" stroke="rgba(246,208,111,0.35)" stroke-width="1.5"/>
+    <circle cx="-115" cy="0" r="4" fill="#F6D06F"/>
+    <text x="-95" y="5" font-family="'Space Grotesk', system-ui, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="2">FACTORY SEALED</text>
+  </g>
 </svg>

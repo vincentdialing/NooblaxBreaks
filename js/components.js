@@ -318,7 +318,7 @@ const NB = {
       condition: 'Factory Sealed',
       is_featured: true,
       is_sold: false,
-      image_url: '/assets/sealed-box.svg',
+      image_url: 'https://tcgplayer-cdn.tcgplayer.com/product/502000_in_600x600.jpg',
       description: 'Factory sealed 151 booster bundle case containing authentic packs with chances for the coveted Charizard ex SAR and god packs. 100% untampered.'
     },
     {
@@ -333,7 +333,7 @@ const NB = {
       condition: 'Factory Sealed',
       is_featured: true,
       is_sold: false,
-      image_url: '/assets/sealed-box.svg',
+      image_url: 'https://tcgplayer-cdn.tcgplayer.com/product/498734_in_600x600.jpg',
       description: 'The iconic 1st Anniversary set featuring Manga Luffy Gear 5, Signed Oda Luffy, and beloved leaders. Authentic Japanese/English release in original shrink wrap.'
     },
     {
@@ -348,7 +348,7 @@ const NB = {
       condition: 'Factory Sealed',
       is_featured: false,
       is_sold: false,
-      image_url: '/assets/sealed-box.svg',
+      image_url: 'https://tcgplayer-cdn.tcgplayer.com/product/563834_in_1000x1000.jpg',
       description: 'The explosive Four Emperors expansion featuring new Shanks, Blackbeard, Buggy, and Luffy leader decks. Mint sealed box.'
     },
     {
@@ -363,7 +363,7 @@ const NB = {
       condition: 'Factory Sealed',
       is_featured: true,
       is_sold: false,
-      image_url: '/assets/sealed-box.svg',
+      image_url: 'https://tcgplayer-cdn.tcgplayer.com/product/541164_in_600x600.jpg',
       description: 'Contains 36 Modern Horizons 3 Play Boosters. Packed with powerful new-to-Modern cards and coveted Fetchlands. Factory sealed.'
     },
     {
@@ -378,7 +378,7 @@ const NB = {
       condition: 'Factory Sealed',
       is_featured: true,
       is_sold: false,
-      image_url: '/assets/sealed-box.svg',
+      image_url: 'https://tcgplayer-cdn.tcgplayer.com/product/543859_in_1000x1000.jpg',
       description: 'Official Ravensburger factory sealed box with 24 booster packs featuring Enchanted foil chase cards and dramatic sea-witch storylines.'
     },
     {
@@ -393,7 +393,7 @@ const NB = {
       condition: 'Factory Sealed',
       is_featured: false,
       is_sold: false,
-      image_url: '/assets/sealed-box.svg',
+      image_url: 'https://cdn.sanity.io/images/dsfx7636/consumer_products_live/e026ee1a44bc86095f9afc5949c5fdb519b29c66-2560x2560.png',
       description: 'Official factory sealed premiere booster display for Riftbound TCG. Fast-paced competitive cards and serialized foil inserts.'
     },
     // ==================== MULTI-TCG SINGLES ====================
@@ -409,7 +409,7 @@ const NB = {
       condition: 'Mint',
       is_featured: true,
       is_sold: false,
-      image_url: '/assets/placeholder.svg',
+      image_url: 'https://tcgplayer-cdn.tcgplayer.com/product/527026_in_600x600.jpg',
       description: 'The legendary Gear 5 Sun God Nika Manga panel card. One of the highest tier modern One Piece TCG grails in pack-fresh condition.'
     },
     {
@@ -424,7 +424,7 @@ const NB = {
       condition: 'NM',
       is_featured: false,
       is_sold: false,
-      image_url: '/assets/placeholder.svg',
+      image_url: 'https://tcgplayer-cdn.tcgplayer.com/product/419388_in_600x600.jpg',
       description: 'Original Super Pre-Release gold stamped Winner leader card. Sleek textured foiling and sharp edges.'
     },
     {
@@ -439,7 +439,7 @@ const NB = {
       condition: 'Mint',
       is_featured: true,
       is_sold: false,
-      image_url: '/assets/placeholder.svg',
+      image_url: 'https://tcgplayer-cdn.tcgplayer.com/product/510153_in_600x600.jpg',
       description: 'The holy grail of Disney Lorcana First Chapter. Mesmerizing starlight foil texture and pristine centering.'
     },
     {
@@ -454,7 +454,7 @@ const NB = {
       condition: 'Mint',
       is_featured: false,
       is_sold: false,
-      image_url: '/assets/placeholder.svg',
+      image_url: 'https://tcgplayer-cdn.tcgplayer.com/product/488270_in_600x600.jpg',
       description: 'Iconic legendary artifact with borderless panoramic art and pristine foil finish.'
     }
   ],
@@ -809,6 +809,20 @@ const NB = {
 
   getGameCategory(c) {
     return (c && c.game_category) ? c.game_category : 'Pokemon';
+  },
+
+  getCompactGameName(name) {
+    if (!name) return 'TCG';
+    const n = String(name).trim();
+    const lower = n.toLowerCase();
+    if (lower.includes('magic') || lower === 'mtg') return 'MTG';
+    if (lower.includes('one piece') || lower === 'op') return 'ONE PIECE';
+    if (lower.includes('pokemon')) return 'POKÉMON';
+    if (lower.includes('lorcana')) return 'LORCANA';
+    if (lower.includes('riftbound')) return 'RIFTBOUND';
+    if (lower.includes('dragon ball') || lower === 'dbs') return 'DBS';
+    if (lower.includes('yu-gi-oh') || lower.includes('yugioh')) return 'YU-GI-OH';
+    return n;
   },
 
   esc(str) {
@@ -1605,35 +1619,42 @@ Is this still available for delivery? Thank you!`;
     <div class="group relative bg-white/[0.04] backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/[0.08] hover:border-[#0E839E]/50 transition-all duration-500 overflow-hidden hover:shadow-[0_12px_44px_rgba(14,131,158,0.25)] hover:-translate-y-1.5 flex flex-col justify-between card-holo p-2.5 sm:p-3.5">
       <div>
         <!-- Curvy Card Artwork Frame (Curvy on ALL 4 corners!) -->
-        <a href="/card.html?id=${c.id}" class="block aspect-[3/4] bg-[#060a14] skeleton card-curvy-frame overflow-hidden relative rounded-2xl border border-white/[0.08] shadow-inner mb-2.5 sm:mb-3">
-          <img src="${img}" alt="${this.esc(c.name)}" 
-               onload="this.parentElement.classList.remove('skeleton')"
-               onerror="this.onerror=null;this.src='/assets/placeholder.svg';this.parentElement.classList.remove('skeleton');" 
-               class="w-full h-full object-cover rounded-2xl group-hover:scale-106 transition-transform duration-1000 ease-out" loading="lazy">
-          
-          <!-- Dual Vignette (soft top and bottom shadow for maximum badge contrast) -->
-          <div class="absolute inset-0 bg-gradient-to-b from-[#060a14]/75 via-transparent to-[#0B1120] opacity-85 pointer-events-none rounded-2xl"></div>
-          
-          <!-- Frosted Glass Badges Header -->
-          <div class="absolute top-2 left-2 right-2 sm:top-2.5 sm:left-2.5 sm:right-2.5 flex items-center justify-between pointer-events-none z-10 gap-1">
-            ${(() => {
-              const pType = this.getProductType(c);
-              const gName = this.getGameCategory(c);
-              if (pType === 'sealed') {
-                return `
-                  <span class="glass-badge glass-badge-gold"><span class="badge-pip"></span><span class="badge-text">SEALED</span></span>
-                  <span class="glass-badge glass-badge-cyan"><span class="badge-pip"></span><span class="badge-text">${this.esc(gName.toUpperCase())}</span></span>`;
-              } else if (pType === 'slab') {
-                return `
-                  ${this.conditionBadge(c)}
-                  <span class="glass-badge glass-badge-violet"><span class="badge-pip"></span><span class="badge-text">SLAB</span></span>`;
-              } else {
-                return `
-                  ${this.conditionBadge(c)}
-                  ${this.rarityBadge(c.rarity)}`;
-              }
-            })()}
-          </div>
+        ${(() => {
+          const isSealed = this.getProductType(c) === 'sealed';
+          const fallback = isSealed ? '/assets/sealed-box.svg' : '/assets/placeholder.svg';
+          const imgFit = isSealed ? 'object-contain p-2 sm:p-2.5' : 'object-cover';
+          return `
+          <a href="/card.html?id=${c.id}" class="block aspect-[3/4] bg-[#060a14] skeleton card-curvy-frame overflow-hidden relative rounded-2xl border border-white/[0.08] shadow-inner mb-2.5 sm:mb-3">
+            <img src="${img}" alt="${this.esc(c.name)}" 
+                 onload="this.parentElement.classList.remove('skeleton')"
+                 onerror="this.onerror=null;this.src='${fallback}';this.parentElement.classList.remove('skeleton');" 
+                 class="w-full h-full ${imgFit} rounded-2xl group-hover:scale-106 transition-transform duration-1000 ease-out" loading="lazy">
+            
+            <!-- Dual Vignette (soft top and bottom shadow for maximum badge contrast) -->
+            <div class="absolute inset-0 bg-gradient-to-b from-[#060a14]/75 via-transparent to-[#0B1120] opacity-85 pointer-events-none rounded-2xl"></div>
+            
+            <!-- Frosted Glass Badges Header -->
+            <div class="absolute top-1.5 left-1.5 right-1.5 sm:top-2.5 sm:left-2.5 sm:right-2.5 flex items-center justify-between pointer-events-none z-10 gap-1 overflow-hidden">
+              ${(() => {
+                const pType = this.getProductType(c);
+                const gName = this.getGameCategory(c);
+                const compactGame = this.getCompactGameName(gName);
+                if (pType === 'sealed') {
+                  return `
+                    <span class="glass-badge glass-badge-gold"><span class="badge-pip"></span><span class="badge-text">SEALED</span></span>
+                    <span class="glass-badge glass-badge-cyan"><span class="badge-pip"></span><span class="badge-text">${this.esc(compactGame.toUpperCase())}</span></span>`;
+                } else if (pType === 'slab') {
+                  return `
+                    ${this.conditionBadge(c)}
+                    <span class="glass-badge glass-badge-violet"><span class="badge-pip"></span><span class="badge-text">SLAB</span></span>`;
+                } else {
+                  return `
+                    ${this.conditionBadge(c)}
+                    ${this.rarityBadge(c.rarity)}`;
+                }
+              })()}
+            </div>`;
+        })()}
 
           <!-- Sold Overlay (Modern cyber-glass badge) -->
           ${c.is_sold ? `
