@@ -83,7 +83,6 @@
             <option value="Lorcana">Lorcana</option>
             <option value="Riftbound">Riftbound</option>
             <option value="Yu-Gi-Oh!">Yu-Gi-Oh!</option>
-            <option value="Other TCG">Other TCG</option>
           </select>
 
           <select id="filter-status" class="w-full sm:w-auto bg-[#050914] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#1FB5D6] cursor-pointer appearance-none truncate">
@@ -197,6 +196,24 @@
         }
 
         allCards = data;
+
+        // Populate any custom categories in filter dropdown
+        const gameSelect = document.getElementById('filter-game');
+        if (gameSelect) {
+          const cats = await Admin.getGameCategories();
+          const existing = new Set([...gameSelect.options].map(o => o.value.toLowerCase().replace(/[^a-z0-9]/g, '')));
+          cats.forEach(c => {
+            const norm = c.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (!existing.has(norm)) {
+              existing.add(norm);
+              const opt = document.createElement('option');
+              opt.value = c;
+              opt.textContent = c;
+              gameSelect.appendChild(opt);
+            }
+          });
+        }
+
         renderCards();
       } catch (err) {
         console.error('Error loading cards:', err);

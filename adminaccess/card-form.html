@@ -66,9 +66,15 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-[#1FB5D6] mb-2 flex items-center space-x-1.5">
-              <span>TCG Franchise / Game *</span>
-            </label>
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-[#1FB5D6] flex items-center space-x-1.5">
+                <span>TCG Franchise / Game *</span>
+              </label>
+              <button type="button" id="btn-toggle-add-game" class="text-[11px] font-bold text-[#1FB5D6] hover:text-white transition-colors cursor-pointer flex items-center space-x-1">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                <span>+ Add Franchise</span>
+              </button>
+            </div>
             <select id="card-game-category" required
                     class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-3 pr-10 text-white text-sm focus:outline-none focus:border-[#1FB5D6] cursor-pointer appearance-none">
               <option value="Pokemon" selected>Pokémon</option>
@@ -77,8 +83,18 @@
               <option value="Lorcana">Lorcana</option>
               <option value="Riftbound">Riftbound</option>
               <option value="Yu-Gi-Oh!">Yu-Gi-Oh!</option>
-              <option value="Other TCG">Other TCG</option>
             </select>
+
+            <!-- Inline New Franchise Creator Box -->
+            <div id="add-game-box" class="hidden mt-3 p-3.5 rounded-xl bg-white/[0.03] border border-[#1FB5D6]/30 space-y-2.5">
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-300">New TCG Franchise / Game Name</label>
+              <div class="flex items-center space-x-2">
+                <input type="text" id="new-game-input" placeholder="e.g. Digimon, Flesh and Blood, Weiss Schwarz"
+                       class="flex-1 bg-[#050914] border border-white/10 rounded-lg px-3 py-2 text-white text-xs focus:outline-none focus:border-[#1FB5D6]">
+                <button type="button" id="btn-save-new-game" class="px-3.5 py-2 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white text-xs font-bold rounded-lg shadow-sm transition-all cursor-pointer whitespace-nowrap">Add & Select</button>
+                <button type="button" id="btn-cancel-new-game" class="px-2.5 py-2 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white text-xs font-semibold rounded-lg transition-all cursor-pointer">Cancel</button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -261,7 +277,65 @@
         }
         updateFieldsVisibility();
       });
+      async function populateGameCategories(selectedVal) {
+        const categories = await Admin.getGameCategories();
+        gameCategorySelect.innerHTML = categories.map(g => `<option value="${Admin.esc(g)}">${Admin.esc(g)}</option>`).join('');
+        if (selectedVal) {
+          if (![...gameCategorySelect.options].some(o => o.value === selectedVal)) {
+            const opt = document.createElement('option');
+            opt.value = selectedVal;
+            opt.textContent = selectedVal;
+            gameCategorySelect.appendChild(opt);
+          }
+          gameCategorySelect.value = selectedVal;
+        }
+      }
+      await populateGameCategories();
       gameCategorySelect.addEventListener('change', updateFieldsVisibility);
+
+      // Add New Franchise Handlers
+      const toggleAddGameBtn = document.getElementById('btn-toggle-add-game');
+      const addGameBox = document.getElementById('add-game-box');
+      const newGameInput = document.getElementById('new-game-input');
+      const saveNewGameBtn = document.getElementById('btn-save-new-game');
+      const cancelNewGameBtn = document.getElementById('btn-cancel-new-game');
+
+      toggleAddGameBtn?.addEventListener('click', () => {
+        addGameBox.classList.toggle('hidden');
+        if (!addGameBox.classList.contains('hidden')) {
+          newGameInput.focus();
+        }
+      });
+
+      cancelNewGameBtn?.addEventListener('click', () => {
+        addGameBox.classList.add('hidden');
+        newGameInput.value = '';
+      });
+
+      saveNewGameBtn?.addEventListener('click', async () => {
+        const val = newGameInput.value.trim();
+        if (!val) {
+          Admin.toast('Please enter a franchise name', 'error');
+          return;
+        }
+        saveNewGameBtn.disabled = true;
+        saveNewGameBtn.innerText = 'Adding...';
+        try {
+          const added = await Admin.addGameCategory(val);
+          if (added) {
+            await populateGameCategories(added);
+            Admin.toast(`Added "${added}" to TCG franchises!`, 'success');
+            newGameInput.value = '';
+            addGameBox.classList.add('hidden');
+            updateFieldsVisibility();
+          }
+        } catch (err) {
+          Admin.toast('Failed to add franchise: ' + err.message, 'error');
+        } finally {
+          saveNewGameBtn.disabled = false;
+          saveNewGameBtn.innerText = 'Add & Select';
+        }
+      });
 
       if (cardId) {
         document.getElementById('form-heading').innerText = 'Edit Product #' + cardId;
@@ -272,13 +346,7 @@
             document.getElementById('card-name').value = card.name || '';
             const inferredType = card.product_type || (card.condition && (card.condition.includes('PSA') || card.condition.includes('BGS')) ? 'slab' : 'single');
             productTypeSelect.value = inferredType;
-            if (card.game_category && ![...gameCategorySelect.options].some(o => o.value === card.game_category)) {
-              const opt = document.createElement('option');
-              opt.value = card.game_category;
-              opt.textContent = card.game_category;
-              gameCategorySelect.appendChild(opt);
-            }
-            gameCategorySelect.value = card.game_category || 'Pokemon';
+            await populateGameCategories(card.game_category || 'Pokemon');
             document.getElementById('card-type').value = card.pokemon_type || 'Colorless';
             document.getElementById('card-set').value = card.set_name || '';
             document.getElementById('card-price').value = card.price || 0;

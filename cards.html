@@ -189,7 +189,6 @@
                 <option value="Lorcana">Disney Lorcana</option>
                 <option value="Riftbound">Riftbound</option>
                 <option value="Yu-Gi-Oh!">Yu-Gi-Oh!</option>
-                <option value="Other TCG">Other TCG</option>
               </select>
             </div>
 
@@ -561,7 +560,7 @@
       // Dynamically add any additional distinct games from inventory into sidebar select
       if (gameSelect) {
         const existingValues = new Set([...gameSelect.options].map(o => o.value.toLowerCase().replace(/[^a-z0-9]/g, '')));
-        const distinctGames = [...new Set(allCards.map(c => NB.getGameCategory(c)).filter(Boolean))];
+        const distinctGames = [...new Set(allCards.map(c => NB.getGameCategory(c)).filter(Boolean))].filter(g => g !== 'Other TCG');
         distinctGames.forEach(g => {
           const norm = g.toLowerCase().replace(/[^a-z0-9]/g, '');
           if (!existingValues.has(norm)) {

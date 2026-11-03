@@ -854,7 +854,7 @@
 
       // Populate game categories for Sealed Boxes
       const sealedItems = allCards.filter(c => NB.matchesProductType(c, 'sealed'));
-      const rawGames = [...new Set(sealedItems.map(c => NB.getGameCategory(c)).filter(Boolean))];
+      const rawGames = [...new Set(sealedItems.map(c => NB.getGameCategory(c)).filter(Boolean))].filter(g => g !== 'Other TCG');
       ['Pokemon', 'One Piece', 'Magic The Gathering', 'Lorcana', 'Riftbound'].forEach(g => {
         if (!rawGames.some(rg => rg.toLowerCase().replace(/[^a-z]/g, '') === g.toLowerCase().replace(/[^a-z]/g, ''))) {
           rawGames.push(g);
@@ -870,7 +870,7 @@
         }
 
         const relevantItems = allCards.filter(c => NB.matchesProductType(c, activeTab));
-        const rawGames = [...new Set(relevantItems.map(c => NB.getGameCategory(c)).filter(Boolean))];
+        const rawGames = [...new Set(relevantItems.map(c => NB.getGameCategory(c)).filter(Boolean))].filter(g => g !== 'Other TCG');
         ['Pokemon', 'One Piece', 'Magic The Gathering', 'Lorcana', 'Riftbound'].forEach(g => {
           if (!rawGames.some(rg => rg.toLowerCase().replace(/[^a-z]/g, '') === g.toLowerCase().replace(/[^a-z]/g, ''))) {
             rawGames.push(g);

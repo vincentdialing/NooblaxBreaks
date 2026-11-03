@@ -16,8 +16,7 @@ const Admin = {
     'Magic The Gathering',
     'Lorcana',
     'Riftbound',
-    'Yu-Gi-Oh!',
-    'Other TCG'
+    'Yu-Gi-Oh!'
   ],
   RARITIES: [
     'Common', 'Uncommon', 'Rare Holo', 'Ultra Rare', 'SAR',
@@ -290,6 +289,83 @@ const Admin = {
       console.error('Image upload error:', e);
       this.toast('Upload failed: ' + e.message, 'error');
       return null;
+    }
+  },
+
+  async getGameCategories() {
+    let cats = [...this.GAME_CATEGORIES];
+    try {
+      if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+        const { data: setting } = await supabaseClient.from('settings').select('value').eq('key', 'custom_game_categories').maybeSingle();
+        if (setting && setting.value) {
+          try {
+            const parsed = JSON.parse(setting.value);
+            if (Array.isArray(parsed)) {
+              parsed.forEach(c => {
+                if (c && c !== 'Other TCG' && !cats.some(existing => existing.toLowerCase().replace(/[^a-z0-9]/g, '') === c.toLowerCase().replace(/[^a-z0-9]/g, ''))) {
+                  cats.push(c);
+                }
+              });
+            }
+          } catch (_) {}
+        }
+        const { data: cards } = await supabaseClient.from('cards').select('game_category');
+        if (cards && Array.isArray(cards)) {
+          cards.forEach(c => {
+            if (c.game_category && c.game_category !== 'Other TCG' && !cats.some(existing => existing.toLowerCase().replace(/[^a-z0-9]/g, '') === c.game_category.toLowerCase().replace(/[^a-z0-9]/g, ''))) {
+              cats.push(c.game_category);
+            }
+          });
+        }
+      }
+    } catch (e) {
+      console.warn('Error loading custom game categories:', e);
+    }
+    return cats;
+  },
+
+  async addGameCategory(name) {
+    if (!name || !name.trim()) return null;
+    const clean = name.trim();
+    if (clean.toLowerCase() === 'other tcg') return null;
+    const categories = await this.getGameCategories();
+    if (!categories.some(c => c.toLowerCase().replace(/[^a-z0-9]/g, '') === clean.toLowerCase().replace(/[^a-z0-9]/g, ''))) {
+      categories.push(clean);
+    }
+    const customOnly = categories.filter(c => !this.GAME_CATEGORIES.some(def => def.toLowerCase().replace(/[^a-z0-9]/g, '') === c.toLowerCase().replace(/[^a-z0-9]/g, '')));
+    try {
+      if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+        await supabaseClient.from('settings').upsert({
+          key: 'custom_game_categories',
+          value: JSON.stringify(customOnly)
+        }, { onConflict: 'key' });
+      }
+    } catch (e) {
+      console.error('Error saving custom game category:', e);
+    }
+    return clean;
+  },
+
+  async deleteGameCategory(name) {
+    if (!name) return;
+    const clean = name.trim();
+    try {
+      if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+        const { data: setting } = await supabaseClient.from('settings').select('value').eq('key', 'custom_game_categories').maybeSingle();
+        let customOnly = [];
+        if (setting && setting.value) {
+          try {
+            customOnly = JSON.parse(setting.value) || [];
+          } catch (_) {}
+        }
+        customOnly = customOnly.filter(c => c.toLowerCase().replace(/[^a-z0-9]/g, '') !== clean.toLowerCase().replace(/[^a-z0-9]/g, ''));
+        await supabaseClient.from('settings').upsert({
+          key: 'custom_game_categories',
+          value: JSON.stringify(customOnly)
+        }, { onConflict: 'key' });
+      }
+    } catch (e) {
+      console.error('Error deleting custom game category:', e);
     }
   }
 };
