@@ -5,13 +5,29 @@
 
 const Admin = {
   // Constants
+  PRODUCT_TYPES: [
+    { value: 'single', label: 'Single Card' },
+    { value: 'slab', label: 'Graded Slab' },
+    { value: 'sealed', label: 'Sealed Box / Bundle' }
+  ],
+  GAME_CATEGORIES: [
+    'Pokemon',
+    'One Piece',
+    'Magic The Gathering',
+    'Lorcana',
+    'Riftbound',
+    'Yu-Gi-Oh!',
+    'Other TCG'
+  ],
   RARITIES: [
     'Common', 'Uncommon', 'Rare Holo', 'Ultra Rare', 'SAR',
-    'Art Rare', 'Secret Rare', 'PSA 10', 'Illustration Rare'
+    'Art Rare', 'Secret Rare', 'PSA 10', 'Illustration Rare',
+    'Booster Box', 'Display Box', 'Elite Trainer Box', 'Special Collection'
   ],
   CONDITIONS: [
-    'Mint', 'NM', 'LP', 'MP', 'HP',
-    'PSA 10', 'PSA 9', 'PSA 8', 'BGS 10', 'BGS 9.5'
+    'Factory Sealed',
+    'PSA 10', 'PSA 9', 'PSA 8', 'BGS 10', 'BGS 9.5', 'CGC 10',
+    'Mint', 'NM', 'LP', 'MP', 'HP'
   ],
   POKEMON_TYPES: [
     'Fire', 'Water', 'Grass', 'Lightning', 'Psychic', 
@@ -148,7 +164,7 @@ const Admin = {
   renderSidebar(activePage) {
     const items = [
       { name: 'Dashboard', href: 'dashboard.html', key: 'dashboard', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>' },
-      { name: 'Cards', href: 'cards.html', key: 'cards', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>' },
+      { name: 'Products', href: 'cards.html', key: 'cards', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>' },
       { name: 'Vouches / Reviews', href: 'testimonials.html', key: 'testimonials', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>' },
       { name: 'Events Showcase', href: 'events.html', key: 'events', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>' },
       { name: 'Site Settings', href: 'settings.html', key: 'settings', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>' },
@@ -193,7 +209,7 @@ const Admin = {
   renderTopbar(activePage) {
     const navItems = [
       { name: 'Dashboard', href: 'dashboard.html', key: 'dashboard' },
-      { name: 'Cards', href: 'cards.html', key: 'cards' },
+      { name: 'Products', href: 'cards.html', key: 'cards' },
       { name: 'Vouches / Reviews', href: 'testimonials.html', key: 'testimonials' },
       { name: 'Events Showcase', href: 'events.html', key: 'events' },
       { name: 'Site Settings', href: 'settings.html', key: 'settings' },

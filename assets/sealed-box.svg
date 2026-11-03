@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="560" viewBox="0 0 400 560">
+  <defs>
+    <linearGradient id="sealedBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#0B1120"/>
+      <stop offset="100%" stop-color="#060a14"/>
+    </linearGradient>
+    <linearGradient id="amberGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F6D06F"/>
+      <stop offset="50%" stop-color="#E5A93C"/>
+      <stop offset="100%" stop-color="#B87314"/>
+    </linearGradient>
+    <linearGradient id="boxTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="boxFront" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="tealGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#25F4EE"/>
+      <stop offset="100%" stop-color="#0E839E"/>
+    </linearGradient>
+    <radialGradient id="sealedGlow" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#F6D06F" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#F6D06F" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Curvy Base Card Frame -->
+  <rect width="400" height="560" rx="32" fill="url(#sealedBg)"/>
+  <rect x="1" y="1" width="398" height="558" rx="31" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+  <circle cx="200" cy="240" r="140" fill="url(#sealedGlow)"/>
+
+  <!-- Inner Frame -->
+  <rect x="16" y="16" width="368" height="528" rx="24" fill="rgba(255,255,255,0.02)" stroke="rgba(246,208,111,0.2)" stroke-width="1"/>
+
+  <!-- Top Badges Pill Backgrounds -->
+  <rect x="28" y="28" width="100" height="26" rx="13" fill="rgba(6,10,20,0.85)" stroke="rgba(246,208,111,0.4)" stroke-width="1"/>
+  <text x="78" y="45" font-family="'Press Start 2P', monospace, sans-serif" font-size="7" fill="#F6D06F" text-anchor="middle">SEALED</text>
+
+  <rect x="272" y="28" width="100" height="26" rx="13" fill="rgba(6,10,20,0.85)" stroke="rgba(37,244,238,0.4)" stroke-width="1"/>
+  <text x="322" y="45" font-family="'Press Start 2P', monospace, sans-serif" font-size="7" fill="#25F4EE" text-anchor="middle">BOOSTER</text>
+
+  <!-- Isometric 3D Booster Box Graphic -->
+  <g transform="translate(200, 240)">
+    <!-- Box Shadow -->
+    <ellipse cx="0" cy="90" rx="110" ry="28" fill="#000000" opacity="0.6"/>
+
+    <!-- 3D Box: Top face -->
+    <polygon points="0,-75 95,-30 0,15 -95,-30" fill="url(#boxTop)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+
+    <!-- 3D Box: Left face -->
+    <polygon points="-95,-30 0,15 0,105 -95,60" fill="url(#boxFront)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+
+    <!-- 3D Box: Right face -->
+    <polygon points="0,15 95,-30 95,60 0,105" fill="#0b1329" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+
+    <!-- Holographic Security Ribbon band across the box -->
+    <polygon points="0,-45 40,-26 0, -8 -40,-26" fill="url(#amberGold)" opacity="0.85"/>
+    <polygon points="-40,-26 0,-8 0,38 -40,20" fill="url(#amberGold)" opacity="0.75"/>
+    <polygon points="0,-8 40,-26 40,20 0,38" fill="url(#amberGold)" opacity="0.9"/>
+
+    <!-- Official Factory Hologram Seal Stamp -->
+    <circle cx="0" cy="0" r="22" fill="url(#amberGold)" stroke="#ffffff" stroke-width="1.5"/>
+    <circle cx="0" cy="0" r="18" fill="none" stroke="rgba(0,0,0,0.3)" stroke-dasharray="3,2"/>
+    <text x="0" y="4" font-family="'Press Start 2P', monospace, sans-serif" font-size="7" fill="#0B1120" font-weight="bold" text-anchor="middle">NB</text>
+
+    <!-- Glowing Cyber Grid Accent -->
+    <line x1="-70" y1="35" x2="-20" y2="58" stroke="url(#tealGrad2)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="20" y1="58" x2="70" y2="35" stroke="url(#tealGrad2)" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Product Labels -->
+  <text x="200" y="390" font-family="'Space Grotesk', system-ui, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF" text-anchor="middle">AUTHENTIC FACTORY SEALED</text>
+  <text x="200" y="415" font-family="'Press Start 2P', monospace, sans-serif" font-size="8" fill="#1FB5D6" text-anchor="middle">BOOSTER DISPLAY CASE</text>
+
+  <!-- Bottom Details Bar -->
+  <rect x="28" y="460" width="344" height="48" rx="14" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <circle cx="48" cy="484" r="5" fill="#34d399"/>
+  <text x="62" y="488" font-family="'Space Grotesk', system-ui, sans-serif" font-size="12" font-weight="600" fill="#E2E8F0">100% Mint Unopened Box</text>
+  <text x="352" y="488" font-family="'Press Start 2P', monospace, sans-serif" font-size="8" fill="#F6D06F" text-anchor="end">TCG VAULT</text>
+</svg>

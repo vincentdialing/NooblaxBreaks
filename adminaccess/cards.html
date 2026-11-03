@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Cards Inventory | Nooblax Admin Portal</title>
+  <title>Products Inventory | Nooblax Admin Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,13 +40,13 @@
     <!-- Top Action Bar -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
       <div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Card Inventory</h1>
-        <p class="text-xs sm:text-sm text-gray-400 mt-1">Manage card details, view mode, custom display order, and live visibility.</p>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Products Inventory</h1>
+        <p class="text-xs sm:text-sm text-gray-400 mt-1">Manage all products (Sealed Boxes, Slabs, Singles), custom display order, and live visibility.</p>
       </div>
       <div class="flex items-center gap-3">
         <a href="card-form.html" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-5 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] hover:from-[#129ab8] hover:to-[#29c8eb] text-white text-sm font-bold shadow-lg shadow-[#0E839E]/30 transition-all">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-          <span>Add New Card</span>
+          <span>Add New Product</span>
         </a>
       </div>
     </div>
@@ -56,7 +56,7 @@
       
       <!-- Search Input -->
       <div class="w-full lg:flex-1 relative">
-        <input type="text" id="search-input" placeholder="Search by name or set..." 
+        <input type="text" id="search-input" placeholder="Search by name, set, or franchise..." 
                class="w-full bg-[#050914] border border-white/10 rounded-xl px-4 py-2.5 pl-10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#1FB5D6]">
         <svg class="w-4 h-4 text-gray-500 absolute left-3.5 top-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
@@ -65,19 +65,25 @@
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full lg:w-auto">
         
         <!-- Dropdowns side-by-side on mobile -->
-        <div class="grid grid-cols-2 gap-2 w-full sm:w-auto sm:flex sm:items-center sm:gap-3">
-          <select id="filter-type" class="w-full sm:w-auto bg-[#050914] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#1FB5D6] cursor-pointer appearance-none truncate">
-            <option value="">All Types</option>
-            <option value="Fire">Fire</option>
-            <option value="Water">Water</option>
-            <option value="Grass">Grass</option>
-            <option value="Lightning">Lightning</option>
-            <option value="Psychic">Psychic</option>
-            <option value="Fighting">Fighting</option>
-            <option value="Darkness">Darkness</option>
-            <option value="Metal">Metal</option>
-            <option value="Dragon">Dragon</option>
-            <option value="Colorless">Colorless</option>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full sm:w-auto sm:flex sm:items-center sm:gap-3">
+          <!-- Product Type Filter -->
+          <select id="filter-product-type" class="w-full sm:w-auto bg-[#050914] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#1FB5D6] cursor-pointer appearance-none truncate">
+            <option value="">All Products</option>
+            <option value="sealed">📦 Sealed Boxes</option>
+            <option value="slab">💎 Slabs</option>
+            <option value="single">🃏 Singles</option>
+          </select>
+
+          <!-- Game Filter -->
+          <select id="filter-game" class="w-full sm:w-auto bg-[#050914] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#1FB5D6] cursor-pointer appearance-none truncate">
+            <option value="">All Games</option>
+            <option value="Pokemon">Pokémon</option>
+            <option value="One Piece">One Piece</option>
+            <option value="Magic The Gathering">Magic The Gathering</option>
+            <option value="Lorcana">Lorcana</option>
+            <option value="Riftbound">Riftbound</option>
+            <option value="Yu-Gi-Oh!">Yu-Gi-Oh!</option>
+            <option value="Other TCG">Other TCG</option>
           </select>
 
           <select id="filter-status" class="w-full sm:w-auto bg-[#050914] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#1FB5D6] cursor-pointer appearance-none truncate">
@@ -115,7 +121,7 @@
     <div class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-xs text-gray-400 px-1">
       <div class="flex items-start sm:items-center space-x-2">
         <span class="inline-block w-2.5 h-2.5 rounded-full bg-[#1FB5D6] mt-1 sm:mt-0 flex-shrink-0 animate-pulse"></span>
-        <span><b>Drag & Drop Mode:</b> I-press ug i-drag ang card handle (<b>⋮⋮</b>) sa bisan asang posisyon aron mo-auto adjust dayon ang pasunod sa mga cards!</span>
+        <span><b>Drag & Drop Mode:</b> I-press ug i-drag ang card handle (<b>⋮⋮</b>) sa bisan asang posisyon aron mo-auto adjust dayon ang pasunod sa mga produkto!</span>
       </div>
       <span id="reorder-status-badge" class="hidden text-amber-400 font-semibold self-start sm:self-auto">• Unsaved Arrangement</span>
     </div>
@@ -127,9 +133,9 @@
           <thead class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-gray-400 bg-white/[0.02] border-b border-white/10">
             <tr>
               <th class="p-2 sm:p-4 lg:p-5 w-14 sm:w-20 text-center" title="Drag & Drop handle">Drag / #</th>
-              <th class="p-2.5 sm:p-4 lg:p-5">Card</th>
-              <th class="p-4 lg:p-5 hidden md:table-cell">Type</th>
-              <th class="p-4 lg:p-5 hidden md:table-cell">Rarity</th>
+              <th class="p-2.5 sm:p-4 lg:p-5">Product</th>
+              <th class="p-4 lg:p-5 hidden md:table-cell">Type / Franchise</th>
+              <th class="p-4 lg:p-5 hidden md:table-cell">Rarity / Set</th>
               <th class="p-4 lg:p-5 hidden lg:table-cell">Condition</th>
               <th class="p-2 sm:p-4 lg:p-5">Price</th>
               <th class="p-2 sm:p-4 lg:p-5">Status</th>
@@ -138,7 +144,7 @@
           </thead>
           <tbody id="cards-table-body" class="divide-y divide-white/5">
             <tr>
-              <td colspan="8" class="py-8 text-center text-gray-500">Loading cards from Supabase...</td>
+              <td colspan="8" class="py-8 text-center text-gray-500">Loading products from Supabase...</td>
             </tr>
           </tbody>
         </table>
@@ -198,24 +204,44 @@
       }
     }
 
+    function getProductType(c) {
+      if (c && c.product_type) return c.product_type;
+      const cond = (c && c.condition) ? String(c.condition).toUpperCase() : '';
+      if (cond.includes('PSA') || cond.includes('BGS') || cond.includes('CGC') || cond.includes('SLAB')) {
+        return 'slab';
+      }
+      return 'single';
+    }
+
+    function getGameCategory(c) {
+      if (c && c.game_category) return c.game_category;
+      return 'Pokemon';
+    }
+
     function renderCards() {
-      const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
-      const typeFilter = document.getElementById('filter-type').value;
-      const statusFilter = document.getElementById('filter-status').value;
+      const searchTerm = (document.getElementById('search-input')?.value || '').toLowerCase().trim();
+      const productTypeFilter = document.getElementById('filter-product-type')?.value || '';
+      const gameFilter = document.getElementById('filter-game')?.value || '';
+      const statusFilter = document.getElementById('filter-status')?.value || '';
 
       let filtered = allCards.filter(c => {
+        const pType = getProductType(c);
+        const game = getGameCategory(c);
+
         const matchesSearch = !searchTerm || 
           (c.name && c.name.toLowerCase().includes(searchTerm)) ||
-          (c.set_name && c.set_name.toLowerCase().includes(searchTerm));
+          (c.set_name && c.set_name.toLowerCase().includes(searchTerm)) ||
+          (game && game.toLowerCase().includes(searchTerm));
         
-        const matchesType = !typeFilter || (c.pokemon_type && c.pokemon_type.includes(typeFilter));
+        const matchesProductType = !productTypeFilter || pType === productTypeFilter;
+        const matchesGame = !gameFilter || game === gameFilter;
 
         let matchesStatus = true;
         if (statusFilter === 'available') matchesStatus = !c.is_sold;
         if (statusFilter === 'sold') matchesStatus = !!c.is_sold;
         if (statusFilter === 'featured') matchesStatus = !!c.is_featured;
 
-        return matchesSearch && matchesType && matchesStatus;
+        return matchesSearch && matchesProductType && matchesGame && matchesStatus;
       });
 
       renderListView(filtered);
@@ -295,11 +321,16 @@
     function renderListView(filtered) {
       const tbody = document.getElementById('cards-table-body');
       if (!filtered.length) {
-        tbody.innerHTML = '<tr><td colspan="8" class="py-8 text-center text-gray-500">No cards matched your filter.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="py-8 text-center text-gray-500">No products matched your filter.</td></tr>';
         return;
       }
 
-      tbody.innerHTML = filtered.map((card, idx) => `
+      tbody.innerHTML = filtered.map((card, idx) => {
+        const pType = getProductType(card);
+        const game = getGameCategory(card);
+        const fallbackImg = pType === 'sealed' ? '/assets/sealed-box.svg' : '/assets/placeholder.svg';
+
+        return `
         <tr data-id="${card.id}" class="hover:bg-white/[0.03] transition-colors">
           
           <!-- Drag Handle & Rank Number -->
@@ -312,25 +343,31 @@
             </div>
           </td>
 
-          <!-- Card Details -->
+          <!-- Product Details -->
           <td class="p-2.5 sm:p-4 lg:p-5">
             <div class="flex items-center space-x-2.5 sm:space-x-3.5">
-              <img src="${card.image_url || '/assets/placeholder.svg'}" alt="${Admin.esc(card.name)}" class="w-9 h-12 sm:w-12 sm:h-16 object-cover rounded-lg bg-[#050914] border border-white/10 flex-shrink-0 shadow-md">
+              <img src="${card.image_url || fallbackImg}" alt="${Admin.esc(card.name)}" class="w-9 h-12 sm:w-12 sm:h-16 object-cover rounded-lg bg-[#050914] border border-white/10 flex-shrink-0 shadow-md">
               <div class="min-w-0">
                 <div class="font-bold text-white text-xs sm:text-sm flex flex-wrap items-center gap-1.5">
                   <span class="truncate max-w-[130px] xs:max-w-[170px] sm:max-w-none">${Admin.esc(card.name)}</span>
                   ${card.is_featured ? '<span class="text-[9px] font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-1.5 py-0.5 rounded border border-amber-400/20">Featured</span>' : ''}
                 </div>
-                <div class="text-[10px] text-gray-400 mt-0.5 md:hidden leading-tight truncate max-w-[140px] xs:max-w-[180px]">${Admin.esc(card.pokemon_type || 'Colorless')} • ${Admin.esc(card.set_name || 'No set')} • ${Admin.esc(card.condition || 'NM')}</div>
+                <div class="text-[10px] text-gray-400 mt-0.5 md:hidden leading-tight truncate max-w-[140px] xs:max-w-[180px]">
+                  ${pType === 'sealed' ? '📦 Sealed' : (pType === 'slab' ? '💎 Slab' : '🃏 Single')} • ${Admin.esc(game)} • ${Admin.esc(card.set_name || 'No set')}
+                </div>
                 <div class="text-xs text-gray-400 mt-0.5 hidden md:block">${Admin.esc(card.set_name || 'No set')}</div>
               </div>
             </div>
           </td>
 
+          <!-- Type / Franchise -->
           <td class="p-4 lg:p-5 hidden md:table-cell">
-            <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-gray-300">
-              ${Admin.esc(card.pokemon_type || 'Colorless')}
-            </span>
+            ${pType === 'sealed' 
+              ? `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 whitespace-nowrap">📦 SEALED • ${Admin.esc(game)}</span>`
+              : (pType === 'slab'
+                ? `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-purple-500/10 border border-purple-500/20 text-purple-300 whitespace-nowrap">💎 SLAB • ${Admin.esc(card.condition || 'Graded')}</span>`
+                : `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-[#0E839E]/20 border border-[#1FB5D6]/30 text-[#1FB5D6] whitespace-nowrap">🃏 SINGLE • ${Admin.esc(card.pokemon_type || 'Card')}</span>`
+              )}
           </td>
 
           <td class="p-4 lg:p-5 text-xs text-gray-300 hidden md:table-cell">${Admin.esc(card.rarity || 'Common')}</td>
@@ -351,22 +388,28 @@
             </div>
           </td>
         </tr>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function renderGridView(filtered) {
       const gridContainer = document.getElementById('cards-grid-view');
       if (!filtered.length) {
-        gridContainer.innerHTML = '<div class="col-span-full py-12 text-center text-gray-500">No cards matched your filter.</div>';
+        gridContainer.innerHTML = '<div class="col-span-full py-12 text-center text-gray-500">No products matched your filter.</div>';
         return;
       }
 
-      gridContainer.innerHTML = filtered.map((card, idx) => `
+      gridContainer.innerHTML = filtered.map((card, idx) => {
+        const pType = getProductType(card);
+        const game = getGameCategory(card);
+        const fallbackImg = pType === 'sealed' ? '/assets/sealed-box.svg' : '/assets/placeholder.svg';
+
+        return `
         <div data-id="${card.id}" class="bg-[#0A1020] border border-white/10 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between group hover:border-[#1FB5D6]/40 transition-all">
           <div class="p-4">
             <!-- Image & Rank Badge with Drag Handle -->
             <div class="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#050914] mb-3 border border-white/5 flex items-center justify-center">
-              <img src="${card.image_url || '/assets/placeholder.svg'}" alt="${Admin.esc(card.name)}" class="w-full h-full object-cover select-none pointer-events-none">
+              <img src="${card.image_url || fallbackImg}" alt="${Admin.esc(card.name)}" class="w-full h-full object-cover select-none pointer-events-none">
               
               <!-- Drag Handle Pip -->
               <div class="drag-handle-grid absolute top-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-black/80 backdrop-blur-md text-[10px] font-mono font-bold text-white border border-white/20 flex items-center space-x-1.5 cursor-grab active:cursor-grabbing hover:border-[#1FB5D6]/60 transition-all select-none" title="Hold & Drag to reorder">
@@ -383,7 +426,12 @@
             </div>
 
             <div class="flex items-center justify-between mb-1">
-              <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-white/5 text-gray-400 border border-white/10">${Admin.esc(card.pokemon_type || 'Colorless')}</span>
+              ${pType === 'sealed' 
+                ? `<span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 truncate max-w-[140px]">📦 ${Admin.esc(game)}</span>`
+                : (pType === 'slab'
+                  ? `<span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 truncate max-w-[140px]">💎 ${Admin.esc(card.condition || 'Graded')}</span>`
+                  : `<span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-[#0E839E]/20 text-[#1FB5D6] border border-[#1FB5D6]/30 truncate max-w-[140px]">🃏 ${Admin.esc(card.pokemon_type || 'Single')}</span>`
+                )}
               <span class="text-xs font-bold text-white">${Admin.price(card.price)}</span>
             </div>
 
@@ -408,7 +456,8 @@
             </div>
           </div>
         </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     // Save Order to Supabase settings table
@@ -479,10 +528,11 @@
         listView.classList.add('hidden');
       });
 
-      document.getElementById('search-input').addEventListener('input', renderCards);
-      document.getElementById('filter-type').addEventListener('change', renderCards);
-      document.getElementById('filter-status').addEventListener('change', renderCards);
-      document.getElementById('save-order-btn').addEventListener('click', saveArrangement);
+      document.getElementById('search-input')?.addEventListener('input', renderCards);
+      document.getElementById('filter-product-type')?.addEventListener('change', renderCards);
+      document.getElementById('filter-game')?.addEventListener('change', renderCards);
+      document.getElementById('filter-status')?.addEventListener('change', renderCards);
+      document.getElementById('save-order-btn')?.addEventListener('click', saveArrangement);
 
       loadCards();
     })();

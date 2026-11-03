@@ -80,6 +80,22 @@ const NB = {
     hero_subtitle: 'Nooblax Breaks is built to be your go-to partner in collecting. Everyone starts as a noob, so we focus on fair rips, smart spending, and an open community where collectors look out for each other and celebrate every hit as one.',
   },
 
+  PRODUCT_TYPES: [
+    { id: 'sealed', label: 'Sealed Boxes', badge: 'SEALED BOX' },
+    { id: 'slab',   label: 'Slabs',        badge: 'GRADED SLAB' },
+    { id: 'single', label: 'Singles',      badge: 'RAW SINGLE' }
+  ],
+
+  GAMES: [
+    { id: 'all',                  label: 'All Games' },
+    { id: 'Pokemon',              label: 'Pokémon' },
+    { id: 'One Piece',            label: 'One Piece' },
+    { id: 'Magic The Gathering',  label: 'Magic: The Gathering' },
+    { id: 'Lorcana',              label: 'Disney Lorcana' },
+    { id: 'Riftbound',            label: 'Riftbound' },
+    { id: 'Others',               label: 'Others' }
+  ],
+
   DEFAULT_CARDS: [
     {
       id: 1,
@@ -288,6 +304,97 @@ const NB = {
       is_sold: false,
       image_url: 'https://images.pokemontcg.io/svp/51_hires.png',
       description: 'The sleepy mascot of Nooblax Breaks sleeping peacefully surrounded by playful Pidgey and Diglett.'
+    },
+    // ==================== SEALED BOXES ====================
+    {
+      id: 17,
+      name: 'Scarlet & Violet: 151 Booster Bundle Display Case (Sealed)',
+      pokemon_type: 'Colorless',
+      product_type: 'sealed',
+      game_category: 'Pokemon',
+      set_name: 'Scarlet & Violet: 151',
+      rarity: 'Booster Display',
+      price: 24500,
+      condition: 'Factory Sealed',
+      is_featured: true,
+      is_sold: false,
+      image_url: '/assets/sealed-box.svg',
+      description: 'Factory sealed 151 booster bundle case containing authentic packs with chances for the coveted Charizard ex SAR and god packs. 100% untampered.'
+    },
+    {
+      id: 18,
+      name: 'One Piece Card Game OP-05 Awakening of the New Era Booster Box',
+      pokemon_type: 'Colorless',
+      product_type: 'sealed',
+      game_category: 'One Piece',
+      set_name: 'Awakening of the New Era (OP-05)',
+      rarity: 'Booster Box',
+      price: 8900,
+      condition: 'Factory Sealed',
+      is_featured: true,
+      is_sold: false,
+      image_url: '/assets/sealed-box.svg',
+      description: 'The iconic 1st Anniversary set featuring Manga Luffy Gear 5, Signed Oda Luffy, and beloved leaders. Authentic Japanese/English release in original shrink wrap.'
+    },
+    {
+      id: 19,
+      name: 'One Piece Card Game OP-09 Emperors in the New World Booster Box',
+      pokemon_type: 'Colorless',
+      product_type: 'sealed',
+      game_category: 'One Piece',
+      set_name: 'Emperors in the New World (OP-09)',
+      rarity: 'Booster Box',
+      price: 5800,
+      condition: 'Factory Sealed',
+      is_featured: false,
+      is_sold: false,
+      image_url: '/assets/sealed-box.svg',
+      description: 'The explosive Four Emperors expansion featuring new Shanks, Blackbeard, Buggy, and Luffy leader decks. Mint sealed box.'
+    },
+    {
+      id: 20,
+      name: 'Magic: The Gathering Modern Horizons 3 Play Booster Box',
+      pokemon_type: 'Colorless',
+      product_type: 'sealed',
+      game_category: 'Magic The Gathering',
+      set_name: 'Modern Horizons 3',
+      rarity: 'Play Booster Box',
+      price: 16500,
+      condition: 'Factory Sealed',
+      is_featured: true,
+      is_sold: false,
+      image_url: '/assets/sealed-box.svg',
+      description: 'Contains 36 Modern Horizons 3 Play Boosters. Packed with powerful new-to-Modern cards and coveted Fetchlands. Factory sealed.'
+    },
+    {
+      id: 21,
+      name: "Disney Lorcana: Ursula's Return Booster Box (Factory Sealed)",
+      pokemon_type: 'Colorless',
+      product_type: 'sealed',
+      game_category: 'Lorcana',
+      set_name: "Ursula's Return (Set 4)",
+      rarity: 'Booster Box',
+      price: 8500,
+      condition: 'Factory Sealed',
+      is_featured: true,
+      is_sold: false,
+      image_url: '/assets/sealed-box.svg',
+      description: 'Official Ravensburger factory sealed box with 24 booster packs featuring Enchanted foil chase cards and dramatic sea-witch storylines.'
+    },
+    {
+      id: 22,
+      name: 'Riftbound League Premiere Display Booster Box (Factory Sealed)',
+      pokemon_type: 'Colorless',
+      product_type: 'sealed',
+      game_category: 'Riftbound',
+      set_name: 'League Premiere Edition',
+      rarity: 'Display Box',
+      price: 5200,
+      condition: 'Factory Sealed',
+      is_featured: false,
+      is_sold: false,
+      image_url: '/assets/sealed-box.svg',
+      description: 'Official factory sealed premiere booster display for Riftbound TCG. Fast-paced competitive cards and serialized foil inserts.'
     }
   ],
 
@@ -434,8 +541,9 @@ const NB = {
                   const idxB = idMap.has(String(b.id)) ? idMap.get(String(b.id)) : 999999;
                   return idxA - idxB;
                 });
-                window._cardsCache = data;
-                return data;
+                const normalized = data.map(c => this.normalizeCard(c));
+                window._cardsCache = normalized;
+                return normalized;
               }
             } catch (err) {
               console.warn('Failed parsing card_custom_order:', err);
@@ -443,7 +551,8 @@ const NB = {
           }
 
           // Fallback order by created_at desc
-          const sorted = data.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+          const normalized = data.map(c => this.normalizeCard(c));
+          const sorted = normalized.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
           window._cardsCache = sorted;
           return sorted;
         }
@@ -451,8 +560,9 @@ const NB = {
     } catch (e) {
       console.warn('Using default cards fallback:', e);
     }
-    window._cardsCache = this.DEFAULT_CARDS;
-    return this.DEFAULT_CARDS;
+    const defNorm = this.DEFAULT_CARDS.map(c => this.normalizeCard(c));
+    window._cardsCache = defNorm;
+    return defNorm;
   },
 
   async getCardById(id) {
@@ -542,6 +652,34 @@ const NB = {
 
   // ======================== HELPERS ========================
 
+  normalizeCard(c) {
+    if (!c) return c;
+    if (!c.product_type) {
+      const cond = (c.condition || '').toUpperCase();
+      if (cond.includes('PSA') || cond.includes('BGS') || cond.includes('CGC')) {
+        c.product_type = 'slab';
+      } else {
+        c.product_type = 'single';
+      }
+    }
+    if (!c.game_category) {
+      c.game_category = 'Pokemon';
+    }
+    return c;
+  },
+
+  getProductType(c) {
+    if (!c) return 'single';
+    if (c.product_type) return c.product_type;
+    const cond = (c.condition || '').toUpperCase();
+    if (cond.includes('PSA') || cond.includes('BGS') || cond.includes('CGC')) return 'slab';
+    return 'single';
+  },
+
+  getGameCategory(c) {
+    return (c && c.game_category) ? c.game_category : 'Pokemon';
+  },
+
   esc(str) {
     if (!str) return '';
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -618,11 +756,14 @@ Is this still available for delivery? Thank you!`;
   },
 
   getInquiryText(card) {
-    if (!card) return 'Hi Nooblax Breaks! I would like to inquire about Pokémon cards in your showcase.';
-    const cond = card.condition || 'RAW NM';
-    const setName = card.set_name || 'Single';
+    if (!card) return 'Hi Nooblax Breaks! I would like to inquire about products in your showcase.';
+    const prodType = this.getProductType(card);
+    const game = this.getGameCategory(card);
+    const typeLabel = prodType === 'sealed' ? 'Sealed Box' : (prodType === 'slab' ? 'Graded Slab' : 'Single Card');
+    const cond = card.condition || (prodType === 'sealed' ? 'Factory Sealed' : 'RAW NM');
+    const setName = card.set_name || game;
     const priceFormatted = this.price(card.price);
-    return `Hi Nooblax Breaks! I would like to inquire about this Pokémon card:\n\nCard: ${card.name}\nSet: ${setName}\nCondition: ${cond}\nPrice: ${priceFormatted}\n\nIs this still available for delivery? Thank you!`;
+    return `Hi Nooblax Breaks! I would like to inquire about this product:\n\nItem: ${card.name}\nCategory: ${typeLabel}\nGame: ${game}\nSet/Series: ${setName}\nCondition: ${cond}\nPrice: ${priceFormatted}\n\nIs this still available for delivery? Thank you!`;
   },
 
   copyToClipboard(text) {
@@ -1344,8 +1485,23 @@ Is this still available for delivery? Thank you!`;
           
           <!-- Frosted Glass Badges Header -->
           <div class="absolute top-2 left-2 right-2 sm:top-2.5 sm:left-2.5 sm:right-2.5 flex items-center justify-between pointer-events-none z-10 gap-1">
-            ${this.conditionBadge(c)}
-            ${this.rarityBadge(c.rarity)}
+            ${(() => {
+              const pType = this.getProductType(c);
+              const gName = this.getGameCategory(c);
+              if (pType === 'sealed') {
+                return `
+                  <span class="glass-badge glass-badge-gold"><span class="badge-pip"></span><span class="badge-text">SEALED</span></span>
+                  <span class="glass-badge glass-badge-cyan"><span class="badge-pip"></span><span class="badge-text">${this.esc(gName.toUpperCase())}</span></span>`;
+              } else if (pType === 'slab') {
+                return `
+                  ${this.conditionBadge(c)}
+                  <span class="glass-badge glass-badge-violet"><span class="badge-pip"></span><span class="badge-text">SLAB</span></span>`;
+              } else {
+                return `
+                  ${this.conditionBadge(c)}
+                  ${this.rarityBadge(c.rarity)}`;
+              }
+            })()}
           </div>
 
           <!-- Sold Overlay (Modern cyber-glass badge) -->
@@ -1538,7 +1694,7 @@ Is this still available for delivery? Thank you!`;
     const messengerUrl = settings?.fb_messenger_url || this.DEFAULT_SETTINGS.fb_messenger_url;
     const nav = [
       {n:'Home',          h:'/',              k:'home'},
-      {n:'Card Showcase', h:'/cards.html',    k:'cards'},
+      {n:'Products Available', h:'/cards.html',    k:'cards'},
       {n:'Vouches',      h:'/vouchers.html', k:'vouchers'},
     ];
     let brandHtml;
@@ -1632,7 +1788,7 @@ Is this still available for delivery? Thank you!`;
             <div class="flex items-center space-x-3 text-xs text-gray-500">
               <span class="flex items-center space-x-1">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                <span>Active Showcase</span>
+                <span>Active Store</span>
               </span>
               <span>•</span>
               <span>Fast Courier Shipping PH</span>
@@ -1644,7 +1800,7 @@ Is this still available for delivery? Thank you!`;
             <h4 class="font-pixel text-[8px] text-gray-300 uppercase mb-4 tracking-wider">Navigation</h4>
             <div class="flex flex-col space-y-2.5">
               <a href="/" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Home</a>
-              <a href="/cards.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Cards</a>
+              <a href="/cards.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Products Available</a>
               <a href="/vouchers.html" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap">Vouches</a>
               <a href="javascript:void(0)" onclick="NB.openInquiryModal()" class="font-body text-sm text-gray-400 hover:text-[#1FB5D6] transition-colors whitespace-nowrap cursor-pointer">Contact</a>
             </div>

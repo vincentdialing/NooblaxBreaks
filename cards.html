@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Card Showcase | Nooblax Breaks</title>
+  <title>Products Available | Nooblax Breaks</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="/assets/fonts/PressStart2P-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -54,7 +54,7 @@
             <span class="absolute -bottom-1 left-1/2 right-1/2 h-0.5 bg-[#1FB5D6] rounded-full transition-all duration-300 group-hover:left-0 group-hover:right-0 opacity-0 group-hover:opacity-100 shadow-[0_0_6px_rgba(31,181,214,0.6)]"></span>
           </a>
           <a href="/cards.html" class="relative group py-3 px-2 font-pixel text-[8.5px] lg:text-[9.5px] uppercase tracking-widest transition-all duration-300 text-[#1FB5D6] drop-shadow-[0_0_12px_rgba(31,181,214,0.6)] font-bold">
-            <span>Card Showcase</span>
+            <span>Products Available</span>
             <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0E839E] via-[#1FB5D6] to-[#0E839E] rounded-full shadow-[0_0_10px_rgba(31,181,214,0.8)]"></span>
           </a>
           <a href="/vouchers.html" class="relative group py-3 px-2 font-pixel text-[8.5px] lg:text-[9.5px] uppercase tracking-widest transition-all duration-300 text-gray-400 hover:text-[#1FB5D6]">
@@ -82,7 +82,7 @@
     <div class="md:hidden hidden bg-[#0B1120]/95 backdrop-blur-2xl border-t border-white/[0.06]" id="mobile-menu">
       <div class="py-2 px-2">
         <a href="/" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors text-gray-400 hover:text-[#1FB5D6] hover:bg-white/[0.03]">Home</a>
-        <a href="/cards.html" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors text-[#1FB5D6] bg-[#1FB5D6]/10 font-bold">Card Showcase</a>
+        <a href="/cards.html" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors text-[#1FB5D6] bg-[#1FB5D6]/10 font-bold">Products Available</a>
         <a href="/vouchers.html" class="block px-6 py-4 font-pixel text-[8.5px] uppercase tracking-wider transition-colors text-gray-400 hover:text-[#1FB5D6] hover:bg-white/[0.03]">Vouches</a>
         <div class="pt-2 pb-1 border-t border-white/[0.06] mt-2">
           <a href="https://www.facebook.com/profile.php?id=61593883622380" target="_blank" class="block w-full text-center bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] text-white font-pixel text-[8px] py-3 rounded-xl shadow-[0_4px_16px_rgba(14,131,158,0.3)]">
@@ -96,25 +96,53 @@
   <main class="fade-in pt-14 pb-20 lg:pt-20 lg:pb-28 max-w-7xl mx-auto px-6 sm:px-8">
     
     <!-- Title & Counter -->
-    <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
       <div>
         <span class="inline-flex items-center space-x-1.5 font-pixel text-[8px] text-[#1FB5D6] uppercase tracking-wider">
           <svg class="w-3 h-3 text-[#1FB5D6] fill-current" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg>
-          <span>COLLECTION CATALOG</span>
+          <span>PRODUCTS CATALOG</span>
         </span>
-        <h1 class="font-pixel text-base sm:text-lg text-white mt-1">CARD SHOWCASE</h1>
+        <h1 class="font-pixel text-base sm:text-lg text-white mt-1">PRODUCTS AVAILABLE</h1>
         <div class="h-0.5 w-16 bg-gradient-to-r from-[#0E839E] to-[#1FB5D6] mt-2 mb-2 rounded"></div>
-        <p class="text-xs text-gray-400" id="card-count-label">Loading cards...</p>
+        <p class="text-xs text-gray-400" id="card-count-label">Loading products...</p>
       </div>
 
       <!-- Quick Messenger Inquiry Banner -->
       <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 flex items-center justify-center space-x-2.5 sm:space-x-3 w-full md:w-auto text-center">
         <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] flex-shrink-0"></span>
-        <span class="font-body text-[11.5px] sm:text-xs text-gray-300 whitespace-nowrap">Looking for a specific card?</span>
+        <span class="font-body text-[11.5px] sm:text-xs text-gray-300 whitespace-nowrap">Looking for a specific card or sealed box?</span>
         <button id="messenger-direct-btn" type="button" onclick="NB.openInquiryModal()" class="font-pixel text-[7px] sm:text-[7.5px] text-[#1FB5D6] hover:underline inline-flex items-center space-x-1 whitespace-nowrap flex-shrink-0 cursor-pointer">
           <span>SEND INQUIRY</span>
           <svg class="w-3 h-3 stroke-current fill-none ml-0.5" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </button>
+      </div>
+    </div>
+
+    <!-- 3 Primary Sections Navigation Bar (Sealed Boxes, Slabs, Singles) -->
+    <div class="mb-8">
+      <div class="flex items-center space-x-2 sm:space-x-3 overflow-x-auto pb-2 scrollbar-none border-b border-white/[0.08]" id="product-tabs">
+        <button type="button" data-tab="sealed" class="tab-btn group relative px-4 sm:px-6 py-3 rounded-2xl font-pixel text-[8px] sm:text-[9.5px] uppercase tracking-wider transition-all duration-300 flex items-center space-x-2.5 whitespace-nowrap active border border-[#F6D06F]/50 bg-[#F6D06F]/10 text-[#F6D06F] shadow-[0_0_20px_rgba(246,208,111,0.25)]">
+          <svg class="w-4 h-4 text-[#F6D06F]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          <span>SEALED BOXES</span>
+          <span class="tab-count px-2 py-0.5 rounded-full text-[7px] bg-[#F6D06F]/20 text-[#F6D06F] border border-[#F6D06F]/40 font-mono font-bold" id="count-sealed">0</span>
+        </button>
+
+        <button type="button" data-tab="slabs" class="tab-btn group relative px-4 sm:px-6 py-3 rounded-2xl font-pixel text-[8px] sm:text-[9.5px] uppercase tracking-wider transition-all duration-300 flex items-center space-x-2.5 whitespace-nowrap bg-white/[0.02] text-gray-400 border border-white/10 hover:border-purple-400/50 hover:text-purple-300">
+          <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <span>SLABS</span>
+          <span class="tab-count px-2 py-0.5 rounded-full text-[7px] bg-purple-500/20 text-purple-300 border border-purple-500/40 font-mono font-bold" id="count-slabs">0</span>
+        </button>
+
+        <button type="button" data-tab="singles" class="tab-btn group relative px-4 sm:px-6 py-3 rounded-2xl font-pixel text-[8px] sm:text-[9.5px] uppercase tracking-wider transition-all duration-300 flex items-center space-x-2.5 whitespace-nowrap bg-white/[0.02] text-gray-400 border border-white/10 hover:border-[#1FB5D6]/40 hover:text-white">
+          <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path stroke-linecap="round" d="M3 9h18M9 21V9"/></svg>
+          <span>SINGLES</span>
+          <span class="tab-count px-2 py-0.5 rounded-full text-[7px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-mono font-bold" id="count-singles">0</span>
+        </button>
+      </div>
+
+      <!-- Sealed Boxes Game Category Filters (Pokemon, One Piece, Magic The Gathering, Lorcana, Rift Bound, etc.) -->
+      <div id="sealed-game-filter-container" class="mt-4 flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
+        <!-- Populated dynamically via JS -->
       </div>
     </div>
 
@@ -150,10 +178,10 @@
               <input type="text" id="search" placeholder="e.g. Charizard, Mew..." class="w-full text-xs">
             </div>
 
-            <div class="border-t border-white/[0.05]"></div>
+            <div id="pokemon-type-divider" class="border-t border-white/[0.05]"></div>
 
             <!-- Pokémon Type -->
-            <div>
+            <div id="pokemon-type-filter-group">
               <label class="flex items-center space-x-1.5 text-[10px] font-pixel text-gray-400 uppercase tracking-wider mb-3">
                 <svg class="w-3 h-3 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><circle cx="12" cy="12" r="3.5" fill="currentColor" stroke="none"/></svg>
                 <span>Pokémon Type</span>
@@ -535,8 +563,153 @@
       const emptyState = document.getElementById('empty-state');
       const countLabel = document.getElementById('card-count-label');
       const typeBtns = document.querySelectorAll('.type-btn');
+      const pokemonTypeGroup = document.getElementById('pokemon-type-filter-group');
+      const pokemonTypeDivider = document.getElementById('pokemon-type-divider');
+      const tabBtns = document.querySelectorAll('#product-tabs .tab-btn');
+      const sealedGameContainer = document.getElementById('sealed-game-filter-container');
 
+      // 1. Tab & Category State
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialTab = urlParams.get('tab');
+      let activeTab = (initialTab === 'slabs' || initialTab === 'singles' || initialTab === 'sealed') ? initialTab : 'sealed';
+      let activeGame = 'all';
       let selectedType = '';
+
+      // Load all cards with automatic Supabase or local fallback
+      const allCards = await NB.getCards();
+
+      // Update Tab Counter Badges
+      const countSealedEl = document.getElementById('count-sealed');
+      const countSlabsEl = document.getElementById('count-slabs');
+      const countSinglesEl = document.getElementById('count-singles');
+
+      if (countSealedEl) countSealedEl.textContent = allCards.filter(c => NB.getProductType(c) === 'sealed').length;
+      if (countSlabsEl) countSlabsEl.textContent = allCards.filter(c => NB.getProductType(c) === 'slab').length;
+      if (countSinglesEl) countSinglesEl.textContent = allCards.filter(c => NB.getProductType(c) === 'single').length;
+
+      // Render Sealed Game Category Pills (Pokemon, One Piece, Magic the Gathering, Lorcana, Rift Bound, etc.)
+      const sealedItems = allCards.filter(c => NB.getProductType(c) === 'sealed');
+      const availableGames = ['all'];
+      const rawGames = [...new Set(sealedItems.map(c => NB.getGameCategory(c)).filter(Boolean))];
+      // Ensure key franchises are represented
+      ['Pokemon', 'One Piece', 'Magic The Gathering', 'Lorcana', 'Riftbound'].forEach(g => {
+        if (!rawGames.some(rg => rg.toLowerCase().replace(/[^a-z]/g, '') === g.toLowerCase().replace(/[^a-z]/g, ''))) {
+          rawGames.push(g);
+        }
+      });
+      availableGames.push(...rawGames);
+
+      if (sealedGameContainer) {
+        sealedGameContainer.innerHTML = availableGames.map((game, idx) => {
+          const isAll = game === 'all';
+          const label = isAll ? 'ALL GAMES' : game.toUpperCase();
+          const activeClass = (isAll && activeGame === 'all') 
+            ? 'active border-[#F6D06F] bg-[#F6D06F]/20 text-[#F6D06F] shadow-[0_0_12px_rgba(246,208,111,0.25)]' 
+            : 'border-white/10 bg-white/[0.02] text-gray-400 hover:text-white hover:border-[#F6D06F]/40';
+          return `
+            <button type="button" data-game="${NB.esc(game)}" class="game-pill-btn font-pixel text-[7.5px] px-3.5 py-2 rounded-xl border transition-all whitespace-nowrap flex items-center space-x-1.5 ${activeClass}">
+              <span class="w-1.5 h-1.5 rounded-full ${isAll ? 'bg-[#F6D06F]' : 'bg-[#1FB5D6]'}"></span>
+              <span>${NB.esc(label)}</span>
+            </button>
+          `;
+        }).join('');
+
+        sealedGameContainer.querySelectorAll('.game-pill-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            sealedGameContainer.querySelectorAll('.game-pill-btn').forEach(b => {
+              b.classList.remove('active', 'border-[#F6D06F]', 'bg-[#F6D06F]/20', 'text-[#F6D06F]', 'shadow-[0_0_12px_rgba(246,208,111,0.25)]');
+              b.classList.add('border-white/10', 'bg-white/[0.02]', 'text-gray-400');
+            });
+            btn.classList.add('active', 'border-[#F6D06F]', 'bg-[#F6D06F]/20', 'text-[#F6D06F]', 'shadow-[0_0_12px_rgba(246,208,111,0.25)]');
+            btn.classList.remove('border-white/10', 'bg-white/[0.02]', 'text-gray-400');
+            activeGame = btn.dataset.game;
+            renderCards();
+          });
+        });
+      }
+
+      // Populate distinct sets
+      const distinctSets = [...new Set(allCards.map(c => c.set_name).filter(Boolean))].sort();
+      distinctSets.forEach(set => {
+        const opt = document.createElement('option');
+        opt.value = set;
+        opt.textContent = set;
+        setSelect.appendChild(opt);
+      });
+
+      // Populate distinct rarities
+      const distinctRarities = [...new Set(allCards.map(c => c.rarity).filter(Boolean))].sort();
+      distinctRarities.forEach(r => {
+        const opt = document.createElement('option');
+        opt.value = r;
+        opt.textContent = r;
+        raritySelect.appendChild(opt);
+      });
+
+      // Tab switcher function
+      function switchTab(newTab) {
+        activeTab = newTab;
+        
+        tabBtns.forEach(btn => {
+          const tab = btn.dataset.tab;
+          btn.classList.remove(
+            'active',
+            'border-[#F6D06F]/50', 'bg-[#F6D06F]/10', 'text-[#F6D06F]', 'shadow-[0_0_20px_rgba(246,208,111,0.25)]',
+            'border-purple-500/50', 'bg-purple-500/10', 'text-purple-300', 'shadow-[0_0_20px_rgba(168,85,247,0.25)]',
+            'border-[#1FB5D6]/50', 'bg-[#1FB5D6]/10', 'text-[#1FB5D6]', 'shadow-[0_0_20px_rgba(31,181,214,0.25)]'
+          );
+          btn.classList.add('bg-white/[0.02]', 'text-gray-400', 'border-white/10');
+
+          if (tab === activeTab) {
+            btn.classList.remove('bg-white/[0.02]', 'text-gray-400', 'border-white/10');
+            btn.classList.add('active');
+            if (activeTab === 'sealed') {
+              btn.classList.add('border-[#F6D06F]/50', 'bg-[#F6D06F]/10', 'text-[#F6D06F]', 'shadow-[0_0_20px_rgba(246,208,111,0.25)]');
+            } else if (activeTab === 'slabs') {
+              btn.classList.add('border-purple-500/50', 'bg-purple-500/10', 'text-purple-300', 'shadow-[0_0_20px_rgba(168,85,247,0.25)]');
+            } else {
+              btn.classList.add('border-[#1FB5D6]/50', 'bg-[#1FB5D6]/10', 'text-[#1FB5D6]', 'shadow-[0_0_20px_rgba(31,181,214,0.25)]');
+            }
+          }
+        });
+
+        // Tab-specific UX tweaks
+        if (activeTab === 'sealed') {
+          if (sealedGameContainer) sealedGameContainer.classList.remove('hidden');
+          if (pokemonTypeGroup) pokemonTypeGroup.classList.add('hidden');
+          if (pokemonTypeDivider) pokemonTypeDivider.classList.add('hidden');
+          searchInput.placeholder = 'Search booster boxes, sets, games...';
+        } else if (activeTab === 'slabs') {
+          if (sealedGameContainer) sealedGameContainer.classList.add('hidden');
+          if (pokemonTypeGroup) pokemonTypeGroup.classList.add('hidden');
+          if (pokemonTypeDivider) pokemonTypeDivider.classList.add('hidden');
+          // Slabs: "sa slabs kay wala ra siya naka categorize pero iyang pricing kay naka high to low"
+          sortSelect.value = 'price_desc';
+          searchInput.placeholder = 'Search slabs, grades (e.g. PSA 10, BGS)...';
+        } else {
+          // Singles tab
+          if (sealedGameContainer) sealedGameContainer.classList.add('hidden');
+          if (pokemonTypeGroup) pokemonTypeGroup.classList.remove('hidden');
+          if (pokemonTypeDivider) pokemonTypeDivider.classList.remove('hidden');
+          searchInput.placeholder = 'Search singles (e.g. Charizard, Mew)...';
+        }
+
+        // Update URL query parameter without page reload
+        try {
+          const url = new URL(window.location);
+          url.searchParams.set('tab', activeTab);
+          window.history.replaceState({}, '', url);
+        } catch (_) {}
+
+        renderCards();
+      }
+
+      // Bind Tab Button Clicks
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          switchTab(btn.dataset.tab);
+        });
+      });
 
       // Type pill click handler
       typeBtns.forEach(btn => {
@@ -566,80 +739,78 @@
         });
       });
 
-      // Load all cards with automatic Supabase or local fallback
-      const allCards = await NB.getCards();
-
-      // Populate distinct sets
-      const distinctSets = [...new Set(allCards.map(c => c.set_name).filter(Boolean))].sort();
-      distinctSets.forEach(set => {
-        const opt = document.createElement('option');
-        opt.value = set;
-        opt.textContent = set;
-        setSelect.appendChild(opt);
-      });
-
-      // Populate distinct rarities
-      const distinctRarities = [...new Set(allCards.map(c => c.rarity).filter(Boolean))].sort();
-      distinctRarities.forEach(r => {
-        const opt = document.createElement('option');
-        opt.value = r;
-        opt.textContent = r;
-        raritySelect.appendChild(opt);
-      });
-
       // Filter and render
       function renderCards() {
         let filtered = [...allCards];
 
-        const q = searchInput.value.toLowerCase().trim();
-        const selectedSet = setSelect.value;
-        const selectedRarity = raritySelect.value;
-        const selectedCondition = conditionSelect.value;
-        const availableOnly = availableOnlyCheck.checked;
-        const sortMode = sortSelect.value;
+        // 1. Filter by Active Section / Tab (Sealed Boxes, Slabs, Singles)
+        filtered = filtered.filter(c => NB.getProductType(c) === activeTab);
 
+        // 2. Filter by Game Category (Sealed Boxes only)
+        if (activeTab === 'sealed' && activeGame && activeGame !== 'all') {
+          const normSelectedGame = activeGame.toLowerCase().replace(/[^a-z0-9]/g, '');
+          filtered = filtered.filter(c => {
+            const cardGame = (NB.getGameCategory(c) || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+            const cardName = (c.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+            const cardSet = (c.set_name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+            return cardGame.includes(normSelectedGame) || cardName.includes(normSelectedGame) || cardSet.includes(normSelectedGame);
+          });
+        }
+
+        // 3. Search query
+        const q = searchInput.value.toLowerCase().trim();
         if (q) {
           filtered = filtered.filter(c => 
             (c.name && c.name.toLowerCase().includes(q)) ||
             (c.set_name && c.set_name.toLowerCase().includes(q)) ||
-            (c.rarity && c.rarity.toLowerCase().includes(q))
+            (c.rarity && c.rarity.toLowerCase().includes(q)) ||
+            (c.condition && c.condition.toLowerCase().includes(q)) ||
+            (c.game_category && c.game_category.toLowerCase().includes(q))
           );
         }
 
+        // 4. Sets filter
+        const selectedSet = setSelect.value;
         if (selectedSet) {
           filtered = filtered.filter(c => c.set_name === selectedSet);
         }
 
+        // 5. Rarity filter
+        const selectedRarity = raritySelect.value;
         if (selectedRarity) {
           filtered = filtered.filter(c => c.rarity === selectedRarity);
         }
 
+        // 6. Condition filter
+        const selectedCondition = conditionSelect.value;
         if (selectedCondition) {
           filtered = filtered.filter(c => c.condition && c.condition.includes(selectedCondition));
         }
 
-        if (availableOnly) {
+        // 7. Availability filter
+        if (availableOnlyCheck.checked) {
           filtered = filtered.filter(c => !c.is_sold);
         }
 
-        if (selectedType) {
+        // 8. Pokemon Energy Type filter (Singles only)
+        if (activeTab === 'singles' && selectedType) {
           filtered = filtered.filter(c => NB.matchesType(c, selectedType));
         }
 
-        // Sorting
+        // 9. Sorting
+        const sortMode = sortSelect.value;
         if (sortMode === 'price_desc') {
           filtered.sort((a, b) => (b.price || 0) - (a.price || 0));
         } else if (sortMode === 'price_asc') {
           filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
         } else if (sortMode === 'name') {
           filtered.sort((a, b) => a.name.localeCompare(b.name));
-        } else {
-          // Keep the custom arranged order from getCards() while grouping featured if needed
-          // Stable sort maintains the custom order defined in the admin portal
         }
 
         // Update count label
-        countLabel.textContent = `Showing ${filtered.length} of ${allCards.length} collectible cards`;
+        const tabNames = { sealed: 'sealed products', slabs: 'graded slabs', singles: 'singles' };
+        const totalInTab = allCards.filter(c => NB.getProductType(c) === activeTab).length;
+        countLabel.textContent = `Showing ${filtered.length} of ${totalInTab} ${tabNames[activeTab] || 'products'}`;
 
         if (filtered.length === 0) {
           grid.innerHTML = '';
@@ -648,7 +819,6 @@
           emptyState.classList.add('hidden');
           grid.innerHTML = filtered.map(c => NB.card(c, settings)).join('');
         }
-        // Update mobile filter badge
         updateMobileFilterBadge();
       }
 
@@ -675,13 +845,13 @@
       function updateMobileFilterBadge() {
         if (window.innerWidth >= 1024 || !mobileFilterBadge) return;
         let activeCount = 0;
-        if (selectedType) activeCount++;
+        if (activeTab === 'singles' && selectedType) activeCount++;
         if (searchInput.value.trim()) activeCount++;
         if (setSelect.value) activeCount++;
         if (raritySelect.value) activeCount++;
         if (conditionSelect.value) activeCount++;
         if (availableOnlyCheck.checked) activeCount++;
-        if (sortSelect.value !== 'featured') activeCount++;
+        if (sortSelect.value !== 'featured' && !(activeTab === 'slabs' && sortSelect.value === 'price_desc')) activeCount++;
 
         if (activeCount > 0) {
           mobileFilterBadge.textContent = `${activeCount} ACTIVE`;
@@ -699,8 +869,8 @@
         });
       }
 
-      // Initial render
-      renderCards();
+      // Apply initial tab
+      switchTab(activeTab);
 
       // Listeners
       searchInput.addEventListener('input', renderCards);
@@ -716,7 +886,11 @@
         raritySelect.value = '';
         conditionSelect.value = '';
         availableOnlyCheck.checked = false;
-        sortSelect.value = 'featured';
+        if (activeTab === 'slabs') {
+          sortSelect.value = 'price_desc';
+        } else {
+          sortSelect.value = 'featured';
+        }
         selectedType = '';
         typeBtns.forEach(b => {
           b.classList.remove('active', 'border-[#1FB5D6]', 'bg-[#1FB5D6]/15', 'text-[#1FB5D6]');
@@ -726,6 +900,18 @@
         if (allBtn) {
           allBtn.classList.add('border-[#1FB5D6]', 'bg-[#1FB5D6]/15', 'text-[#1FB5D6]');
           allBtn.classList.remove('border-white/10', 'bg-white/[0.02]', 'text-gray-400');
+        }
+        if (activeTab === 'sealed' && sealedGameContainer) {
+          activeGame = 'all';
+          sealedGameContainer.querySelectorAll('.game-pill-btn').forEach((b, i) => {
+            if (i === 0) {
+              b.classList.add('active', 'border-[#F6D06F]', 'bg-[#F6D06F]/20', 'text-[#F6D06F]', 'shadow-[0_0_12px_rgba(246,208,111,0.25)]');
+              b.classList.remove('border-white/10', 'bg-white/[0.02]', 'text-gray-400');
+            } else {
+              b.classList.remove('active', 'border-[#F6D06F]', 'bg-[#F6D06F]/20', 'text-[#F6D06F]', 'shadow-[0_0_12px_rgba(246,208,111,0.25)]');
+              b.classList.add('border-white/10', 'bg-white/[0.02]', 'text-gray-400');
+            }
+          });
         }
         renderCards();
       }

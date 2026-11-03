@@ -18,11 +18,13 @@ CREATE TABLE IF NOT EXISTS cards (
   condition TEXT DEFAULT 'NM',
   is_featured BOOLEAN DEFAULT false,
   is_sold BOOLEAN DEFAULT false,
+  product_type TEXT DEFAULT 'single', -- 'single', 'slab', 'sealed'
+  game_category TEXT DEFAULT 'Pokemon', -- 'Pokemon', 'One Piece', 'Magic The Gathering', 'Lorcana', 'Riftbound', 'Others'
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
 
--- If the cards table already existed without pokemon_type, add it safely
+-- Safely add columns if cards table already exists
 DO $$
 BEGIN
   IF NOT EXISTS (
@@ -30,6 +32,20 @@ BEGIN
     WHERE table_name = 'cards' AND column_name = 'pokemon_type'
   ) THEN
     ALTER TABLE cards ADD COLUMN pokemon_type TEXT DEFAULT 'Colorless';
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'cards' AND column_name = 'product_type'
+  ) THEN
+    ALTER TABLE cards ADD COLUMN product_type TEXT DEFAULT 'single';
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'cards' AND column_name = 'game_category'
+  ) THEN
+    ALTER TABLE cards ADD COLUMN game_category TEXT DEFAULT 'Pokemon';
   END IF;
 END $$;
 
