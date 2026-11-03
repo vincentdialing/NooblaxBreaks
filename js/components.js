@@ -584,12 +584,37 @@ const NB = {
       if (typeof supabaseClient !== 'undefined' && supabaseClient.from) {
         const { data, error } = await supabaseClient.from('cards').select('*');
         if (!error && data && data.length > 0) {
-          // Check if custom order is stored in settings
+          // 1. Fetch extra metadata if stored in settings
+          try {
+            const { data: metaSetting } = await supabaseClient
+              .from('settings')
+              .select('value')
+              .eq('key', 'card_extra_meta')
+              .maybeSingle();
+            if (metaSetting && metaSetting.value) {
+              const extraMeta = JSON.parse(metaSetting.value) || {};
+              data.forEach(c => {
+                if (extraMeta[c.id]) {
+                  if (extraMeta[c.id].product_type) c.product_type = extraMeta[c.id].product_type;
+                  if (extraMeta[c.id].game_category) c.game_category = extraMeta[c.id].game_category;
+                }
+              });
+            }
+          } catch (_) {}
+
+          // 2. Ensure default showcase products & sealed boxes are included if not in Supabase
+          const existingNames = new Set(data.map(c => (c.name || '').toLowerCase().trim()));
+          const missingDefaults = this.DEFAULT_CARDS.filter(defCard => 
+            !existingNames.has((defCard.name || '').toLowerCase().trim())
+          );
+          const fullList = [...data, ...missingDefaults];
+
+          // 3. Check if custom order is stored in settings
           const { data: orderSetting } = await supabaseClient
             .from('settings')
             .select('value')
             .eq('key', 'card_custom_order')
-            .single();
+            .maybeSingle();
 
           if (orderSetting && orderSetting.value) {
             try {
@@ -597,12 +622,12 @@ const NB = {
               if (Array.isArray(orderIds) && orderIds.length > 0) {
                 const idMap = new Map();
                 orderIds.forEach((id, idx) => idMap.set(String(id), idx));
-                data.sort((a, b) => {
+                fullList.sort((a, b) => {
                   const idxA = idMap.has(String(a.id)) ? idMap.get(String(a.id)) : 999999;
                   const idxB = idMap.has(String(b.id)) ? idMap.get(String(b.id)) : 999999;
                   return idxA - idxB;
                 });
-                const normalized = data.map(c => this.normalizeCard(c));
+                const normalized = fullList.map(c => this.normalizeCard(c));
                 window._cardsCache = normalized;
                 return normalized;
               }
@@ -612,7 +637,7 @@ const NB = {
           }
 
           // Fallback order by created_at desc
-          const normalized = data.map(c => this.normalizeCard(c));
+          const normalized = fullList.map(c => this.normalizeCard(c));
           const sorted = normalized.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
           window._cardsCache = sorted;
           return sorted;
@@ -715,16 +740,38 @@ const NB = {
 
   normalizeCard(c) {
     if (!c) return c;
+    const cond = (c.condition || '').toUpperCase();
+    const name = (c.name || '').toLowerCase();
+    const rarity = (c.rarity || '').toLowerCase();
+    const set = (c.set_name || '').toLowerCase();
+
     if (!c.product_type) {
-      const cond = (c.condition || '').toUpperCase();
-      if (cond.includes('PSA') || cond.includes('BGS') || cond.includes('CGC')) {
+      if (
+        cond.includes('FACTORY SEALED') || cond.includes('SEALED') ||
+        name.includes('booster box') || name.includes('booster bundle') || name.includes('elite trainer box') || name.includes('etb') || name.includes('display case') || name.includes('(sealed)') ||
+        rarity.includes('booster') || rarity.includes('box') || rarity.includes('display')
+      ) {
+        c.product_type = 'sealed';
+      } else if (cond.includes('PSA') || cond.includes('BGS') || cond.includes('CGC') || cond.includes('SLAB')) {
         c.product_type = 'slab';
       } else {
         c.product_type = 'single';
       }
     }
     if (!c.game_category) {
-      c.game_category = 'Pokemon';
+      if (name.includes('one piece') || set.includes('one piece') || set.includes('op-') || set.includes('romance dawn') || set.includes('kingdoms of intrigue') || set.includes('emperors in the new world')) {
+        c.game_category = 'One Piece';
+      } else if (name.includes('magic:') || name.includes('magic the gathering') || set.includes('modern horizons') || name.includes('the one ring')) {
+        c.game_category = 'Magic The Gathering';
+      } else if (name.includes('lorcana') || set.includes('lorcana') || name.includes('elsa') || set.includes("ursula's return")) {
+        c.game_category = 'Lorcana';
+      } else if (name.includes('riftbound') || set.includes('riftbound')) {
+        c.game_category = 'Riftbound';
+      } else if (name.includes('yu-gi-oh') || set.includes('yu-gi-oh')) {
+        c.game_category = 'Yu-Gi-Oh!';
+      } else {
+        c.game_category = 'Pokemon';
+      }
     }
     return c;
   },
@@ -739,7 +786,14 @@ const NB = {
       return pt;
     }
     const cond = (c.condition || '').toUpperCase();
-    if (cond.includes('PSA') || cond.includes('BGS') || cond.includes('CGC')) return 'slab';
+    const name = (c.name || '').toLowerCase();
+    const rarity = (c.rarity || '').toLowerCase();
+    if (
+      cond.includes('FACTORY SEALED') || cond.includes('SEALED') ||
+      name.includes('booster box') || name.includes('booster bundle') || name.includes('elite trainer box') || name.includes('etb') || name.includes('display case') || name.includes('(sealed)') ||
+      rarity.includes('booster') || rarity.includes('box') || rarity.includes('display')
+    ) return 'sealed';
+    if (cond.includes('PSA') || cond.includes('BGS') || cond.includes('CGC') || cond.includes('SLAB')) return 'slab';
     return 'single';
   },
 

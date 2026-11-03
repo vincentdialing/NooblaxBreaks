@@ -169,16 +169,30 @@
     async function loadCards() {
       const tbody = document.getElementById('cards-table-body');
       try {
-        const [cardsRes, orderRes] = await Promise.all([
+        const [cardsRes, orderRes, metaRes] = await Promise.all([
           supabaseClient.from('cards').select('*'),
-          supabaseClient.from('settings').select('value').eq('key', 'card_custom_order').single()
+          supabaseClient.from('settings').select('value').eq('key', 'card_custom_order').maybeSingle(),
+          supabaseClient.from('settings').select('value').eq('key', 'card_extra_meta').maybeSingle()
         ]);
 
         if (cardsRes.error) throw cardsRes.error;
         let data = cardsRes.data || [];
 
+        // Apply extra metadata
+        if (metaRes && metaRes.data && metaRes.data.value) {
+          try {
+            const extraMap = JSON.parse(metaRes.data.value) || {};
+            data.forEach(c => {
+              if (extraMap[c.id]) {
+                if (extraMap[c.id].product_type) c.product_type = extraMap[c.id].product_type;
+                if (extraMap[c.id].game_category) c.game_category = extraMap[c.id].game_category;
+              }
+            });
+          } catch (_) {}
+        }
+
         // Apply saved custom arrangement order if available
-        if (orderRes.data && orderRes.data.value) {
+        if (orderRes && orderRes.data && orderRes.data.value) {
           try {
             const orderIds = JSON.parse(orderRes.data.value);
             if (Array.isArray(orderIds)) {
@@ -224,6 +238,15 @@
     function getProductType(c) {
       if (c && c.product_type) return c.product_type;
       const cond = (c && c.condition) ? String(c.condition).toUpperCase() : '';
+      const name = (c && c.name) ? String(c.name).toLowerCase() : '';
+      const rarity = (c && c.rarity) ? String(c.rarity).toLowerCase() : '';
+      if (
+        cond.includes('FACTORY SEALED') || cond.includes('SEALED') ||
+        name.includes('booster box') || name.includes('booster bundle') || name.includes('elite trainer box') || name.includes('etb') || name.includes('display case') || name.includes('(sealed)') ||
+        rarity.includes('booster') || rarity.includes('box') || rarity.includes('display')
+      ) {
+        return 'sealed';
+      }
       if (cond.includes('PSA') || cond.includes('BGS') || cond.includes('CGC') || cond.includes('SLAB')) {
         return 'slab';
       }
@@ -232,6 +255,19 @@
 
     function getGameCategory(c) {
       if (c && c.game_category) return c.game_category;
+      const name = (c && c.name) ? String(c.name).toLowerCase() : '';
+      const set = (c && c.set_name) ? String(c.set_name).toLowerCase() : '';
+      if (name.includes('one piece') || set.includes('one piece') || set.includes('op-') || set.includes('romance dawn') || set.includes('kingdoms of intrigue') || set.includes('emperors in the new world')) {
+        return 'One Piece';
+      } else if (name.includes('magic:') || name.includes('magic the gathering') || set.includes('modern horizons') || name.includes('the one ring')) {
+        return 'Magic The Gathering';
+      } else if (name.includes('lorcana') || set.includes('lorcana') || name.includes('elsa') || set.includes("ursula's return")) {
+        return 'Lorcana';
+      } else if (name.includes('riftbound') || set.includes('riftbound')) {
+        return 'Riftbound';
+      } else if (name.includes('yu-gi-oh') || set.includes('yu-gi-oh')) {
+        return 'Yu-Gi-Oh!';
+      }
       return 'Pokemon';
     }
 

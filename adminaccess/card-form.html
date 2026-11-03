@@ -340,13 +340,21 @@
       if (cardId) {
         document.getElementById('form-heading').innerText = 'Edit Product #' + cardId;
         try {
-          const { data: card, error } = await supabaseClient.from('cards').select('*').eq('id', cardId).single();
-          if (error) throw error;
+          const [cardRes, metaRes] = await Promise.all([
+            supabaseClient.from('cards').select('*').eq('id', cardId).single(),
+            supabaseClient.from('settings').select('value').eq('key', 'card_extra_meta').maybeSingle()
+          ]);
+          if (cardRes.error) throw cardRes.error;
+          const card = cardRes.data;
           if (card) {
+            let meta = {};
+            if (metaRes && metaRes.data && metaRes.data.value) {
+              try { meta = JSON.parse(metaRes.data.value)[cardId] || {}; } catch (_) {}
+            }
             document.getElementById('card-name').value = card.name || '';
-            const inferredType = card.product_type || (card.condition && (card.condition.includes('PSA') || card.condition.includes('BGS')) ? 'slab' : 'single');
+            const inferredType = card.product_type || meta.product_type || (card.condition && (card.condition.includes('PSA') || card.condition.includes('BGS') || card.condition.includes('CGC')) ? 'slab' : (card.condition && card.condition.includes('Sealed') ? 'sealed' : 'single'));
             productTypeSelect.value = inferredType;
-            await populateGameCategories(card.game_category || 'Pokemon');
+            await populateGameCategories(card.game_category || meta.game_category || 'Pokemon');
             document.getElementById('card-type').value = card.pokemon_type || 'Colorless';
             document.getElementById('card-set').value = card.set_name || '';
             document.getElementById('card-price').value = card.price || 0;
@@ -399,15 +407,60 @@
             is_sold: document.getElementById('card-sold').checked
           };
 
+          let savedId = cardId;
+          let saveError = null;
+
           if (cardId) {
             const { error } = await supabaseClient.from('cards').update(payload).eq('id', cardId);
-            if (error) throw error;
-            Admin.toast('Product updated successfully!', 'success');
+            saveError = error;
           } else {
-            const { error } = await supabaseClient.from('cards').insert(payload);
-            if (error) throw error;
-            Admin.toast('Product created successfully!', 'success');
+            const { data: inserted, error } = await supabaseClient.from('cards').insert(payload).select().single();
+            saveError = error;
+            if (inserted) savedId = inserted.id;
           }
+
+          // If error is due to missing columns in cards table, fall back to saving without columns and storing in settings
+          if (saveError && (saveError.code === 'PGRST204' || saveError.code === '42703' || String(saveError.message).includes('column') || String(saveError.message).includes('schema cache'))) {
+            console.warn('Columns product_type/game_category not found in cards table. Falling back to settings storage...', saveError.message);
+            const fallbackPayload = { ...payload };
+            delete fallbackPayload.product_type;
+            delete fallbackPayload.game_category;
+
+            if (cardId) {
+              const { error: err2 } = await supabaseClient.from('cards').update(fallbackPayload).eq('id', cardId);
+              if (err2) throw err2;
+            } else {
+              const { data: inserted2, error: err2 } = await supabaseClient.from('cards').insert(fallbackPayload).select().single();
+              if (err2) throw err2;
+              if (inserted2) savedId = inserted2.id;
+            }
+
+            // Persist product_type and game_category into settings under card_extra_meta
+            if (savedId) {
+              try {
+                const { data: metaSetting } = await supabaseClient.from('settings').select('value').eq('key', 'card_extra_meta').maybeSingle();
+                let extraMap = {};
+                if (metaSetting && metaSetting.value) {
+                  try { extraMap = JSON.parse(metaSetting.value) || {}; } catch (_) {}
+                }
+                extraMap[savedId] = {
+                  product_type: payload.product_type,
+                  game_category: payload.game_category
+                };
+                await supabaseClient.from('settings').upsert({
+                  key: 'card_extra_meta',
+                  value: JSON.stringify(extraMap)
+                }, { onConflict: 'key' });
+              } catch (metaErr) {
+                console.warn('Failed saving card_extra_meta:', metaErr);
+              }
+            }
+            saveError = null;
+          } else if (saveError) {
+            throw saveError;
+          }
+
+          Admin.toast(cardId ? 'Product updated successfully!' : 'Product created successfully!', 'success');
 
           setTimeout(() => {
             window.location.href = 'cards.html';
